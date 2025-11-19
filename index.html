@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hébergements Tournée 2026</title>
+    <style>
+        :root {
+            --primary-color: #8b0000;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --orange-color: #ff6b35;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #6c757d, #495057);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            color: white;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .search-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .date-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .date-input-container input {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .search-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            min-width: 150px;
+        }
+        
+        .search-button:hover {
+            background-color: #6a0000;
+        }
+        
+        .filters-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid #e9ecef;
+        }
+        
+        .filter-group h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-size: 1.1em;
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            background: #6a0000;
+            transform: translateY(-2px);
+        }
+        
+        .tag.nom {
+            background: #3498db;
+        }
+        
+        .tag.nom:hover {
+            background: #2980b9;
+        }
+        
+        .tag.pays {
+            background: #27ae60;
+        }
+        
+        .tag.pays:hover {
+            background: #219653;
+        }
+        
+        .tag.lieu {
+            background: #9b59b6;
+        }
+        
+        .tag.lieu:hover {
+            background: #8e44ad;
+        }
+        
+        .tag.priere {
+            background: #e74c3c;
+        }
+        
+        .tag.priere:hover {
+            background: #c0392b;
+        }
+        
+        .tag.heberge {
+            background: #f39c12;
+        }
+        
+        .tag.heberge:hover {
+            background: #d35400;
+        }
+        
+        .calendar-section {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .calendar-nav button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            background-color: var(--light-color);
+            border-radius: 4px;
+        }
+        
+        .calendar-day {
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            border: 1px solid #f0f0f0;
+            position: relative;
+            min-height: 80px;
+        }
+        
+        .calendar-day:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .calendar-day.has-data {
+            background-color: #e8f4fd;
+            font-weight: bold;
+        }
+        
+        .calendar-day.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .calendar-day.other-month {
+            background-color: #f9f9f9;
+            color: #aaa;
+        }
+        
+        .calendar-day.booking-period {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+        }
+        
+        .calendar-day.booking-period::after {
+            content: '🏨';
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 12px;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        .results-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .result-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-content {
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .fiche-item {
+            margin-bottom: 40px;
+            border: 1px solid #e1e1e1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .fiche-header {
+            background-color: #6c757d;
+            color: white;
+            padding: 20px;
+        }
+        
+        .fiche-title {
+            color: white;
+            font-weight: bold;
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-item {
+            padding: 15px;
+            border-right: 1px solid #e9ecef;
+        }
+        
+        .info-item:last-child {
+            border-right: none;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .info-value {
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+        
+        .hote-section {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fff8, #e8f5e8);
+            border-bottom: 1px solid #d4edda;
+            text-align: left;
+        }
+        
+        .hote-label {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .hote-name {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive;
+            font-size: 2.2em;
+            color: #27ae60;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.2;
+        }
+        
+        .links-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 15px;
+            background: #e8f4fd;
+            border-bottom: 1px solid #b3d9ff;
+        }
+        
+        .link-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .link-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .link-button.photos-hotes {
+            background: #9b59b6;
+        }
+        
+        .link-button.photos-hotes:hover {
+            background: #8e44ad;
+        }
+        
+        .link-button.photos-lieux {
+            background: #e74c3c;
+        }
+        
+        .link-button.photos-lieux:hover {
+            background: #c0392b;
+        }
+        
+        .link-button.formulaire {
+            background: #27ae60;
+        }
+        
+        .link-button.formulaire:hover {
+            background: #219653;
+        }
+        
+        .heberges-list {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #ffc107;
+        }
+        
+        .heberges-label {
+            font-weight: bold;
+            color: var(--orange-color);
+            font-size: 1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .heberges-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .heberge-tag {
+            background: #ffc107;
+            color: #856404;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .heberge-tag:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+        
+        .marquants-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .marquants-label {
+            font-weight: bold;
+            color: #9b59b6;
+            font-size: 1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .marquants-content {
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .priere-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .priere-label {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .priere-content {
+            color: var(--text-color);
+            font-style: italic;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            text-align: left;
+            padding: 12px;
+            width: 20%;
+            background: var(--light-color);
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 14px;
+            vertical-align: top;
+            white-space: normal;
+            word-wrap: break-word;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table td {
+            padding: 12px;
+            font-size: 15px;
+            color: var(--text-color);
+            white-space: pre-wrap;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table tr:nth-child(even) td {
+            background: #f9f9f9;
+        }
+        
+        .data-table img {
+            max-width: 95%;
+            max-height: 250px;
+            display: block;
+            margin: 5px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .data-table a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .data-table a:hover {
+            text-decoration: underline;
+        }
+        
+        .contact-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #3498db;
+        }
+        
+        .contact-label {
+            font-weight: bold;
+            color: var(--orange-color);
+            font-size: 1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .contact-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        
+        .error-message {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .success-message {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .filters-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-grid {
+                gap: 2px;
+            }
+            
+            .calendar-day {
+                padding: 8px 4px;
+                font-size: 0.9em;
+                min-height: 60px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .data-table th, .data-table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .data-table th {
+                background: var(--secondary-color);
+                color: white;
+                margin-top: 10px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item {
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .info-item:last-child {
+                border-bottom: none;
+            }
+            
+            .hote-name {
+                font-size: 1.8em;
+            }
+            
+            .links-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏨 Hébergements Tournée 2026</h1>
+            <p>Consultation des hébergements par date et par hôte</p>
+        </header>
+        
+        <section class="search-section">
+            <form id="searchForm" class="search-form" autocomplete="off">
+                <div class="date-input-container">
+                    <input type="date" id="dateInput">
+                    <button type="submit" class="search-button">🔍 Rechercher par date</button>
+                </div>
+            </form>
+            
+            <button id="showAllButton" class="search-button" style="background-color: #27ae60; width: 100%; margin-top: 10px;">
+                📋 Afficher tous les hébergements
+            </button>
+            
+            <button id="showPrieresButton" class="search-button" style="background-color: #e74c3c; width: 100%; margin-top: 10px;">
+                🙏 Afficher les sujets de prière
+            </button>
+            
+            <button id="retryButton" style="background-color: #f39c12; margin-top: 10px; width: 100%; display: none;">
+                🔄 Réessayer le chargement
+            </button>
+            
+            <div class="filters-section">
+                <div class="filter-group">
+                    <h3>👤 Hôtes</h3>
+                    <div class="filter-tags" id="hotesTags">
+                        <!-- Les hôtes seront générés ici -->
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>🌍 Pays</h3>
+                    <div class="filter-tags" id="paysTags">
+                        <!-- Les pays seront générés ici -->
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>📍 Lieux</h3>
+                    <div class="filter-tags" id="lieuxTags">
+                        <!-- Les lieux seront générés ici -->
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>👥 Personnes hébergées</h3>
+                    <div class="filter-tags" id="hebergesTags">
+                        <!-- Les personnes hébergées seront générés ici -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h3>📅 Calendrier des hébergements</h3>
+                    <div class="calendar-nav">
+                        <button id="prevMonth">◀</button>
+                        <span id="currentMonth">Mois en cours</span>
+                        <button id="nextMonth">▶</button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Le calendrier sera généré ici -->
+                </div>
+            </div>
+            
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalHebergements">0</div>
+                    <div class="stat-label">Hébergements total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalHotes">0</div>
+                    <div class="stat-label">Hôtes différents</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalPays">0</div>
+                    <div class="stat-label">Pays différents</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalLieux">0</div>
+                    <div class="stat-label">Lieux différents</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalHeberges">0</div>
+                    <div class="stat-label">Personnes hébergées</div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Chargement des données depuis Google Sheets...</p>
+        </div>
+
+        <div id="dataInfo"></div>
+        
+        <section class="results-section" id="resultsSection" style="display: none;">
+            <div class="result-header">
+                <h2 id="resultTitle">Résultats de la recherche</h2>
+                <button id="closeResults" style="background: none; border: none; color: white; font-size: 1.2em; cursor: pointer;">✕ Fermer</button>
+            </div>
+            <div class="result-content" id="resultContent">
+                <!-- Les résultats seront affichés ici -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // URL de la feuille Google Sheets pour les hébergements (nouvelle feuille)
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=1650312054&single=true&output=csv';
+        
+        let sheetData = [];
+        let headers = [];
+        let currentDate = new Date();
+        let selectedDate = null;
+        let allHotes = [];
+        let allPays = [];
+        let allLieux = [];
+        let allHeberges = new Set();
+        let allPrieres = [];
+        let bookingPeriods = [];
+        
+        // Index des colonnes (à détecter automatiquement)
+        let colDateDebut = -1;
+        let colDateFin = -1;
+        let colNom = -1;
+        let colPays = -1;
+        let colLieu = -1;
+        let colAdresse = -1;
+        let colEmail = -1;
+        let colFacebook = -1;
+        let colTelephone = -1;
+        let colMpihiraLehilahy = -1;
+        let colMpitendry = -1;
+        let colFeo1 = -1;
+        let colFeo2 = -1;
+        let colPriere = -1;
+        let colMarquants = -1;
+        let colPhotosHotes = -1;
+        let colPhotosLieux = -1;
+        let colFormulaire = -1;
+        let colRepartition = -1;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchForm').addEventListener('submit', handleSearch);
+            document.getElementById('showAllButton').addEventListener('click', showAllData);
+            document.getElementById('showPrieresButton').addEventListener('click', showPrieres);
+            document.getElementById('closeResults').addEventListener('click', closeResults);
+            document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
+            
+            // Navigation du calendrier
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+            
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+            
+            // Charger les données
+            loadDataFromGoogleSheets();
+        });
+        
+        async function loadDataFromGoogleSheets() {
+            console.log('🔍 Début du chargement des données...');
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('retryButton').style.display = 'none';
+            clearErrorMessages();
+            
+            try {
+                console.log('🔄 Essai 1: Accès direct...');
+                let response = await fetch(GOOGLE_SHEETS_URL);
+                
+                if (response.ok) {
+                    const csvText = await response.text();
+                    console.log('✅ Succès avec accès direct');
+                    processCSVData(csvText);
+                    return;
+                }
+                throw new Error(`Direct failed: ${response.status}`);
+                
+            } catch (error1) {
+                console.log('❌ Échec accès direct:', error1.message);
+                
+                try {
+                    console.log('🔄 Essai 2: AllOrigins...');
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    let response = await fetch(proxyUrl + encodeURIComponent(GOOGLE_SHEETS_URL));
+                    
+                    if (response.ok) {
+                        const csvText = await response.text();
+                        console.log('✅ Succès avec AllOrigins');
+                        processCSVData(csvText);
+                        return;
+                    }
+                    throw new Error(`AllOrigins failed: ${response.status}`);
+                    
+                } catch (error2) {
+                    console.log('❌ Échec AllOrigins:', error2.message);
+                    showError('Impossible de charger les données. Vérifiez votre connexion internet.');
+                }
+            }
+        }
+
+        function parseCSVWithNewlines(csvText) {
+            console.log('🔄 Parsing CSV avec gestion des retours à la ligne...');
+            
+            const lines = [];
+            let currentLine = [];
+            let currentField = '';
+            let inQuotes = false;
+            let quoteChar = '"';
+            
+            for (let i = 0; i < csvText.length; i++) {
+                const char = csvText[i];
+                const nextChar = csvText[i + 1];
+                
+                if (char === quoteChar) {
+                    if (inQuotes && nextChar === quoteChar) {
+                        currentField += quoteChar;
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    currentLine.push(currentField);
+                    currentField = '';
+                } else if (char === '\n' && !inQuotes) {
+                    currentLine.push(currentField);
+                    lines.push(currentLine);
+                    currentLine = [];
+                    currentField = '';
+                } else if (char === '\r') {
+                    if (nextChar === '\n' && !inQuotes) {
+                        currentLine.push(currentField);
+                        lines.push(currentLine);
+                        currentLine = [];
+                        currentField = '';
+                        i++;
+                    }
+                } else {
+                    currentField += char;
+                }
+            }
+            
+            if (currentField !== '' || currentLine.length > 0) {
+                currentLine.push(currentField);
+                lines.push(currentLine);
+            }
+            
+            console.log(`✅ Parsing terminé: ${lines.length} lignes détectées`);
+            return lines;
+        }
+        
+        function processCSVData(csvText) {
+            try {
+                console.log('📄 Traitement des données CSV...');
+                
+                if (!csvText || csvText.trim().length === 0) {
+                    throw new Error('Le fichier CSV est vide');
+                }
+                
+                const lines = parseCSVWithNewlines(csvText);
+                
+                if (!lines || lines.length === 0) {
+                    throw new Error('Aucune donnée parsée');
+                }
+                
+                headers = lines[0] || [];
+                console.log('🏷️ En-têtes détectés:', headers);
+                
+                // Détection automatique des colonnes
+                detectColumns();
+                
+                sheetData = lines.slice(1).filter(row => 
+                    row && row.some(cell => cell && cell.trim() !== '')
+                );
+                
+                console.log('📈 Données extraites:', sheetData.length, 'hébergements');
+                
+                if (sheetData.length === 0) {
+                    throw new Error('Aucun hébergement avec des données trouvé');
+                }
+                
+                normalizeData();
+                extractAllData();
+                updateStats();
+                renderFilterTags();
+                renderCalendar();
+                showDataInfo();
+                
+            } catch (error) {
+                console.error('❌ Erreur de traitement:', error);
+                showError(error.message);
+            } finally {
+                document.getElementById('loadingIndicator').style.display = 'none';
+            }
+        }
+        
+        function detectColumns() {
+            // Détection automatique des colonnes basée sur les en-têtes
+            headers.forEach((header, index) => {
+                const lowerHeader = header.toLowerCase();
+                
+                if (lowerHeader.includes('date début') || lowerHeader.includes('date debut')) {
+                    colDateDebut = index;
+                    console.log('📅 Colonne Date début détectée:', index);
+                }
+                else if (lowerHeader.includes('date fin')) {
+                    colDateFin = index;
+                    console.log('📅 Colonne Date fin détectée:', index);
+                }
+                else if (lowerHeader.includes('nom') && !lowerHeader.includes('facebook') && !lowerHeader.includes('réseau')) {
+                    colNom = index;
+                    console.log('👤 Colonne Nom détectée:', index);
+                }
+                else if (lowerHeader.includes('pays')) {
+                    colPays = index;
+                    console.log('🌍 Colonne Pays détectée:', index);
+                }
+                else if (lowerHeader.includes('lieu:')) {
+                    colLieu = index;
+                    console.log('📍 Colonne Lieu: détectée:', index);
+                }
+                else if (lowerHeader.includes('adresse') && !lowerHeader.includes('e-mail')) {
+                    colAdresse = index;
+                    console.log('🏠 Colonne Adresse détectée:', index);
+                }
+                else if (lowerHeader.includes('e-mail') || lowerHeader.includes('email')) {
+                    colEmail = index;
+                    console.log('📧 Colonne Email détectée:', index);
+                }
+                else if (lowerHeader.includes('facebook') || lowerHeader.includes('réseau')) {
+                    colFacebook = index;
+                    console.log('👥 Colonne Facebook détectée:', index);
+                }
+                else if (lowerHeader.includes('téléphone') || lowerHeader.includes('telephone') || lowerHeader.includes('whatsapp')) {
+                    colTelephone = index;
+                    console.log('📱 Colonne Téléphone détectée:', index);
+                }
+                else if (lowerHeader.includes('mpihira lehilahy')) {
+                    colMpihiraLehilahy = index;
+                    console.log('🎤 Colonne Mpihira Lehilahy détectée:', index);
+                }
+                else if (lowerHeader.includes('mpitendry')) {
+                    colMpitendry = index;
+                    console.log('🎹 Colonne Mpitendry détectée:', index);
+                }
+                else if (lowerHeader.includes('feo 1')) {
+                    colFeo1 = index;
+                    console.log('🎵 Colonne Feo 1 détectée:', index);
+                }
+                else if (lowerHeader.includes('feo 2')) {
+                    colFeo2 = index;
+                    console.log('🎵 Colonne Feo 2 détectée:', index);
+                }
+                else if (lowerHeader.includes('sujet de prière') || lowerHeader.includes('prière')) {
+                    colPriere = index;
+                    console.log('🙏 Colonne Prière détectée:', index);
+                }
+                else if (lowerHeader.includes('marquant')) {
+                    colMarquants = index;
+                    console.log('⭐ Colonne Marquants détectée:', index);
+                }
+                else if (lowerHeader.includes('photos avec les hôtes')) {
+                    colPhotosHotes = index;
+                    console.log('📸 Colonne Photos hôtes détectée:', index);
+                }
+                else if (lowerHeader.includes('photos des lieux')) {
+                    colPhotosLieux = index;
+                    console.log('🏞️ Colonne Photos lieux détectée:', index);
+                }
+                else if (lowerHeader.includes('lien de ce formulaire')) {
+                    colFormulaire = index;
+                    console.log('🔗 Colonne Formulaire détectée:', index);
+                }
+                else if (lowerHeader.includes('répartition')) {
+                    colRepartition = index;
+                    console.log('👥 Colonne Répartition détectée:', index);
+                }
+            });
+        }
+        
+        function normalizeData() {
+            let maxColumns = headers.length;
+            sheetData.forEach(row => {
+                if (row.length > maxColumns) {
+                    maxColumns = row.length;
+                }
+            });
+            
+            while (headers.length < maxColumns) {
+                headers.push(`Colonne ${headers.length + 1}`);
+            }
+            
+            sheetData.forEach(row => {
+                while (row.length < maxColumns) {
+                    row.push('');
+                }
+                if (row.length > maxColumns) {
+                    row.length = maxColumns;
+                }
+            });
+            
+            console.log(`📐 Données normalisées: ${maxColumns} colonnes`);
+        }
+        
+        function extractAllData() {
+            allHotes = new Set();
+            allPays = new Set();
+            allLieux = new Set();
+            allHeberges.clear();
+            allPrieres = [];
+            bookingPeriods = [];
+            
+            sheetData.forEach((row, index) => {
+                // Extraction des hôtes
+                if (colNom !== -1) {
+                    const nom = row[colNom] || '';
+                    if (nom.trim()) allHotes.add(nom.trim());
+                }
+                
+                // Extraction des pays
+                if (colPays !== -1) {
+                    const pays = row[colPays] || '';
+                    if (pays.trim()) allPays.add(pays.trim());
+                }
+                
+                // Extraction des lieux - UNIQUEMENT depuis la colonne "Lieu:"
+                if (colLieu !== -1) {
+                    const lieu = row[colLieu] || '';
+                    if (lieu.trim()) allLieux.add(lieu.trim());
+                }
+                
+                // Extraction des personnes hébergées (toutes les colonnes de personnes)
+                const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
+                colonnesPersonnes.forEach(colIndex => {
+                    if (colIndex !== -1) {
+                        const personnes = row[colIndex] || '';
+                        if (personnes.trim()) {
+                            personnes.split(',').forEach(p => {
+                                const trimmed = p.trim();
+                                if (trimmed) allHeberges.add(trimmed);
+                            });
+                        }
+                    }
+                });
+                
+                // Extraction des sujets de prière
+                if (colPriere !== -1) {
+                    const priere = row[colPriere] || '';
+                    if (priere.trim()) {
+                        allPrieres.push({
+                            hote: row[colNom] || 'Anonyme',
+                            priere: priere,
+                            rowIndex: index
+                        });
+                    }
+                }
+                
+                // Extraction des périodes de réservation
+                if (colDateDebut !== -1 && colDateFin !== -1) {
+                    const dateDebut = parseDate(row[colDateDebut]);
+                    const dateFin = parseDate(row[colDateFin]);
+                    
+                    if (dateDebut && dateFin) {
+                        bookingPeriods.push({
+                            start: dateDebut,
+                            end: new Date(dateFin.getTime() - 24 * 60 * 60 * 1000), // Moins 1 jour
+                            rowIndex: index
+                        });
+                    }
+                }
+            });
+            
+            // Conversion des Sets en Arrays triés
+            allHotes = Array.from(allHotes).sort();
+            allPays = Array.from(allPays).sort();
+            allLieux = Array.from(allLieux).sort();
+            allHeberges = Array.from(allHeberges).sort();
+            
+            console.log('👤 Hôtes extraits:', allHotes.length);
+            console.log('🌍 Pays extraits:', allPays.length);
+            console.log('📍 Lieux extraits:', allLieux.length);
+            console.log('👥 Personnes hébergées extraites:', allHeberges.length);
+            console.log('🙏 Prières extraites:', allPrieres.length);
+            console.log('📅 Périodes de réservation:', bookingPeriods.length);
+        }
+        
+        function updateStats() {
+            document.getElementById('totalHebergements').textContent = sheetData.length;
+            document.getElementById('totalHotes').textContent = allHotes.length;
+            document.getElementById('totalPays').textContent = allPays.length;
+            document.getElementById('totalLieux').textContent = allLieux.length;
+            document.getElementById('totalHeberges').textContent = allHeberges.length;
+        }
+        
+        function renderFilterTags() {
+            renderTags('hotesTags', allHotes, 'nom');
+            renderTags('paysTags', allPays, 'pays');
+            renderTags('lieuxTags', allLieux, 'lieu');
+            renderTags('hebergesTags', allHeberges, 'heberge');
+        }
+        
+        function renderTags(containerId, items, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic;">Aucun ' + type + ' trouvé</div>';
+                return;
+            }
+            
+            items.forEach(item => {
+                const tag = document.createElement('div');
+                tag.className = `tag ${type}`;
+                tag.textContent = item;
+                tag.title = `Filtrer par ${type}: ${item}`;
+                
+                tag.addEventListener('click', () => {
+                    if (type === 'heberge') {
+                        const results = filterByHeberge(item);
+                        displayResults(results, `Personne hébergée: ${item}`);
+                    } else {
+                        const results = filterDataByType(item, type);
+                        displayResults(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
+                    }
+                });
+                
+                container.appendChild(tag);
+            });
+        }
+        
+        function filterDataByType(value, type) {
+            let columnIndex = -1;
+            
+            switch(type) {
+                case 'nom':
+                    columnIndex = colNom;
+                    break;
+                case 'pays':
+                    columnIndex = colPays;
+                    break;
+                case 'lieu':
+                    columnIndex = colLieu; // UNIQUEMENT la colonne Lieu:
+                    break;
+            }
+            
+            if (columnIndex === -1) return [];
+            
+            return sheetData.filter(row => {
+                const cellValue = row[columnIndex] || '';
+                return cellValue.includes(value);
+            });
+        }
+        
+        function filterByHeberge(nom) {
+            return sheetData.filter(row => {
+                const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
+                return colonnesPersonnes.some(colIndex => {
+                    if (colIndex === -1) return false;
+                    const personnes = row[colIndex] || '';
+                    return personnes.toLowerCase().includes(nom.toLowerCase());
+                });
+            });
+        }
+        
+        function showPrieres() {
+            if (allPrieres.length === 0) {
+                alert('Aucun sujet de prière trouvé');
+                return;
+            }
+            
+            let html = `
+                <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 5px;">
+                    <strong>${allPrieres.length} sujet(s) de prière trouvé(s)</strong>
+                </div>
+            `;
+            
+            allPrieres.forEach(priere => {
+                html += `
+                    <div class="fiche-item">
+                        <div class="fiche-header">
+                            <h2>🙏 Sujet de Prière</h2>
+                            <h3 class="fiche-title">${priere.hote}</h3>
+                        </div>
+                        <div class="priere-section">
+                            <div class="priere-content">${priere.priere}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('resultContent').innerHTML = html;
+            document.getElementById('resultTitle').textContent = 'Sujets de prière';
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const monthElement = document.getElementById('currentMonth');
+            
+            // Mise à jour du titre du mois
+            const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+                "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+            monthElement.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+            
+            grid.innerHTML = '';
+            
+            // En-têtes des jours
+            ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                grid.appendChild(dayHeader);
+            });
+            
+            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+            
+            // Calcul du jour de la semaine du premier jour (0 = dimanche, 1 = lundi, etc.)
+            let startDay = firstDay.getDay();
+            startDay = startDay === 0 ? 6 : startDay - 1; // Ajustement pour commencer par lundi
+            
+            // Jours vides du début
+            for (let i = 0; i < startDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day other-month';
+                grid.appendChild(emptyDay);
+            }
+            
+            // Jours du mois
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+                
+                const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+                
+                // Vérifier si cette date est dans une période de réservation
+                const isInBookingPeriod = bookingPeriods.some(period => 
+                    date >= period.start && date <= period.end
+                );
+                
+                if (isInBookingPeriod) {
+                    day.classList.add('booking-period');
+                    day.title = 'Période de réservation d\'hébergement';
+                }
+                
+                if (selectedDate && 
+                    selectedDate.getDate() === date.getDate() &&
+                    selectedDate.getMonth() === date.getMonth() &&
+                    selectedDate.getFullYear() === date.getFullYear()) {
+                    day.classList.add('selected');
+                }
+                
+                day.addEventListener('click', () => {
+                    selectDate(date);
+                });
+                
+                grid.appendChild(day);
+            }
+        }
+        
+        function selectDate(date) {
+            selectedDate = date;
+            const matchingRows = findEntriesByDate(date);
+            displayResults(matchingRows, `Hébergements pour le ${formatDateForDisplay(date)}`);
+            renderCalendar(); // Re-rendre pour mettre à jour la sélection
+        }
+        
+        function findEntriesByDate(date) {
+            return sheetData.filter((row, index) => {
+                if (colDateDebut === -1 || colDateFin === -1) return false;
+                
+                const dateDebut = parseDate(row[colDateDebut]);
+                const dateFin = parseDate(row[colDateFin]);
+                
+                if (!dateDebut || !dateFin) return false;
+                
+                // La date recherchée doit être entre dateDebut et dateFin-1
+                const dateFinMinusOne = new Date(dateFin.getTime() - 24 * 60 * 60 * 1000);
+                return date >= dateDebut && date <= dateFinMinusOne;
+            });
+        }
+        
+        function parseDate(dateString) {
+            if (!dateString) return null;
+            
+            // Essayer différents formats de date
+            const formats = [
+                /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/, // DD/MM/YYYY
+                /^(\d{4})-(\d{1,2})-(\d{1,2})$/,   // YYYY-MM-DD
+                /^(\d{1,2})-(\d{1,2})-(\d{4})$/    // DD-MM-YYYY
+            ];
+            
+            for (const format of formats) {
+                const match = dateString.match(format);
+                if (match) {
+                    if (format === formats[0]) { // DD/MM/YYYY
+                        return new Date(match[3], match[2] - 1, match[1]);
+                    } else if (format === formats[1]) { // YYYY-MM-DD
+                        return new Date(match[1], match[2] - 1, match[3]);
+                    } else if (format === formats[2]) { // DD-MM-YYYY
+                        return new Date(match[3], match[2] - 1, match[1]);
+                    }
+                }
+            }
+            
+            // Essayer de parser avec Date.parse
+            const parsed = Date.parse(dateString);
+            if (!isNaN(parsed)) {
+                return new Date(parsed);
+            }
+            
+            console.warn('Impossible de parser la date:', dateString);
+            return null;
+        }
+        
+        function formatDateForDisplay(date) {
+            return date.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        function formatDateForInput(date) {
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        }
+        
+        function showDataInfo() {
+            const dataInfo = document.getElementById('dataInfo');
+            dataInfo.innerHTML = `
+                <div class="success-message">
+                    ✅ Données chargées avec succès : ${sheetData.length} hébergement(s) trouvé(s)
+                    <br><small>${allHotes.length} hôtes - ${allPays.length} pays - ${allLieux.length} lieux - ${allHeberges.length} personnes hébergées</small>
+                </div>
+            `;
+            dataInfo.style.display = 'block';
+        }
+        
+        function showError(message) {
+            const searchSection = document.querySelector('.search-section');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `
+                <strong>❌ Erreur de chargement:</strong> ${message}
+                <br><small>Vérifiez votre connexion internet et que le Google Sheet est public</small>
+            `;
+            searchSection.appendChild(errorDiv);
+            
+            document.getElementById('retryButton').style.display = 'block';
+        }
+        
+        function clearErrorMessages() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.remove());
+        }
+        
+        function handleSearch(event) {
+            if (event) event.preventDefault();
+            
+            const dateValue = document.getElementById('dateInput').value;
+            
+            if (!dateValue) {
+                alert('Veuillez sélectionner une date');
+                return;
+            }
+            
+            if (sheetData.length === 0) {
+                alert('Aucune donnée chargée');
+                return;
+            }
+            
+            const selectedDate = new Date(dateValue);
+            searchByDate(selectedDate);
+        }
+        
+        function searchByDate(date) {
+            const results = findEntriesByDate(date);
+            const formattedDate = formatDateForDisplay(date);
+            displayResults(results, `Hébergements pour le ${formattedDate}`);
+            
+            // Faire défiler jusqu'à la date dans le calendrier si nécessaire
+            scrollToDateInCalendar(date);
+        }
+        
+        function scrollToDateInCalendar(date) {
+            // Si la date n'est pas dans le mois actuel, changer le mois
+            if (date.getMonth() !== currentDate.getMonth() || date.getFullYear() !== currentDate.getFullYear()) {
+                currentDate = new Date(date.getFullYear(), date.getMonth(), 1);
+                renderCalendar();
+            }
+            
+            // Sélectionner le jour dans le calendrier
+            setTimeout(() => {
+                const dayElements = document.querySelectorAll('.calendar-day:not(.other-month)');
+                dayElements.forEach(dayElement => {
+                    if (parseInt(dayElement.textContent) === date.getDate()) {
+                        // Désélectionner toutes les dates
+                        document.querySelectorAll('.calendar-day.selected').forEach(el => {
+                            el.classList.remove('selected');
+                        });
+                        
+                        // Sélectionner cette date
+                        dayElement.classList.add('selected');
+                        dayElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                });
+            }, 100);
+        }
+        
+        function showAllData() {
+            if (sheetData.length === 0) {
+                alert('Aucune donnée chargée');
+                return;
+            }
+            
+            displayResults(sheetData, 'Tous les hébergements');
+        }
+        
+        function displayResults(results, title) {
+            const resultsSection = document.getElementById('resultsSection');
+            const resultContent = document.getElementById('resultContent');
+            const resultTitle = document.getElementById('resultTitle');
+            
+            if (results.length === 0) {
+                resultContent.innerHTML = `
+                    <div class="empty-state">
+                        <h3>❌ Aucun hébergement trouvé</h3>
+                        <p>Aucun hébergement ne correspond à votre recherche</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 5px;">
+                        <strong>${results.length} hébergement(s) trouvé(s)</strong>
+                    </div>
+                `;
+                
+                results.forEach((row, index) => {
+                    const numeroData = sheetData.findIndex(r => r === row) + 1;
+                    
+                    // Récupération des données
+                    const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                    const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                    const nom = colNom !== -1 ? row[colNom] : '';
+                    const pays = colPays !== -1 ? row[colPays] : '';
+                    const lieu = colLieu !== -1 ? row[colLieu] : '';
+                    const adresse = colAdresse !== -1 ? row[colAdresse] : '';
+                    const email = colEmail !== -1 ? row[colEmail] : '';
+                    const facebook = colFacebook !== -1 ? row[colFacebook] : '';
+                    const telephone = colTelephone !== -1 ? row[colTelephone] : '';
+                    const mpihiraLehilahy = colMpihiraLehilahy !== -1 ? row[colMpihiraLehilahy] : '';
+                    const mpitendry = colMpitendry !== -1 ? row[colMpitendry] : '';
+                    const feo1 = colFeo1 !== -1 ? row[colFeo1] : '';
+                    const feo2 = colFeo2 !== -1 ? row[colFeo2] : '';
+                    const priere = colPriere !== -1 ? row[colPriere] : '';
+                    const marquants = colMarquants !== -1 ? row[colMarquants] : '';
+                    const photosHotes = colPhotosHotes !== -1 ? row[colPhotosHotes] : '';
+                    const photosLieux = colPhotosLieux !== -1 ? row[colPhotosLieux] : '';
+                    const formulaire = colFormulaire !== -1 ? row[colFormulaire] : '';
+                    const repartition = colRepartition !== -1 ? row[colRepartition] : '';
+                    
+                    // Récupération de toutes les personnes hébergées (regroupement de toutes les colonnes de personnes)
+                    let toutesPersonnes = [];
+                    const colonnesPersonnes = [
+                        {data: mpihiraLehilahy, type: 'Mpihira Lehilahy'},
+                        {data: mpitendry, type: 'Mpitendry'},
+                        {data: feo1, type: 'Feo 1'},
+                        {data: feo2, type: 'Feo 2'}
+                    ];
+                    
+                    colonnesPersonnes.forEach(col => {
+                        if (col.data && col.data.trim()) {
+                            col.data.split(',').forEach(p => {
+                                const trimmed = p.trim();
+                                if (trimmed) toutesPersonnes.push(trimmed);
+                            });
+                        }
+                    });
+                    
+                    // MODIFICATION : Gestion différente selon la répartition
+                    let personnesAffichees = '';
+                    let personnesPourTags = [];
+                    
+                    if (repartition && repartition.trim()) {
+                        if (repartition.toLowerCase().includes('tout le monde')) {
+                            // "Tout le monde" : utiliser toutes les personnes de l'accueil
+                            personnesPourTags = Array.from(allHeberges);
+                            personnesAffichees = `Tout le monde / ${personnesPourTags.join(', ')}`;
+                        } else {
+                            // "Par groupe" ou autre : utiliser les personnes spécifiques de cette fiche
+                            personnesPourTags = toutesPersonnes;
+                            personnesAffichees = `${repartition} / ${toutesPersonnes.join(', ')}`;
+                        }
+                    } else {
+                        // Pas de répartition spécifiée : utiliser les personnes de cette fiche
+                        personnesPourTags = toutesPersonnes;
+                        personnesAffichees = toutesPersonnes.join(', ');
+                    }
+                    
+                    // Nouveau titre avec dates et noms des hébergés
+                    const titreFiche = `${dateDebut || '?'} - ${dateFin || '?'} / ${personnesPourTags.length > 0 ? personnesPourTags.join(', ') : 'Aucun hébergé'}`;
+                    
+                    html += `
+                        <div class="fiche-item">
+                            <div class="fiche-header">
+                                <h2>🏨 Hébergement Tournée 2026</h2>
+                                <h3 class="fiche-title">${titreFiche}</h3>
+                            </div>
+                            
+                            <!-- Section nom de l'hôte en évidence -->
+                            <div class="hote-section">
+                                <span class="hote-label">👤 Hébergé chez :</span>
+                                <div class="hote-name">${nom || 'Hôte non spécifié'}</div>
+                            </div>
+                            
+                            <!-- Grille d'informations principales -->
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">📅 Date début:</span>
+                                    <span class="info-value">${dateDebut || 'Non spécifiée'}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">📅 Date fin:</span>
+                                    <span class="info-value">${dateFin || 'Non spécifiée'}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">📍 Lieu:</span>
+                                    <span class="info-value">${lieu || 'Non spécifié'}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">🌍 Pays:</span>
+                                    <span class="info-value">${pays || 'Non spécifié'}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Section contact -->
+                            ${(adresse || email || facebook || telephone) ? `
+                            <div class="contact-section">
+                                <div class="contact-label">📞 Information sur ${nom || 'l\'hébergeur'}:</div>
+                                ${adresse ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresse}</div>` : ''}
+                                ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Adresse e-mail:</strong> <a href="mailto:${email}" class="contact-link">${email}</a></div>` : ''}
+                                ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Nom sur Facebook ou autres compte réseaux sociaux:</strong> ${facebook}</div>` : ''}
+                                ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <a href="tel:${telephone}" class="contact-link">${telephone}</a></div>` : ''}
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Section hébergés -->
+                            ${personnesPourTags.length > 0 ? `
+                            <div class="heberges-list">
+                                <div class="heberges-label">👥 Les hébergés:</div>
+                                <div class="heberges-tags">
+                                    ${personnesPourTags.map(p => `<div class="heberge-tag" onclick="filterByHebergeAndShow('${p}')">${p}</div>`).join('')}
+                                </div>
+                                <div style="margin-top: 10px; font-style: italic; color: #666;">
+                                    ${personnesAffichees}
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Section liens (en dernier) -->
+                            ${(photosHotes || photosLieux || formulaire) ? `
+                            <div class="links-section">
+                                ${photosHotes ? `<a href="${photosHotes}" target="_blank" class="link-button photos-hotes">📸 PHOTOS AVEC LES HÔTES</a>` : ''}
+                                ${photosLieux ? `<a href="${photosLieux}" target="_blank" class="link-button photos-lieux">🏞️ PHOTOS DES LIEUX</a>` : ''}
+                                ${formulaire ? `<a href="${formulaire}" target="_blank" class="link-button formulaire">🔗 LIEN DE CE FORMULAIRE</a>` : ''}
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Section Marquants -->
+                            ${marquants ? `
+                            <div class="marquants-section">
+                                <div class="marquants-label">⭐ Marquants:</div>
+                                <div class="marquants-content">${marquants}</div>
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Section prière -->
+                            ${priere ? `
+                            <div class="priere-section">
+                                <div class="priere-label">🙏 Sujet de prière:</div>
+                                <div class="priere-content">${priere}</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                
+                resultContent.innerHTML = html;
+            }
+            
+            resultTitle.textContent = `${title} (${results.length} hébergement${results.length > 1 ? 's' : ''})`;
+            resultsSection.style.display = 'block';
+            
+            // Défilement vers la section des résultats
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function filterByHebergeAndShow(nom) {
+            const results = filterByHeberge(nom);
+            displayResults(results, `Personne hébergée: ${nom}`);
+        }
+        
+        function closeResults() {
+            document.getElementById('resultsSection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
