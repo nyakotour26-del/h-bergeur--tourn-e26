@@ -722,7 +722,7 @@
             padding: 30px;
             border-radius: 10px;
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -747,6 +747,89 @@
             border-bottom: none;
         }
         
+        /* Styles pour l'upload de photos */
+        .upload-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .upload-area {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .upload-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        
+        .upload-button:hover {
+            background: #2980b9;
+        }
+        
+        .photos-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .photo-preview {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .photo-preview img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .remove-photo {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .photo-info {
+            padding: 5px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            font-size: 10px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+        
+        .upload-instructions {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .search-form {
                 flex-direction: column;
@@ -809,6 +892,14 @@
             .email-modal-content {
                 padding: 20px;
                 width: 95%;
+            }
+            
+            .photos-preview {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            
+            .photo-preview img {
+                height: 80px;
             }
         }
     </style>
@@ -1002,6 +1093,25 @@ Avec toute notre gratitude,
 
 L'équipe de la Tournée 2026</textarea>
             </div>
+
+            <!-- Section d'upload de photos -->
+            <div class="upload-section">
+                <h4 style="margin-bottom: 15px; color: #3498db;">📸 Ajouter des photos à l'email</h4>
+                
+                <div class="upload-area">
+                    <input type="file" id="photoUpload" multiple accept="image/*" style="display: none;">
+                    <button type="button" id="uploadButton" class="upload-button">
+                        📁 Choisir des photos
+                    </button>
+                    <div class="upload-instructions">
+                        Formats acceptés: JPG, PNG, GIF (max 5MB par photo)
+                    </div>
+                </div>
+                
+                <div id="photosPreview" class="photos-preview">
+                    <!-- Aperçu des photos uploadées -->
+                </div>
+            </div>
             
             <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
                 <button id="cancelEmail" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer;">Annuler</button>
@@ -1025,7 +1135,8 @@ L'équipe de la Tournée 2026</textarea>
         let allHeberges = new Set();
         let allPrieres = [];
         let bookingPeriods = [];
-        
+        let uploadedPhotos = []; // Stocker les photos uploadées
+
         // Index des colonnes (à détecter automatiquement)
         let colDateDebut = -1;
         let colDateFin = -1;
@@ -1069,15 +1180,173 @@ L'équipe de la Tournée 2026</textarea>
             // Événements pour la modale d'email
             document.getElementById('cancelEmail').addEventListener('click', function() {
                 document.getElementById('emailModal').style.display = 'none';
+                clearUploadedPhotos();
             });
             
             document.getElementById('sendEmails').addEventListener('click', sendEmails);
             document.getElementById('copyEmails').addEventListener('click', copyEmailAddresses);
             
+            // Événements pour l'upload de photos
+            document.getElementById('uploadButton').addEventListener('click', function() {
+                document.getElementById('photoUpload').click();
+            });
+            
+            document.getElementById('photoUpload').addEventListener('change', handlePhotoUpload);
+            
             // Charger les données
             loadDataFromGoogleSheets();
         });
-        
+
+        // Fonctions pour l'upload de photos
+        function handlePhotoUpload(event) {
+            const files = event.target.files;
+            if (files.length === 0) return;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Vérifier la taille du fichier (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`La photo "${file.name}" est trop volumineuse. Maximum 5MB.`);
+                    continue;
+                }
+                
+                // Vérifier le type de fichier
+                if (!file.type.startsWith('image/')) {
+                    alert(`Le fichier "${file.name}" n'est pas une image valide.`);
+                    continue;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const photoData = {
+                        name: file.name,
+                        size: formatFileSize(file.size),
+                        data: e.target.result,
+                        type: file.type
+                    };
+                    
+                    uploadedPhotos.push(photoData);
+                    renderPhotoPreview();
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Réinitialiser l'input file
+            event.target.value = '';
+        }
+
+        function renderPhotoPreview() {
+            const previewContainer = document.getElementById('photosPreview');
+            previewContainer.innerHTML = '';
+            
+            if (uploadedPhotos.length === 0) {
+                previewContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">Aucune photo sélectionnée</div>';
+                return;
+            }
+            
+            uploadedPhotos.forEach((photo, index) => {
+                const photoElement = document.createElement('div');
+                photoElement.className = 'photo-preview';
+                photoElement.innerHTML = `
+                    <img src="${photo.data}" alt="${photo.name}">
+                    <button class="remove-photo" onclick="removePhoto(${index})">×</button>
+                    <div class="photo-info">${photo.name}<br>${photo.size}</div>
+                `;
+                previewContainer.appendChild(photoElement);
+            });
+        }
+
+        function removePhoto(index) {
+            uploadedPhotos.splice(index, 1);
+            renderPhotoPreview();
+        }
+
+        function clearUploadedPhotos() {
+            uploadedPhotos = [];
+            renderPhotoPreview();
+            document.getElementById('photoUpload').value = '';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Modifier la fonction sendEmails pour inclure les photos
+        function sendEmails() {
+            const checkboxes = document.querySelectorAll('.recipient-checkbox:checked');
+            const subject = document.getElementById('emailSubject').value;
+            const message = document.getElementById('emailMessage').value;
+            
+            if (checkboxes.length === 0) {
+                alert('Veuillez sélectionner au moins un destinataire');
+                return;
+            }
+            
+            // Récupérer les emails sélectionnés
+            const emails = [];
+            checkboxes.forEach(checkbox => {
+                const index = parseInt(checkbox.getAttribute('data-index'));
+                const hote = sheetData.filter(row => {
+                    const email = colEmail !== -1 ? row[colEmail] : '';
+                    const nom = colNom !== -1 ? row[colNom] : '';
+                    return email && email.trim() && nom && nom.trim();
+                })[index];
+                
+                if (hote) {
+                    emails.push({
+                        nom: hote[colNom],
+                        email: hote[colEmail]
+                    });
+                }
+            });
+            
+            // Préparer le corps de l'email avec les photos
+            let emailBody = message;
+            
+            // Ajouter les photos au message si elles existent
+            if (uploadedPhotos.length > 0) {
+                emailBody += '\n\n---\n📸 Photos jointes à cet email :\n';
+                uploadedPhotos.forEach(photo => {
+                    emailBody += `• ${photo.name} (${photo.size})\n`;
+                });
+                emailBody += '\nLes photos sont jointes à cet email.';
+            }
+            
+            // Ouvrir le client email par défaut
+            const encodedBody = encodeURIComponent(emailBody);
+            const encodedSubject = encodeURIComponent(subject);
+            
+            // Pour Gmail (ou autre client email)
+            const emailRecipients = emails.map(e => e.email).join(',');
+            
+            // Note: L'ajout de pièces jointes via URL Gmail n'est pas possible directement
+            // On ouvre simplement l'email avec le texte et on informe l'utilisateur
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailRecipients}&su=${encodedSubject}&body=${encodedBody}`;
+            
+            window.open(gmailUrl, '_blank');
+            
+            // Afficher des instructions pour les photos
+            if (uploadedPhotos.length > 0) {
+                setTimeout(() => {
+                    alert(`${emails.length} email(s) préparé(s) pour envoi.\n\n📸 IMPORTANT: Les photos doivent être ajoutées manuellement en pièces jointes dans votre client email.\n\nPhotos à attacher:\n${uploadedPhotos.map(p => `• ${p.name}`).join('\n')}`);
+                }, 1000);
+            } else {
+                alert(`${emails.length} email(s) préparé(s) pour envoi. Vérifiez les destinataires avant d'envoyer.`);
+            }
+            
+            // Fermer la modale
+            document.getElementById('emailModal').style.display = 'none';
+            clearUploadedPhotos();
+        }
+
+        // Le reste du code reste inchangé...
         async function loadDataFromGoogleSheets() {
             console.log('🔍 Début du chargement des données...');
             document.getElementById('loadingIndicator').style.display = 'block';
@@ -1616,51 +1885,6 @@ L'équipe de la Tournée 2026</textarea>
             
             recipientCount.textContent = uniqueHotes.length;
             modal.style.display = 'flex';
-        }
-
-        function sendEmails() {
-            const checkboxes = document.querySelectorAll('.recipient-checkbox:checked');
-            const subject = document.getElementById('emailSubject').value;
-            const message = document.getElementById('emailMessage').value;
-            
-            if (checkboxes.length === 0) {
-                alert('Veuillez sélectionner au moins un destinataire');
-                return;
-            }
-            
-            // Récupérer les emails sélectionnés
-            const emails = [];
-            checkboxes.forEach(checkbox => {
-                const index = parseInt(checkbox.getAttribute('data-index'));
-                const hote = sheetData.filter(row => {
-                    const email = colEmail !== -1 ? row[colEmail] : '';
-                    const nom = colNom !== -1 ? row[colNom] : '';
-                    return email && email.trim() && nom && nom.trim();
-                })[index];
-                
-                if (hote) {
-                    emails.push({
-                        nom: hote[colNom],
-                        email: hote[colEmail]
-                    });
-                }
-            });
-            
-            // Ouvrir le client email par défaut
-            const emailBody = encodeURIComponent(message);
-            const emailSubject = encodeURIComponent(subject);
-            
-            // Pour Gmail (ou autre client email)
-            const emailRecipients = emails.map(e => e.email).join(',');
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailRecipients}&su=${emailSubject}&body=${emailBody}`;
-            
-            window.open(gmailUrl, '_blank');
-            
-            // Fermer la modale
-            document.getElementById('emailModal').style.display = 'none';
-            
-            // Afficher un message de confirmation
-            alert(`${emails.length} email(s) préparé(s) pour envoi. Vérifiez les destinataires avant d'envoyer.`);
         }
 
         function copyEmailAddresses() {
