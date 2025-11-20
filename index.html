@@ -295,6 +295,56 @@
             font-size: 0.9em;
         }
         
+        .lists-section {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+        
+        .lists-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .list-card {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .list-content {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e1e1e1;
+            border-top: none;
+            padding: 10px;
+        }
+        
+        .list-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .list-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .list-count {
+            background: #ecf0f1;
+            color: #7f8c8d;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+        
         .results-section {
             background-color: white;
             border-radius: var(--border-radius);
@@ -653,6 +703,50 @@
             text-align: center;
         }
         
+        /* Styles pour la modale d'email */
+        .email-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .email-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .email-recipients {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        
+        .recipient-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .recipient-item:last-child {
+            border-bottom: none;
+        }
+        
         @media (max-width: 768px) {
             .search-form {
                 flex-direction: column;
@@ -707,6 +801,15 @@
             .links-section {
                 grid-template-columns: 1fr;
             }
+            
+            .lists-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-modal-content {
+                padding: 20px;
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -731,6 +834,10 @@
             
             <button id="showPrieresButton" class="search-button" style="background-color: #e74c3c; width: 100%; margin-top: 10px;">
                 🙏 Afficher les sujets de prière
+            </button>
+            
+            <button id="sendEmailsButton" class="search-button" style="background-color: #3498db; width: 100%; margin-top: 10px;">
+                📧 Envoyer un email de remerciements
             </button>
             
             <button id="retryButton" style="background-color: #f39c12; margin-top: 10px; width: 100%; display: none;">
@@ -803,6 +910,45 @@
                     <div class="stat-label">Personnes hébergées</div>
                 </div>
             </div>
+            
+            <!-- Nouvelle section pour les listes organisées -->
+            <div class="lists-section">
+                <h3 style="margin-bottom: 20px; color: var(--secondary-color);">📋 Listes organisées</h3>
+                
+                <div class="lists-container">
+                    <!-- Liste des hôtes -->
+                    <div class="list-card">
+                        <h4 style="background: #3498db; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">👤 Hôtes (<span id="hotesCount">0</span>)</h4>
+                        <div class="list-content" id="hotesList">
+                            <!-- Liste des hôtes générée ici -->
+                        </div>
+                    </div>
+                    
+                    <!-- Liste des pays -->
+                    <div class="list-card">
+                        <h4 style="background: #27ae60; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">🌍 Pays (<span id="paysCount">0</span>)</h4>
+                        <div class="list-content" id="paysList">
+                            <!-- Liste des pays générée ici -->
+                        </div>
+                    </div>
+                    
+                    <!-- Liste des lieux -->
+                    <div class="list-card">
+                        <h4 style="background: #9b59b6; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">📍 Lieux (<span id="lieuxCount">0</span>)</h4>
+                        <div class="list-content" id="lieuxList">
+                            <!-- Liste des lieux générée ici -->
+                        </div>
+                    </div>
+                    
+                    <!-- Liste des personnes hébergées -->
+                    <div class="list-card">
+                        <h4 style="background: #f39c12; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">👥 Personnes hébergées (<span id="hebergesCount">0</span>)</h4>
+                        <div class="list-content" id="hebergesList">
+                            <!-- Liste des personnes hébergées générée ici -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         
         <div class="loading" id="loadingIndicator">
@@ -821,6 +967,48 @@
                 <!-- Les résultats seront affichés ici -->
             </div>
         </section>
+    </div>
+
+    <!-- Modale pour l'envoi d'emails -->
+    <div id="emailModal" class="email-modal">
+        <div class="email-modal-content">
+            <h3 style="margin-bottom: 20px; color: var(--secondary-color);">📧 Envoi d'email de remerciements</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Destinataires avec email:</label>
+                <div id="emailRecipients" class="email-recipients">
+                    <!-- Liste des destinataires générée ici -->
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    <span id="recipientCount">0</span> destinataire(s) sélectionné(s)
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Sujet:</label>
+                <input type="text" id="emailSubject" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" 
+                       value="Remerciements pour votre hospitalité - Tournée 2026">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Message:</label>
+                <textarea id="emailMessage" style="width: 100%; height: 200px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit;">Cher/chère [Nom],
+
+Nous tenons à vous remercier chaleureusement pour votre généreux accueil et votre hospitalité durant notre tournée 2026. Votre soutien a été précieux pour nous.
+
+Nous gardons un excellent souvenir de notre séjour chez vous et espérons avoir l'occasion de vous revoir bientôt.
+
+Avec toute notre gratitude,
+
+L'équipe de la Tournée 2026</textarea>
+            </div>
+            
+            <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+                <button id="cancelEmail" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer;">Annuler</button>
+                <button id="copyEmails" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">📋 Copier les adresses</button>
+                <button id="sendEmails" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer;">📧 Envoyer les emails</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -863,6 +1051,7 @@
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
             document.getElementById('showPrieresButton').addEventListener('click', showPrieres);
+            document.getElementById('sendEmailsButton').addEventListener('click', showEmailModal);
             document.getElementById('closeResults').addEventListener('click', closeResults);
             document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
             
@@ -876,6 +1065,14 @@
                 currentDate.setMonth(currentDate.getMonth() + 1);
                 renderCalendar();
             });
+            
+            // Événements pour la modale d'email
+            document.getElementById('cancelEmail').addEventListener('click', function() {
+                document.getElementById('emailModal').style.display = 'none';
+            });
+            
+            document.getElementById('sendEmails').addEventListener('click', sendEmails);
+            document.getElementById('copyEmails').addEventListener('click', copyEmailAddresses);
             
             // Charger les données
             loadDataFromGoogleSheets();
@@ -1007,6 +1204,7 @@
                 updateStats();
                 renderFilterTags();
                 renderCalendar();
+                renderOrganizedLists();
                 showDataInfo();
                 
             } catch (error) {
@@ -1251,6 +1449,66 @@
             });
         }
         
+        // Fonction pour afficher les listes organisées
+        function renderOrganizedLists() {
+            // Mettre à jour les compteurs
+            document.getElementById('hotesCount').textContent = allHotes.length;
+            document.getElementById('paysCount').textContent = allPays.length;
+            document.getElementById('lieuxCount').textContent = allLieux.length;
+            document.getElementById('hebergesCount').textContent = allHeberges.length;
+            
+            renderList('hotesList', allHotes, 'nom');
+            renderList('paysList', allPays, 'pays');
+            renderList('lieuxList', allLieux, 'lieu');
+            renderList('hebergesList', allHeberges, 'heberge');
+        }
+
+        function renderList(containerId, items, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic; padding: 10px; text-align: center;">Aucun ' + type + ' trouvé</div>';
+                return;
+            }
+            
+            items.forEach((item, index) => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.innerHTML = `
+                    <span>${item}</span>
+                    <span class="list-count">${getItemCount(item, type)}</span>
+                `;
+                
+                listItem.addEventListener('click', () => {
+                    if (type === 'heberge') {
+                        const results = filterByHeberge(item);
+                        displayResults(results, `Personne hébergée: ${item}`);
+                    } else {
+                        const results = filterDataByType(item, type);
+                        displayResults(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
+                    }
+                });
+                
+                container.appendChild(listItem);
+            });
+        }
+
+        function getItemCount(item, type) {
+            switch(type) {
+                case 'nom':
+                    return sheetData.filter(row => row[colNom] === item).length;
+                case 'pays':
+                    return sheetData.filter(row => row[colPays] === item).length;
+                case 'lieu':
+                    return sheetData.filter(row => row[colLieu] === item).length;
+                case 'heberge':
+                    return filterByHeberge(item).length;
+                default:
+                    return 0;
+            }
+        }
+        
         function filterDataByType(value, type) {
             let columnIndex = -1;
             
@@ -1315,6 +1573,132 @@
             document.getElementById('resultTitle').textContent = 'Sujets de prière';
             document.getElementById('resultsSection').style.display = 'block';
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Fonctions pour l'envoi d'emails
+        function showEmailModal() {
+            const modal = document.getElementById('emailModal');
+            const recipientsContainer = document.getElementById('emailRecipients');
+            const recipientCount = document.getElementById('recipientCount');
+            
+            // Récupérer tous les hôtes avec email
+            const hotesAvecEmail = sheetData.filter(row => {
+                const email = colEmail !== -1 ? row[colEmail] : '';
+                const nom = colNom !== -1 ? row[colNom] : '';
+                return email && email.trim() && nom && nom.trim();
+            });
+            
+            // Supprimer les doublons (même email)
+            const uniqueHotes = [];
+            const emailsDejaVus = new Set();
+            
+            hotesAvecEmail.forEach(hote => {
+                const email = hote[colEmail].trim().toLowerCase();
+                if (!emailsDejaVus.has(email)) {
+                    emailsDejaVus.add(email);
+                    uniqueHotes.push(hote);
+                }
+            });
+            
+            recipientsContainer.innerHTML = '';
+            uniqueHotes.forEach((hote, index) => {
+                const recipientDiv = document.createElement('div');
+                recipientDiv.className = 'recipient-item';
+                recipientDiv.innerHTML = `
+                    <input type="checkbox" class="recipient-checkbox" data-index="${index}" checked style="margin-right: 10px;">
+                    <div>
+                        <strong>${hote[colNom]}</strong><br>
+                        <small style="color: #666;">${hote[colEmail]}</small>
+                    </div>
+                `;
+                recipientsContainer.appendChild(recipientDiv);
+            });
+            
+            recipientCount.textContent = uniqueHotes.length;
+            modal.style.display = 'flex';
+        }
+
+        function sendEmails() {
+            const checkboxes = document.querySelectorAll('.recipient-checkbox:checked');
+            const subject = document.getElementById('emailSubject').value;
+            const message = document.getElementById('emailMessage').value;
+            
+            if (checkboxes.length === 0) {
+                alert('Veuillez sélectionner au moins un destinataire');
+                return;
+            }
+            
+            // Récupérer les emails sélectionnés
+            const emails = [];
+            checkboxes.forEach(checkbox => {
+                const index = parseInt(checkbox.getAttribute('data-index'));
+                const hote = sheetData.filter(row => {
+                    const email = colEmail !== -1 ? row[colEmail] : '';
+                    const nom = colNom !== -1 ? row[colNom] : '';
+                    return email && email.trim() && nom && nom.trim();
+                })[index];
+                
+                if (hote) {
+                    emails.push({
+                        nom: hote[colNom],
+                        email: hote[colEmail]
+                    });
+                }
+            });
+            
+            // Ouvrir le client email par défaut
+            const emailBody = encodeURIComponent(message);
+            const emailSubject = encodeURIComponent(subject);
+            
+            // Pour Gmail (ou autre client email)
+            const emailRecipients = emails.map(e => e.email).join(',');
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailRecipients}&su=${emailSubject}&body=${emailBody}`;
+            
+            window.open(gmailUrl, '_blank');
+            
+            // Fermer la modale
+            document.getElementById('emailModal').style.display = 'none';
+            
+            // Afficher un message de confirmation
+            alert(`${emails.length} email(s) préparé(s) pour envoi. Vérifiez les destinataires avant d'envoyer.`);
+        }
+
+        function copyEmailAddresses() {
+            const checkboxes = document.querySelectorAll('.recipient-checkbox:checked');
+            const emails = [];
+            
+            checkboxes.forEach(checkbox => {
+                const index = parseInt(checkbox.getAttribute('data-index'));
+                const hote = sheetData.filter(row => {
+                    const email = colEmail !== -1 ? row[colEmail] : '';
+                    const nom = colNom !== -1 ? row[colNom] : '';
+                    return email && email.trim() && nom && nom.trim();
+                })[index];
+                
+                if (hote) {
+                    emails.push(hote[colEmail]);
+                }
+            });
+            
+            if (emails.length === 0) {
+                alert('Aucun email à copier');
+                return;
+            }
+            
+            const emailString = emails.join('; ');
+            navigator.clipboard.writeText(emailString).then(() => {
+                alert(`${emails.length} adresse(s) email copiée(s) dans le presse-papier`);
+            }).catch(err => {
+                console.error('Erreur lors de la copie:', err);
+                // Fallback pour les navigateurs qui ne supportent pas clipboard API
+                const textArea = document.createElement('textarea');
+                textArea.value = emailString;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert(`${emails.length} adresse(s) email copiée(s) dans le presse-papier`);
+            });
         }
         
         function renderCalendar() {
