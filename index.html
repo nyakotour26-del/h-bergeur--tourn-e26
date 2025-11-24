@@ -830,6 +830,31 @@
             text-align: center;
         }
 
+        /* NOUVEAU: Style pour la section "À savoir sur le hôte" */
+        .hote-info-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border-radius: var(--border-radius);
+            border-left: 4px solid #ff9800;
+        }
+        
+        .hote-info-label {
+            font-weight: bold;
+            color: #e65100;
+            font-size: 1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .hote-info-content {
+            color: var(--text-color);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             .search-form {
                 flex-direction: column;
@@ -1163,6 +1188,8 @@ L'équipe de la Tournée 2026</textarea>
         let colLieuHebergeur = -1;
         let colPaysHebergeur = -1;
         let colNumeroHebergeur = -1;
+        let colHebergeEn = -1; // NOUVEAU: Colonne "Hebergé en"
+        let colASavoirHote = -1; // NOUVEAU: Colonne "à savoir sur le hôte/l'hébergeur"
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
@@ -1586,6 +1613,16 @@ L'équipe de la Tournée 2026</textarea>
                 else if (lowerHeader.includes('numéro:') || lowerHeader.includes('numero:')) {
                     colNumeroHebergeur = index;
                     console.log('🔢 Colonne Numéro hébergeur détectée:', index);
+                }
+                // NOUVEAU: Détection de la colonne "Hebergé en"
+                else if (lowerHeader.includes('hebergé en') || lowerHeader.includes('hébergé en')) {
+                    colHebergeEn = index;
+                    console.log('🏠 Colonne Hebergé en détectée:', index);
+                }
+                // NOUVEAU: Détection de la colonne "à savoir sur le hôte/l'hébergeur"
+                else if (lowerHeader.includes('savoir sur le hôte') || lowerHeader.includes('savoir sur l\'hébergeur') || lowerHeader.includes('à savoir')) {
+                    colASavoirHote = index;
+                    console.log('ℹ️ Colonne À savoir sur le hôte détectée:', index);
                 }
             });
         }
@@ -2221,6 +2258,10 @@ L'équipe de la Tournée 2026</textarea>
                     const paysHebergeur = colPaysHebergeur !== -1 ? row[colPaysHebergeur] : '';
                     const numeroHebergeur = colNumeroHebergeur !== -1 ? row[colNumeroHebergeur] : '';
                     
+                    // NOUVEAU: Récupération des données des nouvelles colonnes
+                    const hebergeEn = colHebergeEn !== -1 ? row[colHebergeEn] : '';
+                    const aSavoirHote = colASavoirHote !== -1 ? row[colASavoirHote] : '';
+                    
                     // NOUVEAU: Construction de l'adresse complète
                     let adresseComplete = adresseHebergeur || adresse || '';
                     if (adresseComplete && lieuHebergeur) {
@@ -2304,16 +2345,11 @@ L'équipe de la Tournée 2026</textarea>
                                 </div>
                             </div>
                             
-                            <!-- Section contact - MODIFIÉE avec les nouvelles informations -->
-                            ${(adresseComplete || email || facebook || telephone || numeroHebergeur) ? `
-                            <div class="contact-section">
-                                <div class="contact-label">📞 Information sur ${nom || 'l\'hébergeur'}:</div>
-                                ${adresseComplete ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresseComplete}</div>` : ''}
-                                ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> ${numeroHebergeur}</div>` : ''}
-                                <div style="height: 1px; background: #ddd; margin: 10px 0;"></div>
-                                ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Adresse e-mail:</strong> <a href="mailto:${email}" class="contact-link">${email}</a></div>` : ''}
-                                ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Nom sur Facebook ou autres compte réseaux sociaux:</strong> ${facebook}</div>` : ''}
-                                ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <a href="tel:${telephone}" class="contact-link">${telephone}</a></div>` : ''}
+                            <!-- NOUVEAU: Section "Hebergé en" - placée après la grille d'informations et avant "Les hébergés" -->
+                            ${hebergeEn ? `
+                            <div class="hote-info-section">
+                                <div class="hote-info-label">🏠 Hébergé en:</div>
+                                <div class="hote-info-content">${hebergeEn}</div>
                             </div>
                             ` : ''}
                             
@@ -2327,6 +2363,27 @@ L'équipe de la Tournée 2026</textarea>
                                 <div style="margin-top: 10px; font-style: italic; color: #666;">
                                     ${personnesAffichees}
                                 </div>
+                            </div>
+                            ` : ''}
+                            
+                            <!-- NOUVEAU: Section "À savoir sur le hôte" - placée après "Les hébergés" -->
+                            ${aSavoirHote ? `
+                            <div class="hote-info-section">
+                                <div class="hote-info-label">ℹ️ À savoir sur le hôte/l'hébergeur:</div>
+                                <div class="hote-info-content">${aSavoirHote}</div>
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Section contact - MODIFIÉE avec les nouvelles informations -->
+                            ${(adresseComplete || email || facebook || telephone || numeroHebergeur) ? `
+                            <div class="contact-section">
+                                <div class="contact-label">📞 Information sur ${nom || 'l\'hébergeur'}:</div>
+                                ${adresseComplete ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresseComplete}</div>` : ''}
+                                ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> ${numeroHebergeur}</div>` : ''}
+                                <div style="height: 1px; background: #ddd; margin: 10px 0;"></div>
+                                ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Adresse e-mail:</strong> <a href="mailto:${email}" class="contact-link">${email}</a></div>` : ''}
+                                ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Nom sur Facebook ou autres compte réseaux sociaux:</strong> ${facebook}</div>` : ''}
+                                ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <a href="tel:${telephone}" class="contact-link">${telephone}</a></div>` : ''}
                             </div>
                             ` : ''}
                             
