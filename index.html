@@ -2366,14 +2366,6 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
-                            <!-- NOUVEAU: Section "À savoir sur le hôte" - placée après "Les hébergés" -->
-                            ${aSavoirHote ? `
-                            <div class="hote-info-section">
-                                <div class="hote-info-label">ℹ️ À savoir sur le hôte/l'hébergeur:</div>
-                                <div class="hote-info-content">${aSavoirHote}</div>
-                            </div>
-                            ` : ''}
-                            
                             <!-- Section contact - MODIFIÉE avec les nouvelles informations -->
                             ${(adresseComplete || email || facebook || telephone || numeroHebergeur) ? `
                             <div class="contact-section">
@@ -2384,6 +2376,14 @@ L'équipe de la Tournée 2026</textarea>
                                 ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Adresse e-mail:</strong> <a href="mailto:${email}" class="contact-link">${email}</a></div>` : ''}
                                 ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Nom sur Facebook ou autres compte réseaux sociaux:</strong> ${facebook}</div>` : ''}
                                 ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <a href="tel:${telephone}" class="contact-link">${telephone}</a></div>` : ''}
+                            </div>
+                            ` : ''}
+                            
+                            <!-- NOUVEAU: Section "À savoir sur le hôte" - PLACÉE AVANT LES LIENS -->
+                            ${aSavoirHote ? `
+                            <div class="hote-info-section">
+                                <div class="hote-info-label">ℹ️ À savoir sur le hôte/l'hébergeur:</div>
+                                <div class="hote-info-content">${aSavoirHote}</div>
                             </div>
                             ` : ''}
                             
