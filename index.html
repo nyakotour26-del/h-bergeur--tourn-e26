@@ -315,12 +315,71 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
+        .list-header {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .list-header:hover {
+            background: #2980b9;
+        }
+        
+        .list-header.pays {
+            background: #27ae60;
+        }
+        
+        .list-header.pays:hover {
+            background: #219653;
+        }
+        
+        .list-header.lieux {
+            background: #9b59b6;
+        }
+        
+        .list-header.lieux:hover {
+            background: #8e44ad;
+        }
+        
+        .list-header.heberges {
+            background: #f39c12;
+        }
+        
+        .list-header.heberges:hover {
+            background: #d35400;
+        }
+        
+        .toggle-icon {
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+        
+        .toggle-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+        
         .list-content {
             max-height: 300px;
             overflow-y: auto;
             border: 1px solid #e1e1e1;
             border-top: none;
             padding: 10px;
+            transition: max-height 0.3s ease, padding 0.3s ease, border 0.3s ease;
+        }
+        
+        .list-content.collapsed {
+            max-height: 0;
+            padding: 0;
+            border: none;
+            overflow: hidden;
         }
         
         .list-item {
@@ -1034,32 +1093,44 @@
                 <div class="lists-container">
                     <!-- Liste des hôtes -->
                     <div class="list-card">
-                        <h4 style="background: #3498db; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">👤 Hôtes (<span id="hotesCount">0</span>)</h4>
-                        <div class="list-content" id="hotesList">
+                        <div class="list-header" id="hotesHeader">
+                            <span>👤 Hôtes (<span id="hotesCount">0</span>)</span>
+                            <span class="toggle-icon collapsed">▶</span>
+                        </div>
+                        <div class="list-content collapsed" id="hotesList">
                             <!-- Liste des hôtes générée ici -->
                         </div>
                     </div>
                     
                     <!-- Liste des pays -->
                     <div class="list-card">
-                        <h4 style="background: #27ae60; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">🌍 Pays (<span id="paysCount">0</span>)</h4>
-                        <div class="list-content" id="paysList">
+                        <div class="list-header pays" id="paysHeader">
+                            <span>🌍 Pays (<span id="paysCount">0</span>)</span>
+                            <span class="toggle-icon collapsed">▶</span>
+                        </div>
+                        <div class="list-content collapsed" id="paysList">
                             <!-- Liste des pays générée ici -->
                         </div>
                     </div>
                     
                     <!-- Liste des lieux -->
                     <div class="list-card">
-                        <h4 style="background: #9b59b6; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">📍 Lieux (<span id="lieuxCount">0</span>)</h4>
-                        <div class="list-content" id="lieuxList">
+                        <div class="list-header lieux" id="lieuxHeader">
+                            <span>📍 Lieux (<span id="lieuxCount">0</span>)</span>
+                            <span class="toggle-icon collapsed">▶</span>
+                        </div>
+                        <div class="list-content collapsed" id="lieuxList">
                             <!-- Liste des lieux générée ici -->
                         </div>
                     </div>
                     
                     <!-- Liste des personnes hébergées -->
                     <div class="list-card">
-                        <h4 style="background: #f39c12; color: white; padding: 12px; border-radius: 5px 5px 0 0; margin: 0;">👥 Personnes hébergées (<span id="hebergesCount">0</span>)</h4>
-                        <div class="list-content" id="hebergesList">
+                        <div class="list-header heberges" id="hebergesHeader">
+                            <span>👥 Personnes hébergées (<span id="hebergesCount">0</span>)</span>
+                            <span class="toggle-icon collapsed">▶</span>
+                        </div>
+                        <div class="list-content collapsed" id="hebergesList">
                             <!-- Liste des personnes hébergées générée ici -->
                         </div>
                     </div>
@@ -1191,6 +1262,14 @@ L'équipe de la Tournée 2026</textarea>
         let colHebergeEn = -1; // NOUVEAU: Colonne "Hebergé en"
         let colASavoirHote = -1; // NOUVEAU: Colonne "à savoir sur le hôte/l'hébergeur"
 
+        // État des listes (masquées par défaut)
+        let listStates = {
+            hotes: false,
+            pays: false,
+            lieux: false,
+            heberges: false
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
@@ -1226,9 +1305,47 @@ L'équipe de la Tournée 2026</textarea>
             
             document.getElementById('photoUpload').addEventListener('change', handlePhotoUpload);
             
+            // Événements pour les listes dépliables
+            document.getElementById('hotesHeader').addEventListener('click', () => toggleList('hotes'));
+            document.getElementById('paysHeader').addEventListener('click', () => toggleList('pays'));
+            document.getElementById('lieuxHeader').addEventListener('click', () => toggleList('lieux'));
+            document.getElementById('hebergesHeader').addEventListener('click', () => toggleList('heberges'));
+            
+            // Initialiser l'affichage des listes (masquées par défaut)
+            initializeLists();
+            
             // Charger les données
             loadDataFromGoogleSheets();
         });
+
+        // Fonction pour initialiser l'état des listes
+        function initializeLists() {
+            // Toutes les listes sont masquées par défaut
+            Object.keys(listStates).forEach(listType => {
+                const content = document.getElementById(`${listType}List`);
+                const icon = document.getElementById(`${listType}Header`).querySelector('.toggle-icon');
+                
+                content.classList.add('collapsed');
+                icon.classList.add('collapsed');
+            });
+        }
+
+        // Fonction pour basculer l'affichage d'une liste
+        function toggleList(listType) {
+            const header = document.getElementById(`${listType}Header`);
+            const content = document.getElementById(`${listType}List`);
+            const icon = header.querySelector('.toggle-icon');
+            
+            listStates[listType] = !listStates[listType];
+            
+            if (listStates[listType]) {
+                content.classList.remove('collapsed');
+                icon.classList.remove('collapsed');
+            } else {
+                content.classList.add('collapsed');
+                icon.classList.add('collapsed');
+            }
+        }
 
         // Fonctions pour l'upload de photos
         function handlePhotoUpload(event) {
