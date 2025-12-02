@@ -39,7 +39,7 @@
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 40% 1fr; /* Sidebar gauche élargie à 40% */
             gap: 20px;
         }
         
@@ -55,72 +55,57 @@
             gap: 20px;
         }
         
-        /* Header amélioré avec titre plus apparent */
+        /* Header amélioré avec titre plus clair et plus fin */
         header {
             grid-column: 1 / -1;
             text-align: center;
             margin-bottom: 20px;
-            padding: 50px 20px;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
-                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
+            padding: 15px 20px; /* Hauteur réduite */
+            background: white; /* Fond clair */
             border-radius: var(--border-radius);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            color: white;
-            position: relative;
-            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            color: var(--text-color);
+            position: sticky; /* Titre figé en haut */
+            top: 20px;
+            z-index: 100;
+            border-bottom: 3px solid var(--primary-color);
         }
         
         .decoration-images {
             position: absolute;
-            top: 20px;
+            top: 10px; /* Ajusté pour espace réduit */
             right: 20px;
             display: flex;
             gap: 10px;
-            font-size: 2em;
+            font-size: 1.5em; /* Taille réduite */
             opacity: 0.6;
         }
         
         .decoration-images-left {
             position: absolute;
-            top: 20px;
+            top: 10px; /* Ajusté pour espace réduit */
             left: 20px;
             display: flex;
             gap: 10px;
-            font-size: 2em;
+            font-size: 1.5em; /* Taille réduite */
             opacity: 0.6;
         }
         
-        .decoration-images-bottom {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            font-size: 1.8em;
-            opacity: 0.5;
-        }
-        
         h1 {
-            margin-bottom: 15px;
-            font-size: 3.5em;
-            font-weight: 800;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-            background: linear-gradient(45deg, #ffffff, #ffd700, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 1px;
+            margin-bottom: 5px; /* Espace réduit */
+            font-size: 2em; /* Taille réduite */
+            font-weight: 600;
+            color: var(--primary-color); /* Texte en couleur claire */
+            letter-spacing: 0.5px;
+            line-height: 1.2; /* Interligne réduit */
         }
         
         header p {
-            font-size: 1.5em;
-            opacity: 0.95;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            color: #f0f0f0;
+            font-size: 1em; /* Taille réduite */
+            opacity: 0.8;
+            margin-bottom: 10px; /* Espace réduit */
+            color: var(--secondary-color);
+            line-height: 1.3; /* Interligne réduit */
         }
         
         /* Boutons de navigation fixes */
@@ -263,15 +248,18 @@
             box-shadow: none;
         }
         
+        /* Boutons alignés sur une même ligne */
         .buttons-row {
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Toujours en ligne */
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap; /* Permet le retour à la ligne sur petits écrans */
         }
         
         .buttons-row .search-button {
-            width: 100%;
+            flex: 1; /* Tous les boutons prennent la même largeur */
+            min-width: 200px; /* Largeur minimale */
         }
         
         /* Calendrier à droite avec le mois en cours */
@@ -387,7 +375,7 @@
             border: 2px solid #388E3C;
         }
         
-        /* Statistiques et listes dans la sidebar */
+        /* Statistiques 3 par ligne */
         .stats-section {
             background: white;
             padding: 20px;
@@ -395,15 +383,20 @@
             box-shadow: var(--box-shadow);
         }
         
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 par ligne */
+            gap: 10px;
+        }
+        
         .stat-card {
             background: linear-gradient(135deg, white, #f8f9fa);
-            padding: 20px;
+            padding: 15px;
             border-radius: var(--border-radius);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
             border: 1px solid #e9ecef;
             transition: transform 0.3s ease;
-            margin-bottom: 10px;
         }
         
         .stat-card:hover {
@@ -412,7 +405,7 @@
         }
         
         .stat-value {
-            font-size: 2em;
+            font-size: 1.5em; /* Taille réduite */
             font-weight: bold;
             color: var(--primary-color);
             margin-bottom: 5px;
@@ -420,7 +413,7 @@
         
         .stat-label {
             color: #7f8c8d;
-            font-size: 0.9em;
+            font-size: 0.8em; /* Taille réduite */
         }
         
         .lists-section {
@@ -1270,15 +1263,7 @@
 
         @media (max-width: 1024px) {
             .container {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                order: 2;
-            }
-            
-            .main-content {
-                order: 1;
+                grid-template-columns: 40% 1fr; /* Garder 40% même sur tablette */
             }
             
             .fixed-nav-buttons {
@@ -1292,19 +1277,40 @@
                 height: 50px;
                 font-size: 20px;
             }
+            
+            .buttons-row {
+                flex-direction: row; /* Garder en ligne */
+            }
+            
+            .buttons-row .search-button {
+                min-width: 180px; /* Ajustement pour tablette */
+            }
         }
 
         @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            .main-content {
+                order: 1;
+            }
+            
             .search-form {
                 flex-direction: column;
             }
             
             .buttons-row {
-                flex-direction: column;
+                flex-direction: column; /* En colonne sur mobile */
             }
             
             .buttons-row .search-button {
                 width: 100%;
+                min-width: unset;
             }
             
             .filters-section {
@@ -1322,13 +1328,16 @@
             }
             
             h1 {
-                font-size: 2.5em;
+                font-size: 1.8em; /* Plus petit sur mobile */
+            }
+            
+            header p {
+                font-size: 0.9em; /* Plus petit sur mobile */
             }
             
             .decoration-images,
-            .decoration-images-left,
-            .decoration-images-bottom {
-                display: none;
+            .decoration-images-left {
+                display: none; /* Cacher décorations sur mobile */
             }
             
             .fixed-nav-buttons {
@@ -1337,6 +1346,18 @@
                 top: auto;
                 right: 20px;
                 flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr); /* Garder 3 par ligne même sur mobile */
+            }
+            
+            .stat-card {
+                padding: 10px;
+            }
+            
+            .stat-value {
+                font-size: 1.2em;
             }
             
             .data-table th, .data-table td {
@@ -1483,39 +1504,35 @@
                 <span>🏡</span>
                 <span>🚪</span>
             </div>
-            <div class="decoration-images-bottom">
-                <span>🗺️</span>
-                <span>🌍</span>
-                <span>📍</span>
-                <span>🗺️</span>
-            </div>
             <h1>Hébergements Tournée 2026</h1>
             <p>Consultation des hébergements par date et par hôte</p>
         </header>
         
-        <!-- Sidebar gauche -->
+        <!-- Sidebar gauche élargie à 40% -->
         <div class="sidebar">
             <div class="stats-section">
                 <h3 style="margin-bottom: 15px; color: var(--secondary-color); text-align: center;">📊 Statistiques</h3>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalHebergements">0</div>
-                    <div class="stat-label">Hébergements total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalHotes">0</div>
-                    <div class="stat-label">Hôtes différents</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalPays">0</div>
-                    <div class="stat-label">Pays différents</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalLieux">0</div>
-                    <div class="stat-label">Lieux différents</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalHeberges">0</div>
-                    <div class="stat-label">Personnes hébergées</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalHebergements">0</div>
+                        <div class="stat-label">Hébergements total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalHotes">0</div>
+                        <div class="stat-label">Hôtes différents</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalPays">0</div>
+                        <div class="stat-label">Pays différents</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalLieux">0</div>
+                        <div class="stat-label">Lieux différents</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalHeberges">0</div>
+                        <div class="stat-label">Personnes hébergées</div>
+                    </div>
                 </div>
             </div>
             
@@ -1576,6 +1593,7 @@
                     <button type="submit" class="search-button">🔍 Rechercher par date</button>
                 </form>
                 
+                <!-- Boutons sur la même ligne -->
                 <div class="buttons-row">
                     <button id="showAllButton" class="search-button" style="background: linear-gradient(135deg, #27ae60, #219a53);">
                         📋 Afficher tous les hébergements
@@ -1733,7 +1751,7 @@
             <h3 style="margin-bottom: 20px; color: var(--secondary-color);">📧 Envoi d'email de remerciements</h3>
             
             <div style="margin-bottom: 20px;">
-                <label style="display: block; mise en page-bottom: 8px; font-weight: bold;">Destinataires avec email:</label>
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Destinataires avec email:</label>
                 <div id="emailRecipients" class="email-recipients">
                     <!-- Liste des destinataires générée ici -->
                 </div>
@@ -1743,13 +1761,13 @@
             </div>
             
             <div style="margin-bottom: 20px;">
-                <label style="display: block; mise en page-bottom: 8px; font-weight: bold;">Sujet:</label>
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Sujet:</label>
                 <input type="text" id="emailSubject" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" 
                        value="Remerciements pour votre hospitalité - Tournée 2026">
             </div>
             
             <div style="margin-bottom: 20px;">
-                <label style="display: block; mise en page-bottom: 8px; font-weight: bold;">Message:</label>
+                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Message:</label>
                 <textarea id="emailMessage" style="width: 100%; height: 200px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit;">Cher/chère [Nom],
 
 Nous tenons à vous remercier chaleureusement pour votre généreux accueil et votre hospitalité durant notre tournée 2026. Votre soutien a été précieux pour nous.
