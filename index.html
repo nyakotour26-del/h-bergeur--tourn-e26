@@ -28,6 +28,11 @@
             color: var(--text-color);
             background-color: #f5f7fa;
             padding: 20px;
+            background-image: linear-gradient(rgba(245, 247, 250, 0.9), rgba(245, 247, 250, 0.9)), 
+                              url('https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
         }
         
         .container {
@@ -38,35 +43,105 @@
         header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 30px 20px;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                        url('https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            padding: 40px 20px;
+            background: linear-gradient(rgba(139, 0, 0, 0.85), rgba(139, 0, 0, 0.75)),
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             color: white;
             position: relative;
+            overflow: hidden;
         }
         
-        header::before {
-            content: "🏘️🏠🏨🛌";
-            font-size: 2em;
+        .decoration-images {
             position: absolute;
             top: 20px;
             right: 20px;
-            opacity: 0.8;
+            display: flex;
+            gap: 10px;
+            font-size: 1.8em;
+            opacity: 0.7;
+        }
+        
+        .decoration-images-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            font-size: 1.8em;
+            opacity: 0.7;
+        }
+        
+        .decoration-images-bottom {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            font-size: 1.5em;
+            opacity: 0.6;
         }
         
         h1 {
             margin-bottom: 10px;
-            font-size: 2.5em;
+            font-size: 2.8em;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ffffff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .top-buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .icon-button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .icon-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .icon-button.home {
+            background: #27ae60;
+        }
+        
+        .icon-button.list {
+            background: #3498db;
+        }
+        
+        .icon-button.export {
+            background: #9b59b6;
+            position: relative;
         }
         
         .search-section {
@@ -75,6 +150,19 @@
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             margin-bottom: 30px;
+            position: relative;
+            background-image: linear-gradient(to bottom right, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+        }
+        
+        .search-section::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b0000"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>');
+            opacity: 0.1;
         }
         
         .search-form {
@@ -94,12 +182,18 @@
             flex: 1;
             padding: 12px;
             font-size: 16px;
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             border-radius: var(--border-radius);
+            transition: border-color 0.3s;
+        }
+        
+        .date-input-container input:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
         
         .search-button {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #6a0000);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -108,22 +202,26 @@
             font-weight: 600;
             min-width: 150px;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(139, 0, 0, 0.2);
         }
         
         .search-button:hover {
-            background-color: #6a0000;
+            background: linear-gradient(135deg, #6a0000, var(--primary-color));
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(139, 0, 0, 0.3);
         }
         
         .search-button.disabled {
-            background-color: #95a5a6;
+            background: #95a5a6;
             cursor: not-allowed;
             opacity: 0.6;
+            box-shadow: none;
         }
         
         .search-button.disabled:hover {
-            background-color: #95a5a6;
+            background: #95a5a6;
             transform: none;
+            box-shadow: none;
         }
         
         .buttons-row {
@@ -146,16 +244,26 @@
         }
         
         .filter-group {
-            background: #f8f9fa;
-            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
             border-radius: var(--border-radius);
             border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .filter-group:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .filter-group h3 {
             margin-bottom: 10px;
             color: var(--secondary-color);
             font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .filter-tags {
@@ -227,6 +335,18 @@
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calendar-section::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(139,0,0,0.1) 0%, transparent 70%);
         }
         
         .calendar-header {
@@ -248,6 +368,12 @@
             padding: 8px 12px;
             border-radius: 4px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-nav button:hover {
+            background: #6a0000;
+            transform: scale(1.05);
         }
         
         .calendar-grid {
@@ -262,6 +388,7 @@
             padding: 10px;
             background-color: var(--light-color);
             border-radius: 4px;
+            color: var(--secondary-color);
         }
         
         .calendar-day {
@@ -315,11 +442,18 @@
         }
         
         .stat-card {
-            background: white;
+            background: linear-gradient(135deg, white, #f8f9fa);
             padding: 20px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             text-align: center;
+            border: 1px solid #e9ecef;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
         
         .stat-value {
@@ -475,7 +609,7 @@
         }
         
         .fiche-header {
-            background-color: #6c757d;
+            background: linear-gradient(135deg, #6c757d, #5a6268);
             color: white;
             padding: 20px;
         }
@@ -489,7 +623,7 @@
         
         .info-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 0;
             background: #f8f9fa;
             border-bottom: 1px solid #e9ecef;
@@ -561,7 +695,7 @@
             text-align: center;
             text-decoration: none;
             display: block;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
         }
         
         .link-button:hover {
@@ -801,6 +935,94 @@
             text-align: center;
         }
         
+        /* Styles pour la modale d'export */
+        .export-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .export-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .export-options {
+            margin: 20px 0;
+        }
+        
+        .export-type {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .export-type:hover {
+            border-color: var(--primary-color);
+            background: #f8f9fa;
+        }
+        
+        .export-type.selected {
+            border-color: var(--primary-color);
+            background: #f8f9fa;
+        }
+        
+        .export-type-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .export-type-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .export-format-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .format-option {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .format-option:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .format-option.selected {
+            border-color: var(--primary-color);
+            background: #f8f9fa;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
         /* Styles pour la modale d'email */
         .email-modal {
             display: none;
@@ -928,7 +1150,6 @@
             text-align: center;
         }
 
-        /* NOUVEAU: Style pour la section "À savoir sur le hôte" */
         .hote-info-section {
             margin-top: 15px;
             padding: 15px;
@@ -1021,6 +1242,22 @@
                 font-size: 2em;
             }
             
+            .decoration-images,
+            .decoration-images-left,
+            .decoration-images-bottom {
+                display: none;
+            }
+            
+            .top-buttons {
+                justify-content: center;
+            }
+            
+            .icon-button {
+                flex: 1;
+                min-width: 150px;
+                justify-content: center;
+            }
+            
             .data-table th, .data-table td {
                 display: block;
                 width: 100%;
@@ -1039,9 +1276,70 @@
             .info-item {
                 border-right: none;
                 border-bottom: 1px solid #e9ecef;
+                padding: 12px 15px;
+                display: flex;
+                flex-direction: column;
             }
             
-            .info-item:last-child {
+            .info-item:nth-child(1),
+            .info-item:nth-child(2) {
+                display: inline-block;
+                width: 50%;
+                vertical-align: top;
+                border-right: 1px solid #e9ecef;
+                border-bottom: none;
+            }
+            
+            .info-item:nth-child(1) {
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .info-item:nth-child(2) {
+                border-left: 1px solid #e9ecef;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .info-item:nth-child(3),
+            .info-item:nth-child(4) {
+                display: inline-block;
+                width: 50%;
+                vertical-align: top;
+                border-right: 1px solid #e9ecef;
+            }
+            
+            .info-item:nth-child(3) {
+                border-bottom: none;
+            }
+            
+            .info-item:nth-child(4) {
+                border-left: 1px solid #e9ecef;
+                border-bottom: none;
+            }
+            
+            .info-item:nth-child(2),
+            .info-item:nth-child(4) {
+                border-right: none;
+            }
+            
+            .info-grid-mobile {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 0;
+            }
+            
+            .info-grid-mobile .info-item {
+                border: none;
+                border-right: 1px solid #e9ecef;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .info-grid-mobile .info-item:nth-child(2n) {
+                border-right: none;
+            }
+            
+            .info-grid-mobile .info-item:nth-child(3),
+            .info-grid-mobile .info-item:nth-child(4) {
                 border-bottom: none;
             }
             
@@ -1057,12 +1355,9 @@
                 grid-template-columns: 1fr;
             }
             
-            .email-modal-content {
-                padding: 20px;
-                width: 95%;
-            }
-            
-            .password-modal-content {
+            .email-modal-content,
+            .password-modal-content,
+            .export-modal-content {
                 padding: 20px;
                 width: 95%;
             }
@@ -1074,15 +1369,47 @@
             .photo-preview img {
                 height: 80px;
             }
+            
+            .export-format-options {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🏘️ Hébergements Tournée 2026</h1>
+            <div class="decoration-images-left">
+                <span>🏘️</span>
+                <span>🏠</span>
+                <span>🏨</span>
+            </div>
+            <div class="decoration-images">
+                <span>🛌</span>
+                <span>🏡</span>
+                <span>🚪</span>
+            </div>
+            <div class="decoration-images-bottom">
+                <span>🗺️</span>
+                <span>🌍</span>
+                <span>📍</span>
+                <span>🗺️</span>
+            </div>
+            <h1>Hébergements Tournée 2026</h1>
             <p>Consultation des hébergements par date et par hôte</p>
         </header>
+        
+        <div class="top-buttons">
+            <button class="icon-button home" id="homeButton">
+                🏠 Accueil
+            </button>
+            <button class="icon-button list" id="showAllDataButton">
+                📋 Toutes les données
+            </button>
+            <button class="icon-button export" id="exportDataButton">
+                📤 Exporter les données
+            </button>
+        </div>
         
         <section class="search-section">
             <form id="searchForm" class="search-form" autocomplete="off">
@@ -1092,22 +1419,21 @@
                 </div>
             </form>
             
-            <!-- NOUVEAU: Boutons sur la même ligne -->
             <div class="buttons-row">
-                <button id="showAllButton" class="search-button" style="background-color: #27ae60;">
+                <button id="showAllButton" class="search-button" style="background: linear-gradient(135deg, #27ae60, #219a53);">
                     📋 Afficher tous les hébergements
                 </button>
                 
-                <button id="showPrieresButton" class="search-button" style="background-color: #e74c3c;">
+                <button id="showPrieresButton" class="search-button" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
                     🙏 Afficher les sujets de prière
                 </button>
                 
-                <button id="sendEmailsButton" class="search-button disabled" style="background-color: #3498db;">
+                <button id="sendEmailsButton" class="search-button disabled" style="background: linear-gradient(135deg, #3498db, #2980b9);">
                     📧 Envoyer un email de remerciements
                 </button>
             </div>
             
-            <button id="retryButton" style="background-color: #f39c12; margin-top: 10px; width: 100%; display: none;">
+            <button id="retryButton" style="background: linear-gradient(135deg, #f39c12, #e67e22); margin-top: 10px; width: 100%; display: none;">
                 🔄 Réessayer le chargement
             </button>
             
@@ -1178,12 +1504,10 @@
                 </div>
             </div>
             
-            <!-- Nouvelle section pour les listes organisées -->
             <div class="lists-section">
                 <h3 style="margin-bottom: 20px; color: var(--secondary-color);">📋 Listes organisées</h3>
                 
                 <div class="lists-container">
-                    <!-- Liste des hôtes -->
                     <div class="list-card">
                         <div class="list-header" id="hotesHeader">
                             <span>👤 Hôtes (<span id="hotesCount">0</span>)</span>
@@ -1194,7 +1518,6 @@
                         </div>
                     </div>
                     
-                    <!-- Liste des pays -->
                     <div class="list-card">
                         <div class="list-header pays" id="paysHeader">
                             <span>🌍 Pays (<span id="paysCount">0</span>)</span>
@@ -1205,7 +1528,6 @@
                         </div>
                     </div>
                     
-                    <!-- Liste des lieux -->
                     <div class="list-card">
                         <div class="list-header lieux" id="lieuxHeader">
                             <span>📍 Lieux (<span id="lieuxCount">0</span>)</span>
@@ -1216,7 +1538,6 @@
                         </div>
                     </div>
                     
-                    <!-- Liste des personnes hébergées -->
                     <div class="list-card">
                         <div class="list-header heberges" id="hebergesHeader">
                             <span>👥 Personnes hébergées (<span id="hebergesCount">0</span>)</span>
@@ -1246,6 +1567,50 @@
                 <!-- Les résultats seront affichés ici -->
             </div>
         </section>
+    </div>
+
+    <!-- Modale pour l'exportation -->
+    <div id="exportModal" class="export-modal">
+        <div class="export-modal-content">
+            <h3 style="margin-bottom: 20px; color: var(--secondary-color);">📤 Exporter les données</h3>
+            
+            <div class="export-options">
+                <div class="export-type" id="exportType1">
+                    <div class="export-type-title">
+                        <span>📋</span>
+                        <span>Liste de tous les hébergeurs</span>
+                    </div>
+                    <div class="export-type-description">
+                        Exporte tous les hébergeurs avec leurs informations complètes (nom, coordonnées, adresse, etc.)
+                    </div>
+                </div>
+                
+                <div class="export-type" id="exportType2">
+                    <div class="export-type-title">
+                        <span>🌍</span>
+                        <span>Liste par pays des hébergeurs</span>
+                    </div>
+                    <div class="export-type-description">
+                        Exporte les hébergeurs organisés par pays avec leurs informations de contact
+                    </div>
+                </div>
+            </div>
+            
+            <div class="export-format-options" id="formatOptions" style="display: none;">
+                <div class="format-option" data-format="csv">CSV</div>
+                <div class="format-option" data-format="excel">Excel</div>
+                <div class="format-option" data-format="pdf">PDF</div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button id="cancelExport" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Annuler
+                </button>
+                <button id="confirmExport" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">
+                    📤 Exporter
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Modale pour le mot de passe admin -->
@@ -1306,7 +1671,6 @@ Avec toute notre gratitude,
 L'équipe de la Tournée 2026</textarea>
             </div>
 
-            <!-- Section d'upload de photos -->
             <div class="upload-section">
                 <h4 style="margin-bottom: 15px; color: #3498db;">📸 Ajouter des photos à l'email</h4>
                 
@@ -1334,7 +1698,7 @@ L'équipe de la Tournée 2026</textarea>
     </div>
 
     <script>
-        // URL de la feuille Google Sheets pour les hébergements (nouvelle feuille)
+        // URL de la feuille Google Sheets pour les hébergements
         const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=1650312054&single=true&output=csv';
         
         // Mot de passe admin
@@ -1353,6 +1717,8 @@ L'équipe de la Tournée 2026</textarea>
         let bookingPeriods = [];
         let uploadedPhotos = []; // Stocker les photos uploadées
         let isAdmin = false; // État d'authentification admin
+        let selectedExportType = null;
+        let selectedExportFormat = null;
 
         // Index des colonnes (à détecter automatiquement)
         let colDateDebut = -1;
@@ -1375,13 +1741,13 @@ L'équipe de la Tournée 2026</textarea>
         let colFormulaire = -1;
         let colRepartition = -1;
 
-        // NOUVEAU: Colonnes pour les informations supplémentaires
+        // Colonnes pour les informations supplémentaires
         let colAdresseHebergeur = -1;
         let colLieuHebergeur = -1;
         let colPaysHebergeur = -1;
         let colNumeroHebergeur = -1;
-        let colHebergeEn = -1; // NOUVEAU: Colonne "Hebergé en"
-        let colASavoirHote = -1; // NOUVEAU: Colonne "à savoir sur le hôte/l'hébergeur"
+        let colHebergeEn = -1;
+        let colASavoirHote = -1;
 
         // État des listes (masquées par défaut)
         let listStates = {
@@ -1392,6 +1758,14 @@ L'équipe de la Tournée 2026</textarea>
         };
 
         document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('homeButton').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.getElementById('resultsSection').style.display = 'none';
+            });
+            
+            document.getElementById('showAllDataButton').addEventListener('click', showAllData);
+            document.getElementById('exportDataButton').addEventListener('click', showExportModal);
+            
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
             document.getElementById('showPrieresButton').addEventListener('click', showPrieres);
@@ -1408,6 +1782,35 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('nextMonth').addEventListener('click', function() {
                 currentDate.setMonth(currentDate.getMonth() + 1);
                 renderCalendar();
+            });
+            
+            // Événements pour la modale d'exportation
+            document.getElementById('cancelExport').addEventListener('click', function() {
+                document.getElementById('exportModal').style.display = 'none';
+                resetExportModal();
+            });
+            
+            document.getElementById('confirmExport').addEventListener('click', exportData);
+            
+            // Sélection du type d'export
+            document.getElementById('exportType1').addEventListener('click', function() {
+                selectExportType(1);
+            });
+            
+            document.getElementById('exportType2').addEventListener('click', function() {
+                selectExportType(2);
+            });
+            
+            // Sélection du format d'export
+            document.querySelectorAll('.format-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.format-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    selectedExportFormat = this.getAttribute('data-format');
+                    document.getElementById('confirmExport').style.display = 'block';
+                });
             });
             
             // Événements pour la modale de mot de passe
@@ -1467,7 +1870,314 @@ L'équipe de la Tournée 2026</textarea>
             loadDataFromGoogleSheets();
         });
 
-        // Fonction pour vérifier le mot de passe admin
+        function showExportModal() {
+            if (sheetData.length === 0) {
+                alert('Aucune donnée à exporter');
+                return;
+            }
+            
+            resetExportModal();
+            document.getElementById('exportModal').style.display = 'flex';
+        }
+
+        function resetExportModal() {
+            selectedExportType = null;
+            selectedExportFormat = null;
+            document.getElementById('exportType1').classList.remove('selected');
+            document.getElementById('exportType2').classList.remove('selected');
+            document.querySelectorAll('.format-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('formatOptions').style.display = 'none';
+            document.getElementById('confirmExport').style.display = 'none';
+        }
+
+        function selectExportType(type) {
+            selectedExportType = type;
+            document.getElementById('exportType1').classList.remove('selected');
+            document.getElementById('exportType2').classList.remove('selected');
+            document.getElementById('exportType' + type).classList.add('selected');
+            document.getElementById('formatOptions').style.display = 'flex';
+            document.getElementById('confirmExport').style.display = 'none';
+        }
+
+        function exportData() {
+            if (!selectedExportType || !selectedExportFormat) {
+                alert('Veuillez sélectionner un type et un format d\'exportation');
+                return;
+            }
+            
+            document.getElementById('exportModal').style.display = 'none';
+            
+            let exportData = [];
+            let filename = '';
+            let mimeType = '';
+            let content = '';
+            
+            if (selectedExportType === 1) {
+                // Export de tous les hébergeurs avec leurs informations
+                filename = 'liste_tous_hebergeurs';
+                
+                // Créer les en-têtes pour l'export
+                const exportHeaders = ['Nom', 'Email', 'Téléphone', 'Facebook', 'Adresse', 'Lieu', 'Pays', 'Date Début', 'Date Fin'];
+                
+                // Récupérer tous les hébergeurs uniques
+                const uniqueHebergeurs = new Map();
+                
+                sheetData.forEach((row, index) => {
+                    const nom = colNom !== -1 ? row[colNom] : '';
+                    const email = colEmail !== -1 ? row[colEmail] : '';
+                    const telephone = colTelephone !== -1 ? row[colTelephone] : '';
+                    const facebook = colFacebook !== -1 ? row[colFacebook] : '';
+                    const adresse = colAdresse !== -1 ? row[colAdresse] : '';
+                    const lieu = colLieu !== -1 ? row[colLieu] : '';
+                    const pays = colPays !== -1 ? row[colPays] : '';
+                    const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                    const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                    
+                    if (nom && nom.trim()) {
+                        const key = nom.trim().toLowerCase();
+                        if (!uniqueHebergeurs.has(key)) {
+                            uniqueHebergeurs.set(key, {
+                                nom: nom.trim(),
+                                email: email ? email.trim() : '',
+                                telephone: telephone ? telephone.trim() : '',
+                                facebook: facebook ? facebook.trim() : '',
+                                adresse: adresse ? adresse.trim() : '',
+                                lieu: lieu ? lieu.trim() : '',
+                                pays: pays ? pays.trim() : '',
+                                dates: dateDebut && dateFin ? `${dateDebut} au ${dateFin}` : ''
+                            });
+                        }
+                    }
+                });
+                
+                // Convertir en tableau pour l'export
+                exportData = Array.from(uniqueHebergeurs.values());
+                
+                if (selectedExportFormat === 'csv' || selectedExportFormat === 'excel') {
+                    // Créer le CSV
+                    let csvContent = exportHeaders.join(',') + '\n';
+                    
+                    exportData.forEach(item => {
+                        const row = [
+                            `"${item.nom}"`,
+                            `"${item.email}"`,
+                            `"${item.telephone}"`,
+                            `"${item.facebook}"`,
+                            `"${item.adresse}"`,
+                            `"${item.lieu}"`,
+                            `"${item.pays}"`,
+                            `"${item.dates}"`
+                        ];
+                        csvContent += row.join(',') + '\n';
+                    });
+                    
+                    content = csvContent;
+                    filename += '.csv';
+                    mimeType = 'text/csv;charset=utf-8;';
+                    
+                } else if (selectedExportFormat === 'pdf') {
+                    // Créer le PDF (version simplifiée - ouvre une nouvelle fenêtre)
+                    const printWindow = window.open('', '_blank');
+                    let pdfContent = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Liste de tous les hébergeurs - Tournée 2026</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; margin: 20px; }
+                                h1 { color: #8b0000; text-align: center; margin-bottom: 30px; }
+                                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                                th { background-color: #8b0000; color: white; padding: 12px; text-align: left; }
+                                td { padding: 10px; border: 1px solid #ddd; }
+                                tr:nth-child(even) { background-color: #f9f9f9; }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>📋 Liste de tous les hébergeurs - Tournée 2026</h1>
+                            <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        ${exportHeaders.map(header => `<th>${header}</th>`).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${exportData.map(item => `
+                                        <tr>
+                                            <td>${item.nom}</td>
+                                            <td>${item.email}</td>
+                                            <td>${item.telephone}</td>
+                                            <td>${item.facebook}</td>
+                                            <td>${item.adresse}</td>
+                                            <td>${item.lieu}</td>
+                                            <td>${item.pays}</td>
+                                            <td>${item.dates}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </body>
+                        </html>
+                    `;
+                    
+                    printWindow.document.write(pdfContent);
+                    printWindow.document.close();
+                    printWindow.print();
+                    return;
+                }
+                
+            } else if (selectedExportType === 2) {
+                // Export par pays
+                filename = 'liste_hebergeurs_par_pays';
+                
+                // Organiser par pays
+                const hebergeursParPays = {};
+                
+                sheetData.forEach((row, index) => {
+                    const nom = colNom !== -1 ? row[colNom] : '';
+                    const pays = colPays !== -1 ? row[colPays] : '';
+                    const email = colEmail !== -1 ? row[colEmail] : '';
+                    const telephone = colTelephone !== -1 ? row[colTelephone] : '';
+                    const adresse = colAdresse !== -1 ? row[colAdresse] : '';
+                    const lieu = colLieu !== -1 ? row[colLieu] : '';
+                    const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                    const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                    
+                    if (pays && pays.trim() && nom && nom.trim()) {
+                        const paysKey = pays.trim();
+                        
+                        if (!hebergeursParPays[paysKey]) {
+                            hebergeursParPays[paysKey] = [];
+                        }
+                        
+                        const hebergeurKey = nom.trim().toLowerCase();
+                        const existeDeja = hebergeursParPays[paysKey].some(h => 
+                            h.nom.toLowerCase() === hebergeurKey
+                        );
+                        
+                        if (!existeDeja) {
+                            hebergeursParPays[paysKey].push({
+                                nom: nom.trim(),
+                                email: email ? email.trim() : '',
+                                telephone: telephone ? telephone.trim() : '',
+                                adresse: adresse ? adresse.trim() : '',
+                                lieu: lieu ? lieu.trim() : '',
+                                dates: dateDebut && dateFin ? `${dateDebut} au ${dateFin}` : ''
+                            });
+                        }
+                    }
+                });
+                
+                if (selectedExportFormat === 'csv' || selectedExportFormat === 'excel') {
+                    // Créer le CSV
+                    let csvContent = 'Pays,Nom,Email,Téléphone,Adresse,Lieu,Dates\n';
+                    
+                    Object.keys(hebergeursParPays).sort().forEach(pays => {
+                        hebergeursParPays[pays].forEach(hebergeur => {
+                            const row = [
+                                `"${pays}"`,
+                                `"${hebergeur.nom}"`,
+                                `"${hebergeur.email}"`,
+                                `"${hebergeur.telephone}"`,
+                                `"${hebergeur.adresse}"`,
+                                `"${hebergeur.lieu}"`,
+                                `"${hebergeur.dates}"`
+                            ];
+                            csvContent += row.join(',') + '\n';
+                        });
+                    });
+                    
+                    content = csvContent;
+                    filename += '.csv';
+                    mimeType = 'text/csv;charset=utf-8;';
+                    
+                } else if (selectedExportFormat === 'pdf') {
+                    // Créer le PDF (version simplifiée - ouvre une nouvelle fenêtre)
+                    const printWindow = window.open('', '_blank');
+                    let pdfContent = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Liste des hébergeurs par pays - Tournée 2026</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; margin: 20px; }
+                                h1 { color: #8b0000; text-align: center; margin-bottom: 30px; }
+                                h2 { color: #2c3e50; margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid #3498db; }
+                                table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                                th { background-color: #27ae60; color: white; padding: 12px; text-align: left; }
+                                td { padding: 10px; border: 1px solid #ddd; }
+                                tr:nth-child(even) { background-color: #f9f9f9; }
+                                .country-section { margin-bottom: 40px; }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>🌍 Liste des hébergeurs par pays - Tournée 2026</h1>
+                            <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                    `;
+                    
+                    Object.keys(hebergeursParPays).sort().forEach(pays => {
+                        pdfContent += `
+                            <div class="country-section">
+                                <h2>${pays}</h2>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Email</th>
+                                            <th>Téléphone</th>
+                                            <th>Adresse</th>
+                                            <th>Lieu</th>
+                                            <th>Dates</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${hebergeursParPays[pays].map(hebergeur => `
+                                            <tr>
+                                                <td>${hebergeur.nom}</td>
+                                                <td>${hebergeur.email}</td>
+                                                <td>${hebergeur.telephone}</td>
+                                                <td>${hebergeur.adresse}</td>
+                                                <td>${hebergeur.lieu}</td>
+                                                <td>${hebergeur.dates}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        `;
+                    });
+                    
+                    pdfContent += `</body></html>`;
+                    
+                    printWindow.document.write(pdfContent);
+                    printWindow.document.close();
+                    printWindow.print();
+                    return;
+                }
+            }
+            
+            // Télécharger le fichier pour CSV/Excel
+            downloadFile(content, filename, mimeType);
+            resetExportModal();
+        }
+
+        // Fonction pour télécharger un fichier
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert(`Fichier ${filename} téléchargé avec succès!`);
+        }
+
         function checkAdminPassword() {
             if (isAdmin) {
                 showEmailModal();
@@ -1477,9 +2187,7 @@ L'équipe de la Tournée 2026</textarea>
             }
         }
 
-        // Fonction pour initialiser l'état des listes
         function initializeLists() {
-            // Toutes les listes sont masquées par défaut
             Object.keys(listStates).forEach(listType => {
                 const content = document.getElementById(`${listType}List`);
                 const icon = document.getElementById(`${listType}Header`).querySelector('.toggle-icon');
@@ -1489,7 +2197,6 @@ L'équipe de la Tournée 2026</textarea>
             });
         }
 
-        // Fonction pour basculer l'affichage d'une liste
         function toggleList(listType) {
             const header = document.getElementById(`${listType}Header`);
             const content = document.getElementById(`${listType}List`);
@@ -1506,7 +2213,6 @@ L'équipe de la Tournée 2026</textarea>
             }
         }
 
-        // Fonctions pour l'upload de photos
         function handlePhotoUpload(event) {
             const files = event.target.files;
             if (files.length === 0) return;
@@ -1514,13 +2220,11 @@ L'équipe de la Tournée 2026</textarea>
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 
-                // Vérifier la taille du fichier (max 5MB)
                 if (file.size > 5 * 1024 * 1024) {
                     alert(`La photo "${file.name}" est trop volumineuse. Maximum 5MB.`);
                     continue;
                 }
                 
-                // Vérifier le type de fichier
                 if (!file.type.startsWith('image/')) {
                     alert(`Le fichier "${file.name}" n'est pas une image valide.`);
                     continue;
@@ -1543,7 +2247,6 @@ L'équipe de la Tournée 2026</textarea>
                 reader.readAsDataURL(file);
             }
             
-            // Réinitialiser l'input file
             event.target.value = '';
         }
 
@@ -1587,7 +2290,6 @@ L'équipe de la Tournée 2026</textarea>
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
-        // Modifier la fonction sendEmails pour inclure les photos
         function sendEmails() {
             const checkboxes = document.querySelectorAll('.recipient-checkbox:checked');
             const subject = document.getElementById('emailSubject').value;
@@ -1619,7 +2321,6 @@ L'équipe de la Tournée 2026</textarea>
             // Préparer le corps de l'email avec les photos
             let emailBody = message;
             
-            // Ajouter les photos au message si elles existent
             if (uploadedPhotos.length > 0) {
                 emailBody += '\n\n---\n📸 Photos jointes à cet email :\n';
                 uploadedPhotos.forEach(photo => {
@@ -1628,20 +2329,15 @@ L'équipe de la Tournée 2026</textarea>
                 emailBody += '\nLes photos sont jointes à cet email.';
             }
             
-            // Ouvrir le client email par défaut
             const encodedBody = encodeURIComponent(emailBody);
             const encodedSubject = encodeURIComponent(subject);
             
-            // Pour Gmail (ou autre client email)
             const emailRecipients = emails.map(e => e.email).join(',');
             
-            // Note: L'ajout de pièces jointes via URL Gmail n'est pas possible directement
-            // On ouvre simplement l'email avec le texte et on informe l'utilisateur
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailRecipients}&su=${encodedSubject}&body=${encodedBody}`;
             
             window.open(gmailUrl, '_blank');
             
-            // Afficher des instructions pour les photos
             if (uploadedPhotos.length > 0) {
                 setTimeout(() => {
                     alert(`${emails.length} email(s) préparé(s) pour envoi.\n\n📸 IMPORTANT: Les photos doivent être ajoutées manuellement en pièces jointes dans votre client email.\n\nPhotos à attacher:\n${uploadedPhotos.map(p => `• ${p.name}`).join('\n')}`);
@@ -1650,7 +2346,6 @@ L'équipe de la Tournée 2026</textarea>
                 alert(`${emails.length} email(s) préparé(s) pour envoi. Vérifiez les destinataires avant d'envoyer.`);
             }
             
-            // Fermer la modale
             document.getElementById('emailModal').style.display = 'none';
             clearUploadedPhotos();
         }
@@ -1763,7 +2458,6 @@ L'équipe de la Tournée 2026</textarea>
                 headers = lines[0] || [];
                 console.log('🏷️ En-têtes détectés:', headers);
                 
-                // Détection automatique des colonnes
                 detectColumns();
                 
                 sheetData = lines.slice(1).filter(row => 
@@ -1793,7 +2487,6 @@ L'équipe de la Tournée 2026</textarea>
         }
         
         function detectColumns() {
-            // Détection automatique des colonnes basée sur les en-têtes
             headers.forEach((header, index) => {
                 const lowerHeader = header.toLowerCase();
                 
@@ -1873,7 +2566,6 @@ L'équipe de la Tournée 2026</textarea>
                     colRepartition = index;
                     console.log('👥 Colonne Répartition détectée:', index);
                 }
-                // NOUVEAU: Détection des colonnes pour les informations de l'hébergeur
                 else if (lowerHeader.includes('adresse:') && !lowerHeader.includes('e-mail')) {
                     colAdresseHebergeur = index;
                     console.log('📍 Colonne Adresse hébergeur détectée:', index);
@@ -1890,12 +2582,10 @@ L'équipe de la Tournée 2026</textarea>
                     colNumeroHebergeur = index;
                     console.log('🔢 Colonne Numéro hébergeur détectée:', index);
                 }
-                // NOUVEAU: Détection de la colonne "Hebergé en"
                 else if (lowerHeader.includes('hebergé en') || lowerHeader.includes('hébergé en')) {
                     colHebergeEn = index;
                     console.log('🏠 Colonne Hebergé en détectée:', index);
                 }
-                // NOUVEAU: Détection de la colonne "à savoir sur le hôte/l'hébergeur"
                 else if (lowerHeader.includes('savoir sur le hôte') || lowerHeader.includes('savoir sur l\'hébergeur') || lowerHeader.includes('à savoir')) {
                     colASavoirHote = index;
                     console.log('ℹ️ Colonne À savoir sur le hôte détectée:', index);
@@ -1936,25 +2626,21 @@ L'équipe de la Tournée 2026</textarea>
             bookingPeriods = [];
             
             sheetData.forEach((row, index) => {
-                // Extraction des hôtes
                 if (colNom !== -1) {
                     const nom = row[colNom] || '';
                     if (nom.trim()) allHotes.add(nom.trim());
                 }
                 
-                // Extraction des pays
                 if (colPays !== -1) {
                     const pays = row[colPays] || '';
                     if (pays.trim()) allPays.add(pays.trim());
                 }
                 
-                // Extraction des lieux - UNIQUEMENT depuis la colonne "Lieu:"
                 if (colLieu !== -1) {
                     const lieu = row[colLieu] || '';
                     if (lieu.trim()) allLieux.add(lieu.trim());
                 }
                 
-                // Extraction des personnes hébergées (toutes les colonnes de personnes)
                 const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
                 colonnesPersonnes.forEach(colIndex => {
                     if (colIndex !== -1) {
@@ -1968,7 +2654,6 @@ L'équipe de la Tournée 2026</textarea>
                     }
                 });
                 
-                // Extraction des sujets de prière
                 if (colPriere !== -1) {
                     const priere = row[colPriere] || '';
                     if (priere.trim()) {
@@ -1980,7 +2665,6 @@ L'équipe de la Tournée 2026</textarea>
                     }
                 }
                 
-                // Extraction des périodes de réservation
                 if (colDateDebut !== -1 && colDateFin !== -1) {
                     const dateDebut = parseDate(row[colDateDebut]);
                     const dateFin = parseDate(row[colDateFin]);
@@ -1988,14 +2672,13 @@ L'équipe de la Tournée 2026</textarea>
                     if (dateDebut && dateFin) {
                         bookingPeriods.push({
                             start: dateDebut,
-                            end: new Date(dateFin.getTime() - 24 * 60 * 60 * 1000), // Moins 1 jour
+                            end: new Date(dateFin.getTime() - 24 * 60 * 60 * 1000),
                             rowIndex: index
                         });
                     }
                 }
             });
             
-            // Conversion des Sets en Arrays triés
             allHotes = Array.from(allHotes).sort();
             allPays = Array.from(allPays).sort();
             allLieux = Array.from(allLieux).sort();
@@ -2053,9 +2736,7 @@ L'équipe de la Tournée 2026</textarea>
             });
         }
         
-        // Fonction pour afficher les listes organisées
         function renderOrganizedLists() {
-            // Mettre à jour les compteurs
             document.getElementById('hotesCount').textContent = allHotes.length;
             document.getElementById('paysCount').textContent = allPays.length;
             document.getElementById('lieuxCount').textContent = allLieux.length;
@@ -2124,7 +2805,7 @@ L'équipe de la Tournée 2026</textarea>
                     columnIndex = colPays;
                     break;
                 case 'lieu':
-                    columnIndex = colLieu; // UNIQUEMENT la colonne Lieu:
+                    columnIndex = colLieu;
                     break;
             }
             
@@ -2179,20 +2860,17 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
         }
         
-        // Fonctions pour l'envoi d'emails
         function showEmailModal() {
             const modal = document.getElementById('emailModal');
             const recipientsContainer = document.getElementById('emailRecipients');
             const recipientCount = document.getElementById('recipientCount');
             
-            // Récupérer tous les hôtes avec email
             const hotesAvecEmail = sheetData.filter(row => {
                 const email = colEmail !== -1 ? row[colEmail] : '';
                 const nom = colNom !== -1 ? row[colNom] : '';
                 return email && email.trim() && nom && nom.trim();
             });
             
-            // Supprimer les doublons (même email)
             const uniqueHotes = [];
             const emailsDejaVus = new Set();
             
@@ -2249,7 +2927,6 @@ L'équipe de la Tournée 2026</textarea>
                 alert(`${emails.length} adresse(s) email copiée(s) dans le presse-papier`);
             }).catch(err => {
                 console.error('Erreur lors de la copie:', err);
-                // Fallback pour les navigateurs qui ne supportent pas clipboard API
                 const textArea = document.createElement('textarea');
                 textArea.value = emailString;
                 document.body.appendChild(textArea);
@@ -2264,14 +2941,12 @@ L'équipe de la Tournée 2026</textarea>
             const grid = document.getElementById('calendarGrid');
             const monthElement = document.getElementById('currentMonth');
             
-            // Mise à jour du titre du mois
             const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
                 "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
             monthElement.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
             
             grid.innerHTML = '';
             
-            // En-têtes des jours
             ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(day => {
                 const dayHeader = document.createElement('div');
                 dayHeader.className = 'calendar-day-header';
@@ -2282,18 +2957,15 @@ L'équipe de la Tournée 2026</textarea>
             const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
             const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
             
-            // Calcul du jour de la semaine du premier jour (0 = dimanche, 1 = lundi, etc.)
             let startDay = firstDay.getDay();
-            startDay = startDay === 0 ? 6 : startDay - 1; // Ajustement pour commencer par lundi
+            startDay = startDay === 0 ? 6 : startDay - 1;
             
-            // Jours vides du début
             for (let i = 0; i < startDay; i++) {
                 const emptyDay = document.createElement('div');
                 emptyDay.className = 'calendar-day other-month';
                 grid.appendChild(emptyDay);
             }
             
-            // Jours du mois
             for (let i = 1; i <= lastDay.getDate(); i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day';
@@ -2301,7 +2973,6 @@ L'équipe de la Tournée 2026</textarea>
                 
                 const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
                 
-                // Vérifier si cette date est dans une période de réservation
                 const isInBookingPeriod = bookingPeriods.some(period => 
                     date >= period.start && date <= period.end
                 );
@@ -2330,7 +3001,7 @@ L'équipe de la Tournée 2026</textarea>
             selectedDate = date;
             const matchingRows = findEntriesByDate(date);
             displayResults(matchingRows, `Hébergements pour le ${formatDateForDisplay(date)}`);
-            renderCalendar(); // Re-rendre pour mettre à jour la sélection
+            renderCalendar();
         }
         
         function findEntriesByDate(date) {
@@ -2342,7 +3013,6 @@ L'équipe de la Tournée 2026</textarea>
                 
                 if (!dateDebut || !dateFin) return false;
                 
-                // La date recherchée doit être entre dateDebut et dateFin-1
                 const dateFinMinusOne = new Date(dateFin.getTime() - 24 * 60 * 60 * 1000);
                 return date >= dateDebut && date <= dateFinMinusOne;
             });
@@ -2351,27 +3021,25 @@ L'équipe de la Tournée 2026</textarea>
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            // Essayer différents formats de date
             const formats = [
-                /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/, // DD/MM/YYYY
-                /^(\d{4})-(\d{1,2})-(\d{1,2})$/,   // YYYY-MM-DD
-                /^(\d{1,2})-(\d{1,2})-(\d{4})$/    // DD-MM-YYYY
+                /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,
+                /^(\d{4})-(\d{1,2})-(\d{1,2})$/,
+                /^(\d{1,2})-(\d{1,2})-(\d{4})$/
             ];
             
             for (const format of formats) {
                 const match = dateString.match(format);
                 if (match) {
-                    if (format === formats[0]) { // DD/MM/YYYY
+                    if (format === formats[0]) {
                         return new Date(match[3], match[2] - 1, match[1]);
-                    } else if (format === formats[1]) { // YYYY-MM-DD
+                    } else if (format === formats[1]) {
                         return new Date(match[1], match[2] - 1, match[3]);
-                    } else if (format === formats[2]) { // DD-MM-YYYY
+                    } else if (format === formats[2]) {
                         return new Date(match[3], match[2] - 1, match[1]);
                     }
                 }
             }
             
-            // Essayer de parser avec Date.parse
             const parsed = Date.parse(dateString);
             if (!isNaN(parsed)) {
                 return new Date(parsed);
@@ -2388,10 +3056,6 @@ L'équipe de la Tournée 2026</textarea>
                 month: 'long',
                 day: 'numeric'
             });
-        }
-        
-        function formatDateForInput(date) {
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         }
         
         function showDataInfo() {
@@ -2447,28 +3111,23 @@ L'équipe de la Tournée 2026</textarea>
             const formattedDate = formatDateForDisplay(date);
             displayResults(results, `Hébergements pour le ${formattedDate}`);
             
-            // Faire défiler jusqu'à la date dans le calendrier si nécessaire
             scrollToDateInCalendar(date);
         }
         
         function scrollToDateInCalendar(date) {
-            // Si la date n'est pas dans le mois actuel, changer le mois
             if (date.getMonth() !== currentDate.getMonth() || date.getFullYear() !== currentDate.getFullYear()) {
                 currentDate = new Date(date.getFullYear(), date.getMonth(), 1);
                 renderCalendar();
             }
             
-            // Sélectionner le jour dans le calendrier
             setTimeout(() => {
                 const dayElements = document.querySelectorAll('.calendar-day:not(.other-month)');
                 dayElements.forEach(dayElement => {
                     if (parseInt(dayElement.textContent) === date.getDate()) {
-                        // Désélectionner toutes les dates
                         document.querySelectorAll('.calendar-day.selected').forEach(el => {
                             el.classList.remove('selected');
                         });
                         
-                        // Sélectionner cette date
                         dayElement.classList.add('selected');
                         dayElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
@@ -2507,7 +3166,6 @@ L'équipe de la Tournée 2026</textarea>
                 results.forEach((row, index) => {
                     const numeroData = sheetData.findIndex(r => r === row) + 1;
                     
-                    // Récupération des données
                     const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
                     const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
                     const nom = colNom !== -1 ? row[colNom] : '';
@@ -2528,17 +3186,14 @@ L'équipe de la Tournée 2026</textarea>
                     const formulaire = colFormulaire !== -1 ? row[colFormulaire] : '';
                     const repartition = colRepartition !== -1 ? row[colRepartition] : '';
                     
-                    // NOUVEAU: Récupération des informations supplémentaires de l'hébergeur
                     const adresseHebergeur = colAdresseHebergeur !== -1 ? row[colAdresseHebergeur] : '';
                     const lieuHebergeur = colLieuHebergeur !== -1 ? row[colLieuHebergeur] : '';
                     const paysHebergeur = colPaysHebergeur !== -1 ? row[colPaysHebergeur] : '';
                     const numeroHebergeur = colNumeroHebergeur !== -1 ? row[colNumeroHebergeur] : '';
                     
-                    // NOUVEAU: Récupération des données des nouvelles colonnes
                     const hebergeEn = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                     const aSavoirHote = colASavoirHote !== -1 ? row[colASavoirHote] : '';
                     
-                    // NOUVEAU: Construction de l'adresse complète
                     let adresseComplete = adresseHebergeur || adresse || '';
                     if (adresseComplete && lieuHebergeur) {
                         adresseComplete += ` - ${lieuHebergeur}`;
@@ -2547,7 +3202,6 @@ L'équipe de la Tournée 2026</textarea>
                         adresseComplete += ` / ${paysHebergeur}`;
                     }
                     
-                    // Récupération de toutes les personnes hébergées (regroupement de toutes les colonnes de personnes)
                     let toutesPersonnes = [];
                     const colonnesPersonnes = [
                         {data: mpihiraLehilahy, type: 'Mpihira Lehilahy'},
@@ -2565,28 +3219,26 @@ L'équipe de la Tournée 2026</textarea>
                         }
                     });
                     
-                    // MODIFICATION : Gestion différente selon la répartition
                     let personnesAffichees = '';
                     let personnesPourTags = [];
                     
                     if (repartition && repartition.trim()) {
                         if (repartition.toLowerCase().includes('tout le monde')) {
-                            // "Tout le monde" : utiliser toutes les personnes de l'accueil
                             personnesPourTags = Array.from(allHeberges);
                             personnesAffichees = `Tout le monde / ${personnesPourTags.join(', ')}`;
                         } else {
-                            // "Par groupe" ou autre : utiliser les personnes spécifiques de cette fiche
                             personnesPourTags = toutesPersonnes;
                             personnesAffichees = `${repartition} / ${toutesPersonnes.join(', ')}`;
                         }
                     } else {
-                        // Pas de répartition spécifiée : utiliser les personnes de cette fiche
                         personnesPourTags = toutesPersonnes;
                         personnesAffichees = toutesPersonnes.join(', ');
                     }
                     
-                    // Nouveau titre avec dates et noms des hébergés
                     const titreFiche = `${dateDebut || '?'} - ${dateFin || '?'} / ${personnesPourTags.length > 0 ? personnesPourTags.join(', ') : 'Aucun hébergé'}`;
+                    
+                    const isMobile = window.innerWidth <= 768;
+                    const gridClass = isMobile ? 'info-grid-mobile' : 'info-grid';
                     
                     html += `
                         <div class="fiche-item">
@@ -2595,14 +3247,12 @@ L'équipe de la Tournée 2026</textarea>
                                 <h3 class="fiche-title">${titreFiche}</h3>
                             </div>
                             
-                            <!-- Section nom de l'hôte en évidence -->
                             <div class="hote-section">
                                 <span class="hote-label">👤 Hébergé chez :</span>
                                 <div class="hote-name">${nom || 'Hôte non spécifié'}</div>
                             </div>
                             
-                            <!-- Grille d'informations principales -->
-                            <div class="info-grid">
+                            <div class="${gridClass}">
                                 <div class="info-item">
                                     <span class="info-label">📅 Date début:</span>
                                     <span class="info-value">${dateDebut || 'Non spécifiée'}</span>
@@ -2621,7 +3271,6 @@ L'équipe de la Tournée 2026</textarea>
                                 </div>
                             </div>
                             
-                            <!-- NOUVEAU: Section "Hebergé en" - placée après la grille d'informations et avant "Les hébergés" -->
                             ${hebergeEn ? `
                             <div class="hote-info-section">
                                 <div class="hote-info-label">🏠 Hébergé en:</div>
@@ -2629,7 +3278,6 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
-                            <!-- Section hébergés -->
                             ${personnesPourTags.length > 0 ? `
                             <div class="heberges-list">
                                 <div class="heberges-label">👥 Les hébergés:</div>
@@ -2642,7 +3290,6 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
-                            <!-- Section contact - MODIFIÉE avec les nouvelles informations -->
                             ${(adresseComplete || email || facebook || telephone || numeroHebergeur) ? `
                             <div class="contact-section">
                                 <div class="contact-label">📞 Information sur ${nom || 'l\'hébergeur'}:</div>
@@ -2655,7 +3302,6 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
-                            <!-- NOUVEAU: Section "À savoir sur le hôte" - PLACÉE AVANT LES LIENS -->
                             ${aSavoirHote ? `
                             <div class="hote-info-section">
                                 <div class="hote-info-label">ℹ️ À savoir sur le hôte/l'hébergeur:</div>
@@ -2663,7 +3309,6 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
-                            <!-- Section liens (en dernier) -->
                             ${(photosHotes || photosLieux || formulaire) ? `
                             <div class="links-section">
                                 ${photosHotes ? `<a href="${photosHotes}" target="_blank" class="link-button photos-hotes">📸 PHOTOS AVEC LES HÔTES</a>` : ''}
@@ -2672,7 +3317,6 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
-                            <!-- Section Marquants -->
                             ${marquants ? `
                             <div class="marquants-section">
                                 <div class="marquants-label">⭐ Marquants:</div>
@@ -2680,7 +3324,6 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
-                            <!-- Section prière -->
                             ${priere ? `
                             <div class="priere-section">
                                 <div class="priere-label">🙏 Sujet de prière:</div>
@@ -2697,7 +3340,6 @@ L'équipe de la Tournée 2026</textarea>
             resultTitle.textContent = `${title} (${results.length} hébergement${results.length > 1 ? 's' : ''})`;
             resultsSection.style.display = 'block';
             
-            // Défilement vers la section des résultats
             resultsSection.scrollIntoView({ behavior: 'smooth' });
         }
         
