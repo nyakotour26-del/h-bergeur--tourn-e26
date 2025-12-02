@@ -39,7 +39,7 @@
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 40% 1fr; /* Sidebar gauche élargie à 40% */
+            grid-template-columns: 300px 1fr; /* Sidebar fixe à gauche */
             gap: 20px;
         }
         
@@ -55,57 +55,108 @@
             gap: 20px;
         }
         
-        /* Header amélioré avec titre plus clair et plus fin */
+        /* Header amélioré avec barre de recherche à droite */
         header {
             grid-column: 1 / -1;
             text-align: center;
             margin-bottom: 20px;
-            padding: 15px 20px; /* Hauteur réduite */
-            background: white; /* Fond clair */
+            padding: 15px 20px;
+            background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             color: var(--text-color);
-            position: sticky; /* Titre figé en haut */
+            position: sticky;
             top: 20px;
             z-index: 100;
             border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            flex: 1;
+        }
+        
+        .header-search {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            transition: border-color 0.3s;
+            width: 200px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .search-icon-button {
+            background: linear-gradient(135deg, var(--primary-color), #6a0000);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .search-icon-button:hover {
+            background: linear-gradient(135deg, #6a0000, var(--primary-color));
+            transform: translateY(-2px);
         }
         
         .decoration-images {
             position: absolute;
-            top: 10px; /* Ajusté pour espace réduit */
+            top: 10px;
             right: 20px;
             display: flex;
             gap: 10px;
-            font-size: 1.5em; /* Taille réduite */
+            font-size: 1.5em;
             opacity: 0.6;
         }
         
         .decoration-images-left {
             position: absolute;
-            top: 10px; /* Ajusté pour espace réduit */
+            top: 10px;
             left: 20px;
             display: flex;
             gap: 10px;
-            font-size: 1.5em; /* Taille réduite */
+            font-size: 1.5em;
             opacity: 0.6;
         }
         
         h1 {
-            margin-bottom: 5px; /* Espace réduit */
-            font-size: 2em; /* Taille réduite */
+            margin-bottom: 5px;
+            font-size: 2em;
             font-weight: 600;
-            color: var(--primary-color); /* Texte en couleur claire */
+            color: var(--primary-color);
             letter-spacing: 0.5px;
-            line-height: 1.2; /* Interligne réduit */
+            line-height: 1.2;
         }
         
         header p {
-            font-size: 1em; /* Taille réduite */
+            font-size: 1em;
             opacity: 0.8;
-            margin-bottom: 10px; /* Espace réduit */
+            margin-bottom: 0;
             color: var(--secondary-color);
-            line-height: 1.3; /* Interligne réduit */
+            line-height: 1.3;
         }
         
         /* Boutons de navigation fixes */
@@ -151,9 +202,12 @@
             background: rgba(52, 152, 219, 0.9);
         }
         
+        .icon-button.calendar-btn {
+            background: rgba(231, 76, 60, 0.9);
+        }
+        
         .icon-button.export {
             background: rgba(155, 89, 182, 0.9);
-            position: relative;
         }
         
         .icon-button.export.locked {
@@ -166,103 +220,67 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         
+        /* Section de recherche simplifiée */
         .search-section {
             background-color: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             position: relative;
             background-image: linear-gradient(to bottom right, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
-        }
-        
-        .search-section::before {
-            content: "";
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 50px;
-            height: 50px;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b0000"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>');
-            opacity: 0.1;
-        }
-        
-        .search-form {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 20px;
         }
         
-        .date-input-container {
+        /* Boutons d'action latéraux */
+        .action-buttons-sidebar {
             display: flex;
-            gap: 10px;
-            align-items: center;
+            flex-direction: column;
+            gap: 15px;
         }
         
-        .date-input-container input {
-            flex: 1;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: var(--border-radius);
-            transition: border-color 0.3s;
-        }
-        
-        .date-input-container input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .search-button {
-            background: linear-gradient(135deg, var(--primary-color), #6a0000);
+        .action-button {
+            background: linear-gradient(135deg, #27ae60, #219a53);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 15px;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(139, 0, 0, 0.2);
+            text-align: center;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
         
-        .search-button:hover {
-            background: linear-gradient(135deg, #6a0000, var(--primary-color));
+        .action-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(139, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
-        .search-button.disabled {
+        .action-button.priere {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .action-button.email {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .action-button.disabled {
             background: #95a5a6;
             cursor: not-allowed;
             opacity: 0.6;
-            box-shadow: none;
         }
         
-        .search-button.disabled:hover {
-            background: #95a5a6;
+        .action-button.disabled:hover {
             transform: none;
             box-shadow: none;
         }
         
-        /* Boutons alignés sur une même ligne */
-        .buttons-row {
-            display: flex;
-            flex-direction: row; /* Toujours en ligne */
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap; /* Permet le retour à la ligne sur petits écrans */
-        }
-        
-        .buttons-row .search-button {
-            flex: 1; /* Tous les boutons prennent la même largeur */
-            min-width: 200px; /* Largeur minimale */
-        }
-        
-        /* Calendrier à droite avec le mois en cours */
+        /* Calendrier à droite */
         .calendar-section {
             background: white;
             padding: 20px;
@@ -375,7 +393,7 @@
             border: 2px solid #388E3C;
         }
         
-        /* Statistiques 3 par ligne */
+        /* Statistiques */
         .stats-section {
             background: white;
             padding: 20px;
@@ -385,7 +403,7 @@
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 par ligne */
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
         
@@ -405,7 +423,7 @@
         }
         
         .stat-value {
-            font-size: 1.5em; /* Taille réduite */
+            font-size: 1.5em;
             font-weight: bold;
             color: var(--primary-color);
             margin-bottom: 5px;
@@ -413,144 +431,28 @@
         
         .stat-label {
             color: #7f8c8d;
-            font-size: 0.8em; /* Taille réduite */
+            font-size: 0.8em;
         }
         
-        .lists-section {
-            background: white;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow-y: auto;
-            max-height: 500px;
-        }
-        
-        .lists-container {
+        /* Filtres dans la sidebar */
+        .filters-sidebar {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
         
-        .list-card {
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .list-header {
-            background: #3498db;
-            color: white;
-            padding: 12px;
-            border-radius: 5px;
-            margin: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .list-header:hover {
-            background: #2980b9;
-        }
-        
-        .list-header.pays {
-            background: #27ae60;
-        }
-        
-        .list-header.pays:hover {
-            background: #219653;
-        }
-        
-        .list-header.lieux {
-            background: #9b59b6;
-        }
-        
-        .list-header.lieux:hover {
-            background: #8e44ad;
-        }
-        
-        .list-header.heberges {
-            background: #f39c12;
-        }
-        
-        .list-header.heberges:hover {
-            background: #d35400;
-        }
-        
-        .toggle-icon {
-            font-weight: bold;
-            font-size: 1.2em;
-            transition: transform 0.3s;
-        }
-        
-        .toggle-icon.collapsed {
-            transform: rotate(-90deg);
-        }
-        
-        .list-content {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #e1e1e1;
-            border-top: none;
-            padding: 10px;
-            transition: max-height 0.3s ease, padding 0.3s ease, border 0.3s ease;
-        }
-        
-        .list-content.collapsed {
-            max-height: 0;
-            padding: 0;
-            border: none;
-            overflow: hidden;
-        }
-        
-        .list-item {
-            padding: 8px 12px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background-color 0.2s;
-        }
-        
-        .list-item:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .list-count {
-            background: #ecf0f1;
-            color: #7f8c8d;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-        }
-        
-        .filters-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
         .filter-group {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
+            padding: 15px;
             border-radius: var(--border-radius);
             border: 1px solid #e9ecef;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-        
-        .filter-group:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .filter-group h3 {
             margin-bottom: 10px;
             color: var(--secondary-color);
-            font-size: 1.1em;
+            font-size: 1em;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -560,7 +462,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            max-height: 120px;
+            max-height: 150px;
             overflow-y: auto;
         }
         
@@ -569,7 +471,7 @@
             color: white;
             padding: 6px 12px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -1261,9 +1163,42 @@
             grid-column: 1 / -1;
         }
 
+        /* Boutons d'action mobile */
+        .action-buttons-mobile {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .action-button-mobile {
+            background: linear-gradient(135deg, #27ae60, #219a53);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+        
+        .action-button-mobile.priere {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .action-button-mobile.email {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
         @media (max-width: 1024px) {
             .container {
-                grid-template-columns: 40% 1fr; /* Garder 40% même sur tablette */
+                grid-template-columns: 300px 1fr;
             }
             
             .fixed-nav-buttons {
@@ -1276,14 +1211,6 @@
                 width: 50px;
                 height: 50px;
                 font-size: 20px;
-            }
-            
-            .buttons-row {
-                flex-direction: row; /* Garder en ligne */
-            }
-            
-            .buttons-row .search-button {
-                min-width: 180px; /* Ajustement pour tablette */
             }
         }
 
@@ -1300,21 +1227,61 @@
                 order: 1;
             }
             
-            .search-form {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .header-left {
+                align-items: center;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .header-search {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-input {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .decoration-images,
+            .decoration-images-left {
+                display: none;
+            }
+            
+            .fixed-nav-buttons {
+                position: fixed;
+                bottom: 20px;
+                top: auto;
+                right: 20px;
                 flex-direction: column;
             }
             
-            .buttons-row {
-                flex-direction: column; /* En colonne sur mobile */
+            .action-buttons-sidebar {
+                display: none;
             }
             
-            .buttons-row .search-button {
-                width: 100%;
-                min-width: unset;
+            .action-buttons-mobile {
+                display: grid;
             }
             
-            .filters-section {
-                grid-template-columns: 1fr;
+            .filters-sidebar .filter-group {
+                padding: 12px;
+            }
+            
+            .filter-tags {
+                max-height: 120px;
+            }
+            
+            .tag {
+                font-size: 11px;
+                padding: 5px 10px;
             }
             
             .calendar-grid {
@@ -1328,28 +1295,15 @@
             }
             
             h1 {
-                font-size: 1.8em; /* Plus petit sur mobile */
+                font-size: 1.8em;
             }
             
             header p {
-                font-size: 0.9em; /* Plus petit sur mobile */
-            }
-            
-            .decoration-images,
-            .decoration-images-left {
-                display: none; /* Cacher décorations sur mobile */
-            }
-            
-            .fixed-nav-buttons {
-                position: fixed;
-                bottom: 20px;
-                top: auto;
-                right: 20px;
-                flex-direction: column;
+                font-size: 0.9em;
             }
             
             .stats-grid {
-                grid-template-columns: repeat(3, 1fr); /* Garder 3 par ligne même sur mobile */
+                grid-template-columns: repeat(3, 1fr);
             }
             
             .stat-card {
@@ -1453,10 +1407,6 @@
                 grid-template-columns: 1fr;
             }
             
-            .lists-container {
-                grid-template-columns: 1fr;
-            }
-            
             .email-modal-content,
             .password-modal-content,
             .export-modal-content {
@@ -1487,6 +1437,9 @@
         <button class="icon-button list" id="showAllDataButton" title="Toutes les données">
             📋
         </button>
+        <button class="icon-button calendar-btn" id="scrollToCalendarButton" title="Aller au calendrier">
+            📅
+        </button>
         <button class="icon-button export locked" id="exportDataButton" title="Exporter les données (verrouillé)">
             📤
         </button>
@@ -1504,11 +1457,19 @@
                 <span>🏡</span>
                 <span>🚪</span>
             </div>
-            <h1>Hébergements Tournée 2026</h1>
-            <p>Consultation des hébergements par date et par hôte</p>
+            <div class="header-left">
+                <h1>Hébergements Tournée 2026</h1>
+                <p>Consultation des hébergements par date et par hôte</p>
+            </div>
+            <div class="header-search">
+                <input type="date" id="dateInput" class="search-input">
+                <button class="search-icon-button" id="searchButton" title="Rechercher par date">
+                    🔍
+                </button>
+            </div>
         </header>
         
-        <!-- Sidebar gauche élargie à 40% -->
+        <!-- Sidebar gauche avec boutons d'action et filtres -->
         <div class="sidebar">
             <div class="stats-section">
                 <h3 style="margin-bottom: 15px; color: var(--secondary-color); text-align: center;">📊 Statistiques</h3>
@@ -1536,48 +1497,48 @@
                 </div>
             </div>
             
-            <div class="lists-section">
-                <h3 style="margin-bottom: 15px; color: var(--secondary-color); text-align: center;">📋 Listes organisées</h3>
+            <!-- Boutons d'action latéraux (visible sur desktop) -->
+            <div class="action-buttons-sidebar">
+                <button id="showAllButton" class="action-button">
+                    📋 Afficher tous les hébergements
+                </button>
                 
-                <div class="lists-container">
-                    <div class="list-card">
-                        <div class="list-header" id="hotesHeader">
-                            <span>👤 Hôtes (<span id="hotesCount">0</span>)</span>
-                            <span class="toggle-icon collapsed">▶</span>
-                        </div>
-                        <div class="list-content collapsed" id="hotesList">
-                            <!-- Liste des hôtes générée ici -->
-                        </div>
+                <button id="showPrieresButton" class="action-button priere">
+                    🙏 Afficher les sujets de prière
+                </button>
+                
+                <button id="sendEmailsButton" class="action-button email disabled">
+                    📧 Envoyer un email de remerciements
+                </button>
+            </div>
+            
+            <!-- Filtres dans la sidebar -->
+            <div class="filters-sidebar">
+                <div class="filter-group">
+                    <h3>👤 Hôtes</h3>
+                    <div class="filter-tags" id="hotesTags">
+                        <!-- Les hôtes seront générés ici -->
                     </div>
-                    
-                    <div class="list-card">
-                        <div class="list-header pays" id="paysHeader">
-                            <span>🌍 Pays (<span id="paysCount">0</span>)</span>
-                            <span class="toggle-icon collapsed">▶</span>
-                        </div>
-                        <div class="list-content collapsed" id="paysList">
-                            <!-- Liste des pays générée ici -->
-                        </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>🌍 Pays</h3>
+                    <div class="filter-tags" id="paysTags">
+                        <!-- Les pays seront générés ici -->
                     </div>
-                    
-                    <div class="list-card">
-                        <div class="list-header lieux" id="lieuxHeader">
-                            <span>📍 Lieux (<span id="lieuxCount">0</span>)</span>
-                            <span class="toggle-icon collapsed">▶</span>
-                        </div>
-                        <div class="list-content collapsed" id="lieuxList">
-                            <!-- Liste des lieux générée ici -->
-                        </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>📍 Lieux</h3>
+                    <div class="filter-tags" id="lieuxTags">
+                        <!-- Les lieux seront générés ici -->
                     </div>
-                    
-                    <div class="list-card">
-                        <div class="list-header heberges" id="hebergesHeader">
-                            <span>👥 Personnes hébergées (<span id="hebergesCount">0</span>)</span>
-                            <span class="toggle-icon collapsed">▶</span>
-                        </div>
-                        <div class="list-content collapsed" id="hebergesList">
-                            <!-- Liste des personnes hébergées générée ici -->
-                        </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>👥 Personnes hébergées</h3>
+                    <div class="filter-tags" id="hebergesTags">
+                        <!-- Les personnes hébergées seront générés ici -->
                     </div>
                 </div>
             </div>
@@ -1585,65 +1546,17 @@
         
         <!-- Contenu principal -->
         <div class="main-content">
-            <section class="search-section">
-                <form id="searchForm" class="search-form" autocomplete="off">
-                    <div class="date-input-container">
-                        <input type="date" id="dateInput">
-                    </div>
-                    <button type="submit" class="search-button">🔍 Rechercher par date</button>
-                </form>
-                
-                <!-- Boutons sur la même ligne -->
-                <div class="buttons-row">
-                    <button id="showAllButton" class="search-button" style="background: linear-gradient(135deg, #27ae60, #219a53);">
-                        📋 Afficher tous les hébergements
-                    </button>
-                    
-                    <button id="showPrieresButton" class="search-button" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
-                        🙏 Afficher les sujets de prière
-                    </button>
-                    
-                    <button id="sendEmailsButton" class="search-button disabled" style="background: linear-gradient(135deg, #3498db, #2980b9);">
-                        📧 Envoyer un email de remerciements
-                    </button>
-                </div>
-                
-                <div class="filters-section">
-                    <div class="filter-group">
-                        <h3>👤 Hôtes</h3>
-                        <div class="filter-tags" id="hotesTags">
-                            <!-- Les hôtes seront générés ici -->
-                        </div>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <h3>🌍 Pays</h3>
-                        <div class="filter-tags" id="paysTags">
-                            <!-- Les pays seront générés ici -->
-                        </div>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <h3>📍 Lieux</h3>
-                        <div class="filter-tags" id="lieuxTags">
-                            <!-- Les lieux seront générés ici -->
-                        </div>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <h3>👥 Personnes hébergées</h3>
-                        <div class="filter-tags" id="hebergesTags">
-                            <!-- Les personnes hébergées seront générés ici -->
-                        </div>
-                    </div>
-                </div>
-                
-                <button id="retryButton" style="background: linear-gradient(135deg, #f39c12, #e67e22); margin-top: 10px; width: 100%; display: none;">
-                    🔄 Réessayer le chargement
+            <!-- Boutons d'action mobile (visible uniquement sur mobile) -->
+            <div class="action-buttons-mobile">
+                <button id="showAllButtonMobile" class="action-button-mobile">
+                    📋 Tous
                 </button>
-            </section>
+                
+                <button id="showPrieresButtonMobile" class="action-button-mobile priere">
+                    🙏 Prières
+                </button>
+            </div>
             
-            <!-- Calendrier au-dessus des résultats -->
             <div class="calendar-section">
                 <div class="calendar-header">
                     <h3>📅 Calendrier des hébergements</h3>
@@ -1857,19 +1770,15 @@ L'équipe de la Tournée 2026</textarea>
         let colHebergeEn = -1;
         let colASavoirHote = -1;
 
-        // État des listes (masquées par défaut)
-        let listStates = {
-            hotes: false,
-            pays: false,
-            lieux: false,
-            heberges: false
-        };
-
         document.addEventListener('DOMContentLoaded', function() {
             // Initialiser les boutons de navigation fixes
             document.getElementById('homeButton').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('resultsSection').style.display = 'none';
+            });
+            
+            document.getElementById('scrollToCalendarButton').addEventListener('click', function() {
+                document.querySelector('.calendar-section').scrollIntoView({ behavior: 'smooth' });
             });
             
             document.getElementById('showAllDataButton').addEventListener('click', showAllData);
@@ -1881,12 +1790,24 @@ L'équipe de la Tournée 2026</textarea>
                 }
             });
             
-            document.getElementById('searchForm').addEventListener('submit', handleSearch);
+            // Recherche
+            document.getElementById('searchButton').addEventListener('click', handleSearch);
+            document.getElementById('dateInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+            
+            // Boutons d'action desktop
             document.getElementById('showAllButton').addEventListener('click', showAllData);
             document.getElementById('showPrieresButton').addEventListener('click', showPrieres);
             document.getElementById('sendEmailsButton').addEventListener('click', checkAdminPasswordForEmail);
+            
+            // Boutons d'action mobile
+            document.getElementById('showAllButtonMobile').addEventListener('click', showAllData);
+            document.getElementById('showPrieresButtonMobile').addEventListener('click', showPrieres);
+            
             document.getElementById('closeResults').addEventListener('click', closeResults);
-            document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
             
             // Navigation du calendrier
             document.getElementById('prevMonth').addEventListener('click', function() {
@@ -1941,6 +1862,7 @@ L'équipe de la Tournée 2026</textarea>
                     isAdmin = true;
                     document.getElementById('exportDataButton').classList.remove('locked');
                     document.getElementById('exportDataButton').title = "Exporter les données";
+                    document.getElementById('sendEmailsButton').classList.remove('disabled');
                     document.getElementById('passwordModal').style.display = 'none';
                     document.getElementById('adminPassword').value = '';
                     document.getElementById('passwordError').style.display = 'none';
@@ -1972,15 +1894,6 @@ L'équipe de la Tournée 2026</textarea>
             });
             
             document.getElementById('photoUpload').addEventListener('change', handlePhotoUpload);
-            
-            // Événements pour les listes dépliables
-            document.getElementById('hotesHeader').addEventListener('click', () => toggleList('hotes'));
-            document.getElementById('paysHeader').addEventListener('click', () => toggleList('pays'));
-            document.getElementById('lieuxHeader').addEventListener('click', () => toggleList('lieux'));
-            document.getElementById('hebergesHeader').addEventListener('click', () => toggleList('heberges'));
-            
-            // Initialiser l'affichage des listes (masquées par défaut)
-            initializeLists();
             
             // Charger les données
             loadDataFromGoogleSheets();
@@ -2308,32 +2221,6 @@ L'équipe de la Tournée 2026</textarea>
             alert(`Fichier ${filename} téléchargé avec succès!`);
         }
 
-        function initializeLists() {
-            Object.keys(listStates).forEach(listType => {
-                const content = document.getElementById(`${listType}List`);
-                const icon = document.getElementById(`${listType}Header`).querySelector('.toggle-icon');
-                
-                content.classList.add('collapsed');
-                icon.classList.add('collapsed');
-            });
-        }
-
-        function toggleList(listType) {
-            const header = document.getElementById(`${listType}Header`);
-            const content = document.getElementById(`${listType}List`);
-            const icon = header.querySelector('.toggle-icon');
-            
-            listStates[listType] = !listStates[listType];
-            
-            if (listStates[listType]) {
-                content.classList.remove('collapsed');
-                icon.classList.remove('collapsed');
-            } else {
-                content.classList.add('collapsed');
-                icon.classList.add('collapsed');
-            }
-        }
-
         function handlePhotoUpload(event) {
             const files = event.target.files;
             if (files.length === 0) return;
@@ -2474,8 +2361,6 @@ L'équipe de la Tournée 2026</textarea>
         async function loadDataFromGoogleSheets() {
             console.log('🔍 Début du chargement des données...');
             document.getElementById('loadingIndicator').style.display = 'block';
-            document.getElementById('retryButton').style.display = 'none';
-            clearErrorMessages();
             
             try {
                 console.log('🔄 Essai 1: Accès direct...');
@@ -2596,7 +2481,6 @@ L'équipe de la Tournée 2026</textarea>
                 updateStats();
                 renderFilterTags();
                 renderCalendar();
-                renderOrganizedLists();
                 showDataInfo();
                 
             } catch (error) {
@@ -2855,64 +2739,6 @@ L'équipe de la Tournée 2026</textarea>
                 
                 container.appendChild(tag);
             });
-        }
-        
-        function renderOrganizedLists() {
-            document.getElementById('hotesCount').textContent = allHotes.length;
-            document.getElementById('paysCount').textContent = allPays.length;
-            document.getElementById('lieuxCount').textContent = allLieux.length;
-            document.getElementById('hebergesCount').textContent = allHeberges.length;
-            
-            renderList('hotesList', allHotes, 'nom');
-            renderList('paysList', allPays, 'pays');
-            renderList('lieuxList', allLieux, 'lieu');
-            renderList('hebergesList', allHeberges, 'heberge');
-        }
-
-        function renderList(containerId, items, type) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            
-            if (items.length === 0) {
-                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic; padding: 10px; text-align: center;">Aucun ' + type + ' trouvé</div>';
-                return;
-            }
-            
-            items.forEach((item, index) => {
-                const listItem = document.createElement('div');
-                listItem.className = 'list-item';
-                listItem.innerHTML = `
-                    <span>${item}</span>
-                    <span class="list-count">${getItemCount(item, type)}</span>
-                `;
-                
-                listItem.addEventListener('click', () => {
-                    if (type === 'heberge') {
-                        const results = filterByHeberge(item);
-                        displayResults(results, `Personne hébergée: ${item}`);
-                    } else {
-                        const results = filterDataByType(item, type);
-                        displayResults(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
-                    }
-                });
-                
-                container.appendChild(listItem);
-            });
-        }
-
-        function getItemCount(item, type) {
-            switch(type) {
-                case 'nom':
-                    return sheetData.filter(row => row[colNom] === item).length;
-                case 'pays':
-                    return sheetData.filter(row => row[colPays] === item).length;
-                case 'lieu':
-                    return sheetData.filter(row => row[colLieu] === item).length;
-                case 'heberge':
-                    return filterByHeberge(item).length;
-                default:
-                    return 0;
-            }
         }
         
         function filterDataByType(value, type) {
@@ -3207,8 +3033,6 @@ L'équipe de la Tournée 2026</textarea>
                 <br><small>Vérifiez votre connexion internet et que le Google Sheet est public</small>
             `;
             searchSection.appendChild(errorDiv);
-            
-            document.getElementById('retryButton').style.display = 'block';
         }
         
         function clearErrorMessages() {
@@ -3216,9 +3040,7 @@ L'équipe de la Tournée 2026</textarea>
             errorMessages.forEach(msg => msg.remove());
         }
         
-        function handleSearch(event) {
-            if (event) event.preventDefault();
-            
+        function handleSearch() {
             const dateValue = document.getElementById('dateInput').value;
             
             if (!dateValue) {
