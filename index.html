@@ -2155,6 +2155,8 @@ L'équipe de la Tournée 2026</textarea>
                 const nom = colNom !== -1 ? row[colNom] : '';
                 const pays = colPays !== -1 ? row[colPays] : '';
                 const lieu = colLieu !== -1 ? row[colLieu] : '';
+                const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
                 
                 if (nom && nom.trim()) {
                     const key = nom.trim().toLowerCase();
@@ -2163,6 +2165,7 @@ L'équipe de la Tournée 2026</textarea>
                             nom: nom.trim(),
                             pays: pays ? pays.trim() : 'Non spécifié',
                             lieu: lieu ? lieu.trim() : 'Non spécifié',
+                            dates: dateDebut && dateFin ? `${dateDebut} au ${dateFin}` : '',
                             count: 0
                         });
                     }
@@ -2177,29 +2180,48 @@ L'équipe de la Tournée 2026</textarea>
                 <div class="fiche-item">
                     <div class="fiche-header">
                         <h2>👤 Hôtes pour: ${personName}</h2>
-                        <h3 class="fiche-title">${hotesList.length} hôte(s) trouvé(s)</h3>
+                        <h3 class="fiche-title">${hotesList.length} hôte(s) trouvé(s) - ${results.length} séjour(s)</h3>
                     </div>
                     <div style="padding: 20px;">
+                        <div style="margin-bottom: 20px; background: #e8f4fd; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db;">
+                            <strong>📊 Récapitulatif:</strong> ${personName} a été hébergé(e) chez ${hotesList.length} hôte(s) différent(s) pour un total de ${results.length} séjour(s).
+                        </div>
                         <table style="width: 100%; border-collapse: collapse;">
                             <thead>
                                 <tr style="background: #f8f9fa;">
                                     <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Hôte</th>
                                     <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Pays</th>
                                     <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Lieu</th>
+                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Dates</th>
                                     <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Nb. séjours</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${hotesList.map(hote => `
                                     <tr style="border-bottom: 1px solid #eee;">
-                                        <td style="padding: 10px;">${hote.nom}</td>
-                                        <td style="padding: 10px;">${hote.pays}</td>
+                                        <td style="padding: 10px;">
+                                            <div style="font-weight: bold; color: #27ae60;">${hote.nom}</div>
+                                        </td>
+                                        <td style="padding: 10px;">
+                                            <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;">
+                                                ${hote.pays}
+                                            </span>
+                                        </td>
                                         <td style="padding: 10px;">${hote.lieu}</td>
-                                        <td style="padding: 10px; text-align: center;">${hote.count}</td>
+                                        <td style="padding: 10px; font-size: 0.9em; color: #666;">${hote.dates}</td>
+                                        <td style="padding: 10px; text-align: center;">
+                                            <span style="display: inline-block; padding: 4px 10px; background: #ffc107; color: #856404; border-radius: 12px; font-weight: bold;">
+                                                ${hote.count}
+                                            </span>
+                                        </td>
                                     </tr>
                                 `).join('')}
                             </tbody>
                         </table>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                            <strong>💡 Note:</strong> Cliquez sur le nom d'un hôte pour voir ses fiches détaillées.
+                        </div>
                     </div>
                 </div>
             `;
@@ -2208,6 +2230,20 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('resultTitle').textContent = `Hôtes pour: ${personName}`;
             document.getElementById('resultsSection').style.display = 'block';
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            
+            // Ajouter des événements de clic sur les noms d'hôtes
+            setTimeout(() => {
+                document.querySelectorAll('td:first-child div').forEach((cell, index) => {
+                    cell.style.cursor = 'pointer';
+                    cell.style.textDecoration = 'underline';
+                    cell.style.color = '#3498db';
+                    cell.addEventListener('click', function() {
+                        const hoteName = this.textContent;
+                        const results = filterDataByType(hoteName, 'nom');
+                        displayResults(results, `Fiches pour l'hôte: ${hoteName}`);
+                    });
+                });
+            }, 100);
         }
         
         function downloadFichesForDate(date) {
@@ -3796,7 +3832,7 @@ L'équipe de la Tournée 2026</textarea>
                             <div class="heberges-list">
                                 <div class="heberges-label">👥 Les hébergés:</div>
                                 <div class="heberges-tags">
-                                    ${personnesPourTags.map(p => `<div class="heberge-tag" onclick="showPersonOptions(event, '${p}')">${p}</div>`).join('')}
+                                    ${personnesPourTags.map(p => `<div class="heberge-tag" onclick="showPersonOptions(event, '${p.replace(/'/g, "\\'")}')">${p}</div>`).join('')}
                                 </div>
                                 <div style="margin-top: 10px; font-style: italic; color: #666;">
                                     ${personnesAffichees}
@@ -3857,14 +3893,10 @@ L'équipe de la Tournée 2026</textarea>
             resultsSection.scrollIntoView({ behavior: 'smooth' });
         }
         
+        // Cette fonction est appelée quand on clique sur un tag de personne hébergée
         function showPersonOptions(event, personName) {
             event.stopPropagation();
             showPersonOptionsBubble(event.target, personName);
-        }
-        
-        function filterByHebergeAndShow(nom) {
-            const results = filterByHeberge(nom);
-            displayResults(results, `Personne hébergée: ${nom}`);
         }
         
         function closeResults() {
