@@ -1305,6 +1305,11 @@
             color: #3498db;
         }
 
+        /* Cacher les statistiques mobiles sur desktop */
+        .mobile-stats {
+            display: none;
+        }
+
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 300px 1fr;
@@ -1387,8 +1392,9 @@
                 display: flex;
             }
             
-            /* Afficher les statistiques en haut */
-            .stats-section {
+            /* Afficher les statistiques mobiles */
+            .mobile-stats {
+                display: block;
                 order: -1;
                 margin-bottom: 15px;
             }
@@ -1722,7 +1728,7 @@
         
         <!-- Contenu principal -->
         <div class="main-content">
-            <!-- Statistiques en haut sur mobile -->
+            <!-- Statistiques en haut sur mobile SEULEMENT -->
             <div class="stats-section mobile-stats">
                 <h3 style="margin-bottom: 15px; color: var(--secondary-color); text-align: center;">📊 Statistiques</h3>
                 <div class="stats-grid">
