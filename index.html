@@ -442,6 +442,7 @@
             border-radius: var(--border-radius);
             border: 1px solid #e9ecef;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
         }
         
         .filter-group h3 {
@@ -469,6 +470,7 @@
             font-size: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .tag:hover {
@@ -701,6 +703,7 @@
             font-size: 13px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .heberge-tag:hover {
@@ -1187,14 +1190,14 @@
             background: linear-gradient(135deg, #e74c3c, #c0392b);
         }
 
-        /* Bulle d'options pour les dates et personnes hébergées */
+        /* Bulle d'options pour les personnes hébergées */
         .options-bubble {
             position: absolute;
             background: white;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             z-index: 1000;
-            min-width: 200px;
+            min-width: 250px;
             display: none;
             flex-direction: column;
             overflow: hidden;
@@ -1221,10 +1224,13 @@
         
         .option-icon {
             font-size: 1.2em;
+            width: 24px;
+            text-align: center;
         }
         
         .option-label {
             flex-grow: 1;
+            font-size: 14px;
         }
         
         .date-bubble {
@@ -1480,7 +1486,7 @@
             }
             
             .options-bubble {
-                min-width: 180px;
+                min-width: 200px;
             }
             
             .option-item {
@@ -1651,18 +1657,7 @@
         </div>
     </div>
 
-    <!-- Bulles d'options -->
-    <div id="dateOptionsBubble" class="options-bubble date-bubble">
-        <div class="option-item" id="showDateFiches">
-            <span class="option-icon">📄</span>
-            <span class="option-label">Afficher les fiches d'hébergeurs</span>
-        </div>
-        <div class="option-item" id="downloadDateFiches">
-            <span class="option-icon">💾</span>
-            <span class="option-label">Télécharger les fiches</span>
-        </div>
-    </div>
-    
+    <!-- Bulle d'options pour les personnes hébergées -->
     <div id="personOptionsBubble" class="options-bubble person-bubble">
         <div class="option-item" id="showPersonFiches">
             <span class="option-icon">📄</span>
@@ -1836,10 +1831,8 @@ L'équipe de la Tournée 2026</textarea>
         let selectedExportFormat = null;
         let passwordModalAction = null; // 'export' ou 'email' selon l'action demandée
         
-        // Variables pour les bulles d'options
-        let currentSelectedDate = null;
+        // Variables pour la bulle d'options
         let currentSelectedPerson = null;
-        let currentClickedDayElement = null;
         let currentClickedPersonElement = null;
 
         // Index des colonnes (à détecter automatiquement)
@@ -1876,12 +1869,12 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('homeButton').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('resultsSection').style.display = 'none';
-                hideAllBubbles();
+                hidePersonBubble();
             });
             
             document.getElementById('scrollToCalendarButton').addEventListener('click', function() {
                 document.querySelector('.calendar-section').scrollIntoView({ behavior: 'smooth' });
-                hideAllBubbles();
+                hidePersonBubble();
             });
             
             document.getElementById('showAllDataButton').addEventListener('click', showAllData);
@@ -1928,13 +1921,13 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('prevMonth').addEventListener('click', function() {
                 currentDate.setMonth(currentDate.getMonth() - 1);
                 renderCalendar();
-                hideAllBubbles();
+                hidePersonBubble();
             });
             
             document.getElementById('nextMonth').addEventListener('click', function() {
                 currentDate.setMonth(currentDate.getMonth() + 1);
                 renderCalendar();
-                hideAllBubbles();
+                hidePersonBubble();
             });
             
             // Événements pour la modale d'exportation
@@ -2028,51 +2021,30 @@ L'équipe de la Tournée 2026</textarea>
             
             document.getElementById('photoUpload').addEventListener('change', handlePhotoUpload);
             
-            // Événements pour les bulles d'options
-            document.getElementById('showDateFiches').addEventListener('click', function() {
-                if (currentSelectedDate) {
-                    const matchingRows = findEntriesByDate(currentSelectedDate);
-                    displayResults(matchingRows, `Hébergements pour le ${formatDateForDisplay(currentSelectedDate)}`);
-                    hideAllBubbles();
-                }
-            });
-            
-            document.getElementById('downloadDateFiches').addEventListener('click', function() {
-                if (currentSelectedDate) {
-                    downloadFichesForDate(currentSelectedDate);
-                    hideAllBubbles();
-                }
-            });
-            
+            // Événements pour la bulle d'options des personnes hébergées
             document.getElementById('showPersonFiches').addEventListener('click', function() {
                 if (currentSelectedPerson) {
                     const results = filterByHeberge(currentSelectedPerson);
                     displayResults(results, `Fiches pour: ${currentSelectedPerson}`);
-                    hideAllBubbles();
+                    hidePersonBubble();
                 }
             });
             
             document.getElementById('showPersonHotes').addEventListener('click', function() {
                 if (currentSelectedPerson) {
                     showHotesForPerson(currentSelectedPerson);
-                    hideAllBubbles();
+                    hidePersonBubble();
                 }
             });
             
-            // Cacher les bulles quand on clique ailleurs
+            // Cacher la bulle quand on clique ailleurs
             document.addEventListener('click', function(event) {
-                const dateBubble = document.getElementById('dateOptionsBubble');
                 const personBubble = document.getElementById('personOptionsBubble');
                 
-                if (!event.target.closest('.calendar-day') && !event.target.closest('#dateOptionsBubble')) {
-                    if (dateBubble.style.display === 'flex') {
-                        hideAllBubbles();
-                    }
-                }
-                
-                if (!event.target.closest('.heberge-tag') && !event.target.closest('#personOptionsBubble')) {
+                if (!event.target.closest('.heberge-tag') && !event.target.closest('#personOptionsBubble') && 
+                    !event.target.closest('.tag.heberge') && !event.target.closest('#personOptionsBubble')) {
                     if (personBubble.style.display === 'flex') {
-                        hideAllBubbles();
+                        hidePersonBubble();
                     }
                 }
             });
@@ -2081,69 +2053,60 @@ L'équipe de la Tournée 2026</textarea>
             loadDataFromGoogleSheets();
         });
 
-        // Fonctions pour gérer les bulles d'options
-        function showDateOptionsBubble(dayElement, date) {
-            hideAllBubbles();
-            
-            currentSelectedDate = date;
-            currentClickedDayElement = dayElement;
-            
-            const bubble = document.getElementById('dateOptionsBubble');
-            const rect = dayElement.getBoundingClientRect();
-            
-            bubble.style.top = (rect.bottom + window.scrollY + 5) + 'px';
-            bubble.style.left = (rect.left + window.scrollX + rect.width / 2) + 'px';
-            bubble.style.transform = 'translateX(-50%)';
-            bubble.style.display = 'flex';
-            
-            // Ajuster la position si la bulle dépasse de l'écran
-            setTimeout(() => {
-                const bubbleRect = bubble.getBoundingClientRect();
-                if (bubbleRect.right > window.innerWidth) {
-                    bubble.style.left = (window.innerWidth - bubbleRect.width - 10) + 'px';
-                    bubble.style.transform = 'none';
-                }
-                if (bubbleRect.left < 0) {
-                    bubble.style.left = '10px';
-                    bubble.style.transform = 'none';
-                }
-            }, 10);
-        }
-        
+        // Fonctions pour gérer la bulle d'options des personnes hébergées
         function showPersonOptionsBubble(personElement, personName) {
-            hideAllBubbles();
-            
             currentSelectedPerson = personName;
             currentClickedPersonElement = personElement;
             
             const bubble = document.getElementById('personOptionsBubble');
             const rect = personElement.getBoundingClientRect();
             
-            bubble.style.top = (rect.bottom + window.scrollY + 5) + 'px';
-            bubble.style.left = (rect.left + window.scrollX + rect.width / 2) + 'px';
-            bubble.style.transform = 'translateX(-50%)';
+            // Positionner la bulle
+            if (personElement.classList.contains('tag')) {
+                // Si c'est un tag dans la sidebar, positionner différemment
+                bubble.style.top = (rect.top + window.scrollY) + 'px';
+                bubble.style.left = (rect.right + window.scrollX + 5) + 'px';
+                bubble.style.transform = 'none';
+            } else {
+                // Si c'est un tag dans une fiche
+                bubble.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+                bubble.style.left = (rect.left + window.scrollX + rect.width / 2) + 'px';
+                bubble.style.transform = 'translateX(-50%)';
+            }
+            
             bubble.style.display = 'flex';
             
             // Ajuster la position si la bulle dépasse de l'écran
             setTimeout(() => {
                 const bubbleRect = bubble.getBoundingClientRect();
+                
+                // Si la bulle dépasse à droite
                 if (bubbleRect.right > window.innerWidth) {
-                    bubble.style.left = (window.innerWidth - bubbleRect.width - 10) + 'px';
-                    bubble.style.transform = 'none';
+                    if (personElement.classList.contains('tag')) {
+                        // Pour les tags sidebar, mettre à gauche
+                        bubble.style.left = (rect.left + window.scrollX - bubbleRect.width - 5) + 'px';
+                    } else {
+                        bubble.style.left = (window.innerWidth - bubbleRect.width - 10) + 'px';
+                        bubble.style.transform = 'none';
+                    }
                 }
+                
+                // Si la bulle dépasse à gauche
                 if (bubbleRect.left < 0) {
                     bubble.style.left = '10px';
                     bubble.style.transform = 'none';
                 }
+                
+                // Si la bulle dépasse en bas
+                if (bubbleRect.bottom > window.innerHeight) {
+                    bubble.style.top = (rect.top + window.scrollY - bubbleRect.height - 5) + 'px';
+                }
             }, 10);
         }
         
-        function hideAllBubbles() {
-            document.getElementById('dateOptionsBubble').style.display = 'none';
+        function hidePersonBubble() {
             document.getElementById('personOptionsBubble').style.display = 'none';
-            currentSelectedDate = null;
             currentSelectedPerson = null;
-            currentClickedDayElement = null;
             currentClickedPersonElement = null;
         }
         
@@ -2200,7 +2163,7 @@ L'équipe de la Tournée 2026</textarea>
                                 ${hotesList.map(hote => `
                                     <tr style="border-bottom: 1px solid #eee;">
                                         <td style="padding: 10px;">
-                                            <div style="font-weight: bold; color: #27ae60;">${hote.nom}</div>
+                                            <div style="font-weight: bold; color: #27ae60; cursor: pointer; text-decoration: underline;" class="hote-link" data-hote="${hote.nom}">${hote.nom}</div>
                                         </td>
                                         <td style="padding: 10px;">
                                             <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;">
@@ -2233,27 +2196,14 @@ L'équipe de la Tournée 2026</textarea>
             
             // Ajouter des événements de clic sur les noms d'hôtes
             setTimeout(() => {
-                document.querySelectorAll('td:first-child div').forEach((cell, index) => {
-                    cell.style.cursor = 'pointer';
-                    cell.style.textDecoration = 'underline';
-                    cell.style.color = '#3498db';
-                    cell.addEventListener('click', function() {
-                        const hoteName = this.textContent;
+                document.querySelectorAll('.hote-link').forEach((link) => {
+                    link.addEventListener('click', function() {
+                        const hoteName = this.getAttribute('data-hote');
                         const results = filterDataByType(hoteName, 'nom');
                         displayResults(results, `Fiches pour l'hôte: ${hoteName}`);
                     });
                 });
             }, 100);
-        }
-        
-        function downloadFichesForDate(date) {
-            const matchingRows = findEntriesByDate(date);
-            if (matchingRows.length === 0) {
-                alert('Aucune fiche à télécharger pour cette date');
-                return;
-            }
-            
-            exportFiches(matchingRows, `fiches_${formatDateForFile(date)}`);
         }
 
         function showPasswordModal() {
@@ -2797,13 +2747,6 @@ L'équipe de la Tournée 2026</textarea>
             URL.revokeObjectURL(url);
             
             alert(`Fichier ${filename} téléchargé avec succès!`);
-        }
-
-        function formatDateForFile(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
         }
 
         function handlePhotoUpload(event) {
@@ -3392,16 +3335,11 @@ L'équipe de la Tournée 2026</textarea>
                 const tag = document.createElement('div');
                 tag.className = `tag ${type}`;
                 tag.textContent = item;
-                tag.title = `Filtrer par ${type}: ${item}`;
+                tag.title = `Cliquez pour voir les options pour ${item}`;
                 
-                tag.addEventListener('click', () => {
-                    if (type === 'heberge') {
-                        const results = filterByHeberge(item);
-                        displayResults(results, `Personne hébergée: ${item}`);
-                    } else {
-                        const results = filterDataByType(item, type);
-                        displayResults(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
-                    }
+                tag.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    showPersonOptionsBubble(tag, item);
                 });
                 
                 container.appendChild(tag);
@@ -3537,11 +3475,7 @@ L'équipe de la Tournée 2026</textarea>
                 
                 day.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (isInBookingPeriod) {
-                        showDateOptionsBubble(day, date);
-                    } else {
-                        selectDate(date);
-                    }
+                    selectDate(date);
                 });
                 
                 grid.appendChild(day);
@@ -3553,7 +3487,7 @@ L'équipe de la Tournée 2026</textarea>
             const matchingRows = findEntriesByDate(date);
             displayResults(matchingRows, `Hébergements pour le ${formatDateForDisplay(date)}`);
             renderCalendar();
-            hideAllBubbles();
+            hidePersonBubble();
         }
         
         function findEntriesByDate(date) {
@@ -3652,7 +3586,7 @@ L'équipe de la Tournée 2026</textarea>
             
             const selectedDate = new Date(dateValue);
             searchByDate(selectedDate);
-            hideAllBubbles();
+            hidePersonBubble();
         }
         
         function searchByDate(date) {
@@ -3691,7 +3625,7 @@ L'équipe de la Tournée 2026</textarea>
             }
             
             displayResults(sheetData, 'Tous les hébergements');
-            hideAllBubbles();
+            hidePersonBubble();
         }
         
         function displayResults(results, title) {
@@ -3710,8 +3644,13 @@ L'équipe de la Tournée 2026</textarea>
                 let html = `
                     <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 5px;">
                         <strong>${results.length} hébergement(s) trouvé(s)</strong>
-                    </div>
                 `;
+                
+                if (currentSelectedPerson) {
+                    html += `<br><em>Filtré par: ${currentSelectedPerson}</em>`;
+                }
+                
+                html += `</div>`;
                 
                 results.forEach((row, index) => {
                     const numeroData = sheetData.findIndex(r => r === row) + 1;
@@ -3896,12 +3835,13 @@ L'équipe de la Tournée 2026</textarea>
         // Cette fonction est appelée quand on clique sur un tag de personne hébergée
         function showPersonOptions(event, personName) {
             event.stopPropagation();
+            event.preventDefault();
             showPersonOptionsBubble(event.target, personName);
         }
         
         function closeResults() {
             document.getElementById('resultsSection').style.display = 'none';
-            hideAllBubbles();
+            hidePersonBubble();
         }
     </script>
 </body>
