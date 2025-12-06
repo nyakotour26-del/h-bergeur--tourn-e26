@@ -1164,7 +1164,7 @@
         /* Boutons d'action mobile */
         .action-buttons-mobile {
             display: none;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
             margin-bottom: 15px;
         }
@@ -1188,6 +1188,10 @@
         
         .action-button-mobile.priere {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .action-button-mobile.tableau {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
         }
 
         /* Filtres mobiles */
@@ -1308,6 +1312,120 @@
         /* Cacher les statistiques mobiles sur desktop */
         .mobile-stats {
             display: none;
+        }
+
+        /* Styles pour le tableau des hébergeurs */
+        .tableau-export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .tableau-export-button {
+            background: linear-gradient(135deg, #ff6b35, #e74c3c);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .tableau-export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .tableau-export-button.pdf {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .tableau-export-button.excel {
+            background: linear-gradient(135deg, #27ae60, #219a53);
+        }
+        
+        .tableau-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .tableau-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 20px;
+        }
+        
+        .tableau-content {
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .tableau-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .tableau-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+        
+        .tableau-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .tableau-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .tableau-table tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .heberge-list-cell {
+            max-width: 300px;
+        }
+        
+        .heberge-item {
+            display: inline-block;
+            background: #ffc107;
+            color: #856404;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin: 2px;
+            white-space: nowrap;
+        }
+        
+        .date-cell {
+            white-space: nowrap;
+            font-size: 0.9em;
+        }
+        
+        .hote-cell {
+            font-weight: 600;
+            color: #27ae60;
         }
 
         @media (max-width: 1024px) {
@@ -1608,6 +1726,36 @@
                 gap: 5px;
                 padding: 5px 0;
             }
+            
+            /* Styles tableau pour mobile */
+            .tableau-export-buttons {
+                flex-direction: column;
+            }
+            
+            .tableau-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .tableau-table th,
+            .tableau-table td {
+                min-width: 150px;
+            }
+            
+            .tableau-table th:nth-child(5),
+            .tableau-table td:nth-child(5) {
+                min-width: 250px;
+            }
+            
+            .heberge-list-cell {
+                max-width: 200px;
+            }
+            
+            .heberge-item {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
         }
     </style>
 </head>
@@ -1689,6 +1837,10 @@
                     📋 Afficher tous les hébergements
                 </button>
                 
+                <button id="showTableauButton" class="action-button" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                    📊 Tableau des hébergeurs
+                </button>
+                
                 <button id="showPrieresButton" class="action-button priere">
                     🙏 Afficher les sujets de prière
                 </button>
@@ -1759,6 +1911,10 @@
             <div class="action-buttons-mobile">
                 <button id="showAllButtonMobile" class="action-button-mobile">
                     📋 Tous
+                </button>
+                
+                <button id="showTableauButtonMobile" class="action-button-mobile tableau">
+                    📊 Tableau
                 </button>
                 
                 <button id="showPrieresButtonMobile" class="action-button-mobile priere">
@@ -1859,6 +2015,26 @@
                     <!-- Les résultats seront affichés ici -->
                 </div>
             </section>
+            
+            <!-- Section pour le tableau des hébergeurs -->
+            <div class="tableau-container" id="tableauSection" style="display: none;">
+                <div class="tableau-header">
+                    <h2 id="tableauTitle">📊 Tableau des hébergeurs</h2>
+                </div>
+                <div class="tableau-content">
+                    <div class="tableau-export-buttons">
+                        <button class="tableau-export-button pdf" id="exportTableauPDF">
+                            📄 Exporter en PDF
+                        </button>
+                        <button class="tableau-export-button excel" id="exportTableauExcel">
+                            📊 Exporter en Excel
+                        </button>
+                    </div>
+                    <div id="tableauContent">
+                        <!-- Le tableau sera généré ici -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1907,6 +2083,16 @@
                     </div>
                     <div class="export-type-description">
                         Exporte toutes les fiches détaillées de chaque hébergement (format PDF)
+                    </div>
+                </div>
+                
+                <div class="export-type" id="exportType4">
+                    <div class="export-type-title">
+                        <span>📊</span>
+                        <span>Tableau des hébergeurs</span>
+                    </div>
+                    <div class="export-type-description">
+                        Exporte le tableau complet des hébergeurs avec hôte, pays, lieu, dates, durée et hébergés
                     </div>
                 </div>
             </div>
@@ -2039,6 +2225,9 @@ L'équipe de la Tournée 2026</textarea>
         // Variables pour la bulle d'options
         let currentSelectedPerson = null;
         let currentClickedPersonElement = null;
+        
+        // Variable pour stocker les données du tableau des hébergeurs
+        let tableauData = [];
 
         // Index des colonnes (à détecter automatiquement)
         let colDateDebut = -1;
@@ -2074,6 +2263,7 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('homeButton').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('resultsSection').style.display = 'none';
+                document.getElementById('tableauSection').style.display = 'none';
                 hidePersonBubble();
             });
             
@@ -2114,10 +2304,12 @@ L'équipe de la Tournée 2026</textarea>
             
             // Boutons d'action desktop
             document.getElementById('showAllButton').addEventListener('click', showAllData);
+            document.getElementById('showTableauButton').addEventListener('click', showTableauHebergeurs);
             document.getElementById('showPrieresButton').addEventListener('click', showPrieres);
             
             // Boutons d'action mobile
             document.getElementById('showAllButtonMobile').addEventListener('click', showAllData);
+            document.getElementById('showTableauButtonMobile').addEventListener('click', showTableauHebergeurs);
             document.getElementById('showPrieresButtonMobile').addEventListener('click', showPrieres);
             
             document.getElementById('closeResults').addEventListener('click', closeResults);
@@ -2154,6 +2346,10 @@ L'équipe de la Tournée 2026</textarea>
             
             document.getElementById('exportType3').addEventListener('click', function() {
                 selectExportType(3);
+            });
+            
+            document.getElementById('exportType4').addEventListener('click', function() {
+                selectExportType(4);
             });
             
             // Sélection du format d'export
@@ -2272,9 +2468,344 @@ L'équipe de la Tournée 2026</textarea>
                 }
             });
             
+            // Boutons d'export du tableau
+            document.getElementById('exportTableauPDF').addEventListener('click', function() {
+                exportTableau('pdf');
+            });
+            
+            document.getElementById('exportTableauExcel').addEventListener('click', function() {
+                exportTableau('excel');
+            });
+            
             // Charger les données
             loadDataFromGoogleSheets();
         });
+
+        // Fonction pour afficher le tableau des hébergeurs
+        function showTableauHebergeurs() {
+            if (sheetData.length === 0) {
+                alert('Aucune donnée chargée');
+                return;
+            }
+            
+            // Cacher la section des résultats
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            // Afficher la section du tableau
+            const tableauSection = document.getElementById('tableauSection');
+            const tableauContent = document.getElementById('tableauContent');
+            
+            // Générer les données du tableau
+            generateTableauData();
+            
+            // Créer le HTML du tableau
+            let html = `
+                <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 5px;">
+                    <strong>${tableauData.length} hébergeur(s) trouvé(s)</strong>
+                    <div style="margin-top: 5px; font-size: 0.9em; color: #666;">
+                        Total des séjours: ${tableauData.reduce((sum, hote) => sum + hote.sejours, 0)} |
+                        Total des jours: ${tableauData.reduce((sum, hote) => sum + hote.jours, 0)} |
+                        Total des nuitées: ${tableauData.reduce((sum, hote) => sum + hote.nuits, 0)}
+                    </div>
+                </div>
+                
+                <table class="tableau-table">
+                    <thead>
+                        <tr>
+                            <th>Hôte</th>
+                            <th>Pays</th>
+                            <th>Lieu</th>
+                            <th>Dates</th>
+                            <th>Durée</th>
+                            <th>Personnes hébergées</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            tableauData.forEach(hote => {
+                html += `
+                    <tr>
+                        <td class="hote-cell">${hote.nom}</td>
+                        <td>
+                            <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;">
+                                ${hote.pays}
+                            </span>
+                        </td>
+                        <td>${hote.lieu}</td>
+                        <td class="date-cell">
+                            <div style="display: flex; flex-direction: column; gap: 2px;">
+                                ${hote.dates.map(date => `<div>${date}</div>`).join('')}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <span style="display: inline-block; padding: 3px 8px; background: #ffc107; color: #856404; border-radius: 8px; font-weight: bold; font-size: 0.9em;">
+                                        ${hote.jours} jour${hote.jours > 1 ? 's' : ''}
+                                    </span>
+                                    <span style="display: inline-block; padding: 3px 8px; background: #17a2b8; color: white; border-radius: 8px; font-weight: bold; font-size: 0.9em; margin-top: 3px;">
+                                        ${hote.nuits} nuitée${hote.nuits > 1 ? 's' : ''}
+                                    </span>
+                                </div>
+                                <div style="font-size: 0.8em; color: #6c757d; margin-top: 3px;">
+                                    (${hote.sejours} séjour${hote.sejours > 1 ? 's' : ''})
+                                </div>
+                            </div>
+                        </td>
+                        <td class="heberge-list-cell">
+                            <div style="display: flex; flex-wrap: wrap; gap: 3px; max-height: 100px; overflow-y: auto; padding: 5px;">
+                                ${hote.personnes.map(p => `<span class="heberge-item">${p}</span>`).join('')}
+                            </div>
+                            <div style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                                Total: ${hote.personnes.length} personne${hote.personnes.length > 1 ? 's' : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            `;
+            
+            tableauContent.innerHTML = html;
+            tableauSection.style.display = 'block';
+            
+            // Faire défiler jusqu'au tableau
+            tableauSection.scrollIntoView({ behavior: 'smooth' });
+            
+            hidePersonBubble();
+        }
+        
+        // Fonction pour générer les données du tableau
+        function generateTableauData() {
+            const hotesMap = new Map();
+            
+            sheetData.forEach((row, index) => {
+                const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                const nom = colNom !== -1 ? row[colNom] : '';
+                const pays = colPays !== -1 ? row[colPays] : '';
+                const lieu = colLieu !== -1 ? row[colLieu] : '';
+                
+                if (nom && nom.trim()) {
+                    const key = nom.trim().toLowerCase();
+                    const paysValue = pays ? pays.trim() : 'Non spécifié';
+                    const lieuValue = lieu ? lieu.trim() : 'Non spécifié';
+                    const dateDebutObj = parseDate(dateDebut);
+                    const dateFinObj = parseDate(dateFin);
+                    
+                    let dateString = '';
+                    if (dateDebut && dateFin) {
+                        dateString = `${dateDebut} au ${dateFin}`;
+                    }
+                    
+                    // Calculer la durée
+                    let jours = 0;
+                    let nuits = 0;
+                    if (dateDebutObj && dateFinObj) {
+                        const diffTime = Math.abs(dateFinObj.getTime() - dateDebutObj.getTime());
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        nuits = diffDays;
+                        jours = diffDays + 1;
+                    }
+                    
+                    // Récupérer les personnes hébergées pour cette ligne
+                    let personnesLigne = [];
+                    const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
+                    colonnesPersonnes.forEach(colIndex => {
+                        if (colIndex !== -1) {
+                            const personnes = row[colIndex] || '';
+                            if (personnes.trim()) {
+                                personnes.split(',').forEach(p => {
+                                    const trimmed = p.trim();
+                                    if (trimmed) personnesLigne.push(trimmed);
+                                });
+                            }
+                        }
+                    });
+                    
+                    // Gérer le cas "Tout le monde"
+                    const repartition = colRepartition !== -1 ? row[colRepartition] : '';
+                    if (repartition && repartition.toLowerCase().includes('tout le monde')) {
+                        personnesLigne = Array.from(allHeberges);
+                    }
+                    
+                    if (!hotesMap.has(key)) {
+                        hotesMap.set(key, {
+                            nom: nom.trim(),
+                            pays: paysValue,
+                            lieu: lieuValue,
+                            dates: [],
+                            jours: 0,
+                            nuits: 0,
+                            sejours: 0,
+                            personnes: new Set()
+                        });
+                    }
+                    
+                    const hote = hotesMap.get(key);
+                    
+                    // Ajouter les dates
+                    if (dateString) {
+                        hote.dates.push(dateString);
+                    }
+                    
+                    // Ajouter la durée
+                    hote.jours += jours;
+                    hote.nuits += nuits;
+                    hote.sejours++;
+                    
+                    // Ajouter les personnes hébergées
+                    personnesLigne.forEach(p => hote.personnes.add(p));
+                }
+            });
+            
+            // Convertir la Map en tableau et trier par nom d'hôte
+            tableauData = Array.from(hotesMap.values()).map(hote => ({
+                ...hote,
+                personnes: Array.from(hote.personnes).sort()
+            })).sort((a, b) => a.nom.localeCompare(b.nom));
+        }
+        
+        // Fonction pour exporter le tableau
+        function exportTableau(format) {
+            if (tableauData.length === 0) {
+                alert('Aucune donnée à exporter');
+                return;
+            }
+            
+            if (format === 'pdf') {
+                exportTableauPDF();
+            } else if (format === 'excel') {
+                exportTableauExcel();
+            }
+        }
+        
+        function exportTableauPDF() {
+            const printWindow = window.open('', '_blank');
+            let pdfContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Tableau des hébergeurs - Tournée 2026</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #8b0000; text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #8b0000; }
+                        .info { text-align: center; margin-bottom: 30px; color: #666; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th { background-color: #8b0000; color: white; padding: 12px; text-align: left; }
+                        td { padding: 10px; border: 1px solid #ddd; vertical-align: top; }
+                        tr:nth-child(even) { background-color: #f9f9f9; }
+                        .personne-tag { background: #ffc107; color: #856404; padding: 2px 6px; border-radius: 10px; font-size: 10px; margin: 1px; display: inline-block; }
+                        .duration { font-size: 0.9em; }
+                        .jours { background: #ffc107; color: #856404; padding: 2px 6px; border-radius: 5px; }
+                        .nuits { background: #17a2b8; color: white; padding: 2px 6px; border-radius: 5px; }
+                        .sejours { font-size: 0.8em; color: #666; }
+                        @media print {
+                            body { margin: 10px; }
+                            table { font-size: 11px; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>📊 Tableau des hébergeurs - Tournée 2026</h1>
+                    <div class="info">
+                        <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                        <p>${tableauData.length} hébergeur(s) | 
+                           ${tableauData.reduce((sum, hote) => sum + hote.sejours, 0)} séjour(s) | 
+                           ${tableauData.reduce((sum, hote) => sum + hote.jours, 0)} jour(s) | 
+                           ${tableauData.reduce((sum, hote) => sum + hote.nuits, 0)} nuitée(s)</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hôte</th>
+                                <th>Pays</th>
+                                <th>Lieu</th>
+                                <th>Dates</th>
+                                <th>Durée</th>
+                                <th>Personnes hébergées</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            tableauData.forEach(hote => {
+                pdfContent += `
+                    <tr>
+                        <td><strong>${hote.nom}</strong></td>
+                        <td>${hote.pays}</td>
+                        <td>${hote.lieu}</td>
+                        <td>
+                            ${hote.dates.map(date => `<div>${date}</div>`).join('')}
+                        </td>
+                        <td class="duration">
+                            <div><span class="jours">${hote.jours} jour${hote.jours > 1 ? 's' : ''}</span></div>
+                            <div style="margin-top: 3px;"><span class="nuits">${hote.nuits} nuitée${hote.nuits > 1 ? 's' : ''}</span></div>
+                            <div class="sejours">(${hote.sejours} séjour${hote.sejours > 1 ? 's' : ''})</div>
+                        </td>
+                        <td>
+                            <div style="display: flex; flex-wrap: wrap; gap: 2px;">
+                                ${hote.personnes.map(p => `<span class="personne-tag">${p}</span>`).join('')}
+                            </div>
+                            <div style="margin-top: 5px; font-size: 0.8em; color: #666;">
+                                Total: ${hote.personnes.length} personne${hote.personnes.length > 1 ? 's' : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            pdfContent += `
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(pdfContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+        
+        function exportTableauExcel() {
+            // Créer le CSV
+            let csvContent = 'Hôte,Pays,Lieu,Dates,Jours,Nuitées,Séjours,Personnes hébergées\n';
+            
+            tableauData.forEach(hote => {
+                const personnesStr = hote.personnes.map(p => p.replace(/,/g, ';')).join(', ');
+                const datesStr = hote.dates.join(' | ');
+                
+                const row = [
+                    `"${hote.nom}"`,
+                    `"${hote.pays}"`,
+                    `"${hote.lieu}"`,
+                    `"${datesStr}"`,
+                    hote.jours,
+                    hote.nuits,
+                    hote.sejours,
+                    `"${personnesStr}"`
+                ];
+                
+                csvContent += row.join(',') + '\n';
+            });
+            
+            // Télécharger le fichier
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `tableau_hebergeurs_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert(`Tableau exporté avec succès! ${tableauData.length} hébergeur(s)`);
+        }
 
         // Fonctions pour gérer la bulle d'options des personnes hébergées
         function showPersonOptionsBubble(personElement, personName) {
@@ -2445,6 +2976,7 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('resultContent').innerHTML = html;
             document.getElementById('resultTitle').textContent = `Hôtes pour: ${personName}`;
             document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('tableauSection').style.display = 'none';
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
             
             // Ajouter des événements de clic sur les noms d'hôtes
@@ -2480,6 +3012,7 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('exportType1').classList.remove('selected');
             document.getElementById('exportType2').classList.remove('selected');
             document.getElementById('exportType3').classList.remove('selected');
+            document.getElementById('exportType4').classList.remove('selected');
             document.querySelectorAll('.format-option').forEach(opt => {
                 opt.classList.remove('selected');
             });
@@ -2492,10 +3025,11 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('exportType1').classList.remove('selected');
             document.getElementById('exportType2').classList.remove('selected');
             document.getElementById('exportType3').classList.remove('selected');
+            document.getElementById('exportType4').classList.remove('selected');
             document.getElementById('exportType' + type).classList.add('selected');
             
-            // Pour le type 3 (fiches), on n'affiche pas les options de format, c'est toujours PDF
-            if (type === 3) {
+            // Pour le type 3 (fiches) et 4 (tableau), on n'affiche pas les options de format, c'est toujours PDF
+            if (type === 3 || type === 4) {
                 document.getElementById('formatOptions').style.display = 'none';
                 document.getElementById('confirmExport').style.display = 'block';
                 selectedExportFormat = 'pdf';
@@ -2506,7 +3040,7 @@ L'équipe de la Tournée 2026</textarea>
         }
 
         function exportData() {
-            if (!selectedExportType || (selectedExportType !== 3 && !selectedExportFormat)) {
+            if (!selectedExportType || (selectedExportType !== 3 && selectedExportType !== 4 && !selectedExportFormat)) {
                 alert('Veuillez sélectionner un type et un format d\'exportation');
                 return;
             }
@@ -2516,6 +3050,10 @@ L'équipe de la Tournée 2026</textarea>
             if (selectedExportType === 3) {
                 // Export des fiches détaillées
                 exportFiches(sheetData, 'fiches_hebergements_completes');
+            } else if (selectedExportType === 4) {
+                // Export du tableau des hébergeurs
+                generateTableauData();
+                exportTableauPDF();
             } else {
                 let exportData = [];
                 let filename = '';
@@ -3723,6 +4261,7 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('resultContent').innerHTML = html;
             document.getElementById('resultTitle').textContent = 'Sujets de prière';
             document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('tableauSection').style.display = 'none';
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
         }
         
@@ -3939,6 +4478,7 @@ L'équipe de la Tournée 2026</textarea>
             }
             
             displayResults(sheetData, 'Tous les hébergements');
+            document.getElementById('tableauSection').style.display = 'none';
             hidePersonBubble();
         }
         
@@ -3946,6 +4486,9 @@ L'équipe de la Tournée 2026</textarea>
             const resultsSection = document.getElementById('resultsSection');
             const resultContent = document.getElementById('resultContent');
             const resultTitle = document.getElementById('resultTitle');
+            
+            // Cacher la section du tableau
+            document.getElementById('tableauSection').style.display = 'none';
             
             if (results.length === 0) {
                 resultContent.innerHTML = `
