@@ -60,11 +60,12 @@
             grid-column: 1 / -1;
             text-align: center;
             margin-bottom: 20px;
-            padding: 15px 20px;
-            background: white;
+            padding: 20px;
+            background: white url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center center;
+            background-size: cover;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            color: var(--text-color);
+            color: white;
             position: sticky;
             top: 20px;
             z-index: 100;
@@ -72,6 +73,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        .header-overlay {
+            background: rgba(139, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            width: 100%;
         }
         
         .header-left {
@@ -144,18 +153,18 @@
         
         h1 {
             margin-bottom: 5px;
-            font-size: 2em;
+            font-size: 2.2em;
             font-weight: 600;
-            color: var(--primary-color);
+            color: white;
             letter-spacing: 0.5px;
             line-height: 1.2;
         }
         
         header p {
-            font-size: 1em;
-            opacity: 0.8;
+            font-size: 1.1em;
+            opacity: 0.9;
             margin-bottom: 0;
-            color: var(--secondary-color);
+            color: white;
             line-height: 1.3;
         }
         
@@ -447,11 +456,24 @@
         
         .filter-group h3 {
             margin-bottom: 10px;
-            color: var(--secondary-color);
+            color: #3498db;
             font-size: 1em;
             display: flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
+        }
+        
+        .filter-group h3.toggle-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-group h3.toggle-title .toggle-indicator {
+            font-size: 0.8em;
+            color: #666;
+            margin-left: auto;
         }
         
         .filter-tags {
@@ -1120,6 +1142,30 @@
             font-style: italic;
         }
 
+        .hebergement-type-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: var(--border-radius);
+            border-left: 4px solid #2196F3;
+        }
+        
+        .hebergement-type-label {
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .hebergement-type-content {
+            color: var(--text-color);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
         /* Style pour la modale de mot de passe */
         .password-modal {
             display: none;
@@ -1220,17 +1266,33 @@
         
         .mobile-filter-title {
             font-weight: bold;
-            color: var(--secondary-color);
             font-size: 0.9em;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
+        .mobile-filter-title.hotes { color: #3498db; }
+        .mobile-filter-title.pays { color: #27ae60; }
+        .mobile-filter-title.lieux { color: #9b59b6; }
+        .mobile-filter-title.heberges { color: #f39c12; }
+        
         .mobile-filter-toggle {
-            font-size: 1.2em;
-            color: var(--primary-color);
+            font-size: 0.8em;
+            color: #666;
             transition: transform 0.3s ease;
+        }
+        
+        .mobile-filter-toggle.collapsed::after {
+            content: '▶ Cliquer pour afficher';
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+        
+        .mobile-filter-toggle.expanded::after {
+            content: '▼ Réduire';
+            font-size: 0.7em;
+            margin-left: 5px;
         }
         
         .mobile-filter-content {
@@ -1375,13 +1437,13 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            table-layout: fixed; /* Important pour contrôler les largeurs */
+            table-layout: fixed;
         }
         
         .tableau-table th {
             background-color: var(--primary-color);
             color: white;
-            padding: 8px 10px; /* Réduit le padding pour mobile */
+            padding: 8px 10px;
             text-align: left;
             font-weight: 600;
             position: sticky;
@@ -1393,7 +1455,7 @@
         }
         
         .tableau-table td {
-            padding: 8px 10px; /* Réduit le padding pour mobile */
+            padding: 8px 10px;
             border-bottom: 1px solid #e9ecef;
             vertical-align: top;
             word-wrap: break-word;
@@ -1408,6 +1470,17 @@
             background-color: #f0f0f0;
         }
         
+        .tableau-table .hote-cell {
+            color: #27ae60;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .tableau-table .hote-cell:hover {
+            color: #219653;
+        }
+        
         .heberge-list-cell {
             max-width: 200px;
         }
@@ -1416,9 +1489,9 @@
             display: inline-block;
             background: #ffc107;
             color: #856404;
-            padding: 2px 6px; /* Réduit le padding pour mobile */
+            padding: 2px 6px;
             border-radius: 10px;
-            font-size: 10px; /* Réduit la taille de police */
+            font-size: 10px;
             margin: 1px;
             white-space: nowrap;
             max-width: 100%;
@@ -1427,13 +1500,12 @@
         }
         
         .date-cell {
-            font-size: 0.8em; /* Réduit la taille de police */
+            font-size: 0.8em;
             min-width: 80px;
         }
         
         .hote-cell {
             font-weight: 600;
-            color: #27ae60;
             min-width: 100px;
             max-width: 120px;
             overflow: hidden;
@@ -1456,6 +1528,12 @@
             min-width: 60px;
             text-align: center;
         }
+        
+        .type-cell {
+            min-width: 70px;
+            max-width: 100px;
+            font-size: 0.9em;
+        }
 
         @media (max-width: 1024px) {
             .container {
@@ -1464,7 +1542,7 @@
             
             .fixed-nav-buttons {
                 flex-direction: row;
-                top: 100px; /* Ajusté pour tablette */
+                top: 100px;
                 right: 10px;
             }
             
@@ -1482,7 +1560,7 @@
             
             .sidebar {
                 order: 2;
-                display: none; /* Cacher la sidebar sur mobile */
+                display: none;
             }
             
             .main-content {
@@ -1520,7 +1598,7 @@
             .fixed-nav-buttons {
                 position: fixed;
                 bottom: 20px;
-                top: auto; /* Annule la position top sur mobile */
+                top: auto;
                 right: 20px;
                 flex-direction: column;
             }
@@ -1756,7 +1834,7 @@
                 padding: 5px 0;
             }
             
-            /* Styles améliorés pour le tableau sur mobile */
+            /* Styles améliorés pour le tableau sur mobile - TAILLES AUGMENTÉES */
             .tableau-export-buttons {
                 flex-direction: column;
             }
@@ -1765,58 +1843,77 @@
                 display: table;
                 width: 100%;
                 overflow-x: auto;
-                font-size: 11px; /* Taille de police réduite */
+                font-size: 12px; /* Augmenté de 11px à 12px */
             }
             
             .tableau-table th,
             .tableau-table td {
                 min-width: auto;
-                max-width: 100px; /* Largeur maximale réduite */
-                padding: 6px 8px; /* Padding réduit */
+                max-width: 100px;
+                padding: 8px 10px; /* Augmenté de 6px 8px à 8px 10px */
+                font-size: 12px; /* Ajouté pour uniformiser la taille */
+            }
+            
+            .tableau-table th {
+                font-size: 13px; /* Plus grand pour les en-têtes */
+                padding: 10px 12px; /* Plus d'espacement */
             }
             
             /* Largeurs spécifiques pour chaque colonne sur mobile */
-            .tableau-table th:nth-child(1), /* Hôte */
+            .tableau-table th:nth-child(1),
             .tableau-table td:nth-child(1) {
-                width: 22%; /* 22% pour Hôte */
+                width: 22%;
                 max-width: 100px;
                 min-width: 80px;
+                font-size: 13px; /* Plus grand pour les noms d'hôtes */
             }
             
-            .tableau-table th:nth-child(2), /* Pays */
+            .tableau-table th:nth-child(2),
             .tableau-table td:nth-child(2) {
-                width: 12%; /* 12% pour Pays */
+                width: 12%;
                 max-width: 70px;
                 min-width: 60px;
+                font-size: 12px;
             }
             
-            .tableau-table th:nth-child(3), /* Lieu */
+            .tableau-table th:nth-child(3),
             .tableau-table td:nth-child(3) {
-                width: 15%; /* 15% pour Lieu */
+                width: 15%;
                 max-width: 80px;
                 min-width: 70px;
+                font-size: 12px;
             }
             
-            .tableau-table th:nth-child(4), /* Dates */
+            .tableau-table th:nth-child(4),
             .tableau-table td:nth-child(4) {
-                width: 20%; /* 20% pour Dates */
+                width: 18%; /* Réduit pour laisser de la place au type */
                 max-width: 100px;
                 min-width: 90px;
-                font-size: 10px;
+                font-size: 11px;
             }
             
-            .tableau-table th:nth-child(5), /* Durée */
+            .tableau-table th:nth-child(5),
             .tableau-table td:nth-child(5) {
-                width: 16%; /* 16% pour Durée */
+                width: 10%; /* Colonne type d'hébergement */
+                max-width: 70px;
+                min-width: 60px;
+                font-size: 11px;
+            }
+            
+            .tableau-table th:nth-child(6),
+            .tableau-table td:nth-child(6) {
+                width: 13%; /* Durée */
                 max-width: 80px;
                 min-width: 70px;
+                font-size: 12px;
             }
             
-            .tableau-table th:nth-child(6), /* Personnes hébergées */
-            .tableau-table td:nth-child(6) {
-                width: 15%; /* 15% pour Personnes hébergées */
+            .tableau-table th:nth-child(7),
+            .tableau-table td:nth-child(7) {
+                width: 10%; /* Personnes hébergées */
                 max-width: 120px;
                 min-width: 100px;
+                font-size: 12px;
             }
             
             .heberge-list-cell {
@@ -1824,9 +1921,9 @@
             }
             
             .heberge-item {
-                font-size: 9px; /* Taille de police plus petite */
-                padding: 2px 5px; /* Padding réduit */
-                margin: 1px;
+                font-size: 10px; /* Augmenté de 9px à 10px */
+                padding: 3px 6px; /* Augmenté de 2px 5px à 3px 6px */
+                margin: 2px;
                 max-width: 100%;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -1835,7 +1932,7 @@
             }
             
             .hote-cell {
-                font-size: 10px;
+                font-size: 12px; /* Augmenté de 10px à 12px */
                 max-width: 100px;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -1843,14 +1940,18 @@
             }
             
             .date-cell {
-                font-size: 9px;
+                font-size: 11px; /* Augmenté de 9px à 11px */
                 white-space: normal;
-                line-height: 1.2;
+                line-height: 1.3;
             }
             
             .duration-cell {
-                font-size: 10px;
+                font-size: 12px; /* Augmenté de 10px à 12px */
                 text-align: center;
+            }
+            
+            .type-cell {
+                font-size: 11px;
             }
             
             /* Conteneur pour les personnes hébergées avec scroll vertical si nécessaire */
@@ -1861,56 +1962,71 @@
             }
             
             /* Style pour les indicateurs de durée */
-            .tableau-table td:nth-child(5) div div span {
-                font-size: 9px;
-                padding: 2px 4px;
+            .tableau-table td:nth-child(6) div div span {
+                font-size: 11px; /* Augmenté de 9px à 11px */
+                padding: 3px 6px;
             }
             
             /* Ajustements pour les petits écrans */
             @media (max-width: 480px) {
                 .tableau-table {
-                    font-size: 10px;
+                    font-size: 11px;
                 }
                 
                 .tableau-table th,
                 .tableau-table td {
-                    padding: 5px 6px;
+                    padding: 7px 8px;
+                }
+                
+                .tableau-table th {
+                    font-size: 12px;
                 }
                 
                 .tableau-table th:nth-child(1),
                 .tableau-table td:nth-child(1) {
                     width: 25%;
+                    font-size: 12px;
                 }
                 
                 .tableau-table th:nth-child(2),
                 .tableau-table td:nth-child(2) {
                     width: 10%;
+                    font-size: 11px;
                 }
                 
                 .tableau-table th:nth-child(3),
                 .tableau-table td:nth-child(3) {
-                    width: 15%;
+                    width: 14%;
+                    font-size: 11px;
                 }
                 
                 .tableau-table th:nth-child(4),
                 .tableau-table td:nth-child(4) {
-                    width: 20%;
-                    font-size: 9px;
+                    width: 18%;
+                    font-size: 10px;
                 }
                 
                 .tableau-table th:nth-child(5),
                 .tableau-table td:nth-child(5) {
-                    width: 15%;
+                    width: 10%;
+                    font-size: 10px;
                 }
                 
                 .tableau-table th:nth-child(6),
                 .tableau-table td:nth-child(6) {
-                    width: 15%;
+                    width: 13%;
+                    font-size: 11px;
+                }
+                
+                .tableau-table th:nth-child(7),
+                .tableau-table td:nth-child(7) {
+                    width: 10%;
+                    font-size: 11px;
                 }
                 
                 .heberge-item {
-                    font-size: 8px;
-                    padding: 1px 3px;
+                    font-size: 9px;
+                    padding: 2px 4px;
                 }
             }
         }
@@ -1948,15 +2064,17 @@
                 <span>🏡</span>
                 <span>🚪</span>
             </div>
-            <div class="header-left">
-                <h1>Hébergements Tournée 2026</h1>
-                <p>Consultation des hébergements par date et par hôte</p>
-            </div>
-            <div class="header-search">
-                <input type="date" id="dateInput" class="search-input">
-                <button class="search-icon-button" id="searchButton" title="Rechercher par date">
-                    🔍
-                </button>
+            <div class="header-overlay">
+                <div class="header-left">
+                    <h1>Hébergements Tournée 2026</h1>
+                    <p>Consultation des hébergements par date et par hôte</p>
+                </div>
+                <div class="header-search">
+                    <input type="date" id="dateInput" class="search-input">
+                    <button class="search-icon-button" id="searchButton" title="Rechercher par date">
+                        🔍
+                    </button>
+                </div>
             </div>
         </header>
         
@@ -1985,6 +2103,22 @@
                         <div class="stat-value" id="totalHeberges">0</div>
                         <div class="stat-label">Personnes hébergées</div>
                     </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalFamille">0</div>
+                        <div class="stat-label">Hébergements en Famille</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalHotel">0</div>
+                        <div class="stat-label">Hébergements en Hôtel</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCentre">0</div>
+                        <div class="stat-label">Hébergements en Centre</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalAutre">0</div>
+                        <div class="stat-label">Autres hébergements</div>
+                    </div>
                 </div>
             </div>
             
@@ -2006,29 +2140,41 @@
             <!-- Filtres dans la sidebar -->
             <div class="filters-sidebar">
                 <div class="filter-group">
-                    <h3>👤 Hôtes</h3>
-                    <div class="filter-tags" id="hotesTags">
+                    <h3 class="toggle-title" data-filter="hotes">
+                        <span style="color: #3498db;">👤 Hôtes</span>
+                        <span class="toggle-indicator">▶ Cliquer pour afficher</span>
+                    </h3>
+                    <div class="filter-tags" id="hotesTags" style="display: none;">
                         <!-- Les hôtes seront générés ici -->
                     </div>
                 </div>
                 
                 <div class="filter-group">
-                    <h3>🌍 Pays</h3>
-                    <div class="filter-tags" id="paysTags">
+                    <h3 class="toggle-title" data-filter="pays">
+                        <span style="color: #27ae60;">🌍 Pays</span>
+                        <span class="toggle-indicator">▶ Cliquer pour afficher</span>
+                    </h3>
+                    <div class="filter-tags" id="paysTags" style="display: none;">
                         <!-- Les pays seront générés ici -->
                     </div>
                 </div>
                 
                 <div class="filter-group">
-                    <h3>📍 Lieux</h3>
-                    <div class="filter-tags" id="lieuxTags">
+                    <h3 class="toggle-title" data-filter="lieux">
+                        <span style="color: #9b59b6;">📍 Lieux</span>
+                        <span class="toggle-indicator">▶ Cliquer pour afficher</span>
+                    </h3>
+                    <div class="filter-tags" id="lieuxTags" style="display: none;">
                         <!-- Les lieux seront générés ici -->
                     </div>
                 </div>
                 
                 <div class="filter-group">
-                    <h3>👥 Personnes hébergées</h3>
-                    <div class="filter-tags" id="hebergesTags">
+                    <h3 class="toggle-title" data-filter="heberges">
+                        <span style="color: #f39c12;">👥 Personnes hébergées</span>
+                        <span class="toggle-indicator">▶ Cliquer pour afficher</span>
+                    </h3>
+                    <div class="filter-tags" id="hebergesTags" style="display: none;">
                         <!-- Les personnes hébergées seront générés ici -->
                     </div>
                 </div>
@@ -2061,6 +2207,22 @@
                         <div class="stat-value" id="totalHebergesMobile">0</div>
                         <div class="stat-label">Personnes hébergées</div>
                     </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalFamilleMobile">0</div>
+                        <div class="stat-label">Famille</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalHotelMobile">0</div>
+                        <div class="stat-label">Hôtel</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCentreMobile">0</div>
+                        <div class="stat-label">Centre</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalAutreMobile">0</div>
+                        <div class="stat-label">Autres</div>
+                    </div>
                 </div>
             </div>
             
@@ -2083,11 +2245,11 @@
             <div class="mobile-filters">
                 <div class="mobile-filter-group">
                     <div class="mobile-filter-header" data-filter="hotes">
-                        <div class="mobile-filter-title">
+                        <div class="mobile-filter-title hotes">
                             <span>👤</span>
                             <span>Hôtes</span>
                         </div>
-                        <div class="mobile-filter-toggle">▼</div>
+                        <div class="mobile-filter-toggle collapsed"></div>
                     </div>
                     <div class="mobile-filter-content" id="mobileHotesContent">
                         <div class="mobile-tags-container" id="mobileHotesTags">
@@ -2098,11 +2260,11 @@
                 
                 <div class="mobile-filter-group">
                     <div class="mobile-filter-header" data-filter="pays">
-                        <div class="mobile-filter-title">
+                        <div class="mobile-filter-title pays">
                             <span>🌍</span>
                             <span>Pays</span>
                         </div>
-                        <div class="mobile-filter-toggle">▼</div>
+                        <div class="mobile-filter-toggle collapsed"></div>
                     </div>
                     <div class="mobile-filter-content" id="mobilePaysContent">
                         <div class="mobile-tags-container" id="mobilePaysTags">
@@ -2113,11 +2275,11 @@
                 
                 <div class="mobile-filter-group">
                     <div class="mobile-filter-header" data-filter="lieux">
-                        <div class="mobile-filter-title">
+                        <div class="mobile-filter-title lieux">
                             <span>📍</span>
                             <span>Lieux</span>
                         </div>
-                        <div class="mobile-filter-toggle">▼</div>
+                        <div class="mobile-filter-toggle collapsed"></div>
                     </div>
                     <div class="mobile-filter-content" id="mobileLieuxContent">
                         <div class="mobile-tags-container" id="mobileLieuxTags">
@@ -2128,11 +2290,11 @@
                 
                 <div class="mobile-filter-group">
                     <div class="mobile-filter-header" data-filter="heberges">
-                        <div class="mobile-filter-title">
+                        <div class="mobile-filter-title heberges">
                             <span>👥</span>
                             <span>Personnes hébergées</span>
                         </div>
-                        <div class="mobile-filter-toggle">▼</div>
+                        <div class="mobile-filter-toggle collapsed"></div>
                     </div>
                     <div class="mobile-filter-content" id="mobileHebergesContent">
                         <div class="mobile-tags-container" id="mobileHebergesTags">
@@ -2406,14 +2568,20 @@ L'équipe de la Tournée 2026</textarea>
         let colPhotosLieux = -1;
         let colFormulaire = -1;
         let colRepartition = -1;
+        let colHebergeEn = -1;
 
         // Colonnes pour les informations supplémentaires
         let colAdresseHebergeur = -1;
         let colLieuHebergeur = -1;
         let colPaysHebergeur = -1;
         let colNumeroHebergeur = -1;
-        let colHebergeEn = -1;
         let colASavoirHote = -1;
+
+        // Variables pour les statistiques des types d'hébergement
+        let typeFamille = 0;
+        let typeHotel = 0;
+        let typeCentre = 0;
+        let typeAutre = 0;
 
         document.addEventListener('DOMContentLoaded', function() {
             // Initialiser les boutons de navigation fixes
@@ -2604,10 +2772,29 @@ L'équipe de la Tournée 2026</textarea>
                     
                     if (content.classList.contains('open')) {
                         content.classList.remove('open');
-                        toggle.textContent = '▼';
+                        toggle.classList.remove('expanded');
+                        toggle.classList.add('collapsed');
                     } else {
                         content.classList.add('open');
-                        toggle.textContent = '▲';
+                        toggle.classList.remove('collapsed');
+                        toggle.classList.add('expanded');
+                    }
+                });
+            });
+            
+            // Événements pour les filtres desktop (afficher/masquer)
+            document.querySelectorAll('.toggle-title').forEach(title => {
+                title.addEventListener('click', function() {
+                    const filterType = this.getAttribute('data-filter');
+                    const container = document.getElementById(`${filterType}Tags`);
+                    const indicator = this.querySelector('.toggle-indicator');
+                    
+                    if (container.style.display === 'none' || container.style.display === '') {
+                        container.style.display = 'flex';
+                        indicator.textContent = '▼ Réduire';
+                    } else {
+                        container.style.display = 'none';
+                        indicator.textContent = '▶ Cliquer pour afficher';
                     }
                 });
             });
@@ -2673,6 +2860,7 @@ L'équipe de la Tournée 2026</textarea>
                             <th class="pays-cell">Pays</th>
                             <th class="lieu-cell">Lieu</th>
                             <th class="date-cell">Dates</th>
+                            <th class="type-cell">Type</th>
                             <th class="duration-cell">Durée</th>
                             <th class="heberge-list-cell">Personnes hébergées</th>
                         </tr>
@@ -2683,7 +2871,7 @@ L'équipe de la Tournée 2026</textarea>
             tableauData.forEach(hote => {
                 html += `
                     <tr>
-                        <td class="hote-cell" title="${hote.nom}">${hote.nom}</td>
+                        <td class="hote-cell" title="${hote.nom}" onclick="showFichesForHote('${hote.nom.replace(/'/g, "\\'")}')">${hote.nom}</td>
                         <td class="pays-cell">
                             <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;">
                                 ${hote.pays}
@@ -2694,6 +2882,11 @@ L'équipe de la Tournée 2026</textarea>
                             <div style="display: flex; flex-direction: column; gap: 2px; font-size: 0.9em;">
                                 ${hote.dates.map(date => `<div>${date}</div>`).join('')}
                             </div>
+                        </td>
+                        <td class="type-cell">
+                            <span style="display: inline-block; padding: 4px 8px; background: #2196F3; color: white; border-radius: 12px; font-size: 0.9em;">
+                                ${hote.type || 'Non spécifié'}
+                            </span>
                         </td>
                         <td class="duration-cell">
                             <div style="display: flex; flex-direction: column; gap: 4px;">
@@ -2736,6 +2929,12 @@ L'équipe de la Tournée 2026</textarea>
             hidePersonBubble();
         }
         
+        // Fonction pour afficher les fiches d'un hôte spécifique
+        function showFichesForHote(hoteNom) {
+            const results = filterDataByType(hoteNom, 'nom');
+            displayResults(results, `Fiches pour l'hôte: ${hoteNom}`);
+        }
+        
         // Fonction pour générer les données du tableau
         function generateTableauData() {
             const hotesMap = new Map();
@@ -2746,11 +2945,13 @@ L'équipe de la Tournée 2026</textarea>
                 const nom = colNom !== -1 ? row[colNom] : '';
                 const pays = colPays !== -1 ? row[colPays] : '';
                 const lieu = colLieu !== -1 ? row[colLieu] : '';
+                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                 
                 if (nom && nom.trim()) {
                     const key = nom.trim().toLowerCase();
                     const paysValue = pays ? pays.trim() : 'Non spécifié';
                     const lieuValue = lieu ? lieu.trim() : 'Non spécifié';
+                    const typeValue = type ? type.trim() : 'Non spécifié';
                     const dateDebutObj = parseDate(dateDebut);
                     const dateFinObj = parseDate(dateFin);
                     
@@ -2795,6 +2996,7 @@ L'équipe de la Tournée 2026</textarea>
                             nom: nom.trim(),
                             pays: paysValue,
                             lieu: lieuValue,
+                            type: typeValue,
                             dates: [],
                             jours: 0,
                             nuits: 0,
@@ -2861,6 +3063,7 @@ L'équipe de la Tournée 2026</textarea>
                         .jours { background: #ffc107; color: #856404; padding: 2px 6px; border-radius: 5px; }
                         .nuits { background: #17a2b8; color: white; padding: 2px 6px; border-radius: 5px; }
                         .sejours { font-size: 0.8em; color: #666; }
+                        .type { background: #2196F3; color: white; padding: 2px 6px; border-radius: 5px; font-size: 0.9em; }
                         @media print {
                             body { margin: 10px; }
                             table { font-size: 11px; }
@@ -2883,6 +3086,7 @@ L'équipe de la Tournée 2026</textarea>
                                 <th>Pays</th>
                                 <th>Lieu</th>
                                 <th>Dates</th>
+                                <th>Type</th>
                                 <th>Durée</th>
                                 <th>Personnes hébergées</th>
                             </tr>
@@ -2899,6 +3103,7 @@ L'équipe de la Tournée 2026</textarea>
                         <td>
                             ${hote.dates.map(date => `<div>${date}</div>`).join('')}
                         </td>
+                        <td><span class="type">${hote.type}</span></td>
                         <td class="duration">
                             <div><span class="jours">${hote.jours} jour${hote.jours > 1 ? 's' : ''}</span></div>
                             <div style="margin-top: 3px;"><span class="nuits">${hote.nuits} nuitée${hote.nuits > 1 ? 's' : ''}</span></div>
@@ -2930,7 +3135,7 @@ L'équipe de la Tournée 2026</textarea>
         
         function exportTableauExcel() {
             // Créer le CSV
-            let csvContent = 'Hôte,Pays,Lieu,Dates,Jours,Nuitées,Séjours,Personnes hébergées\n';
+            let csvContent = 'Hôte,Pays,Lieu,Dates,Type,Jours,Nuitées,Séjours,Personnes hébergées\n';
             
             tableauData.forEach(hote => {
                 const personnesStr = hote.personnes.map(p => p.replace(/,/g, ';')).join(', ');
@@ -2941,6 +3146,7 @@ L'équipe de la Tournée 2026</textarea>
                     `"${hote.pays}"`,
                     `"${hote.lieu}"`,
                     `"${datesStr}"`,
+                    `"${hote.type}"`,
                     hote.jours,
                     hote.nuits,
                     hote.sejours,
@@ -3141,8 +3347,7 @@ L'équipe de la Tournée 2026</textarea>
                 document.querySelectorAll('.hote-link').forEach((link) => {
                     link.addEventListener('click', function() {
                         const hoteName = this.getAttribute('data-hote');
-                        const results = filterDataByType(hoteName, 'nom');
-                        displayResults(results, `Fiches pour l'hôte: ${hoteName}`);
+                        showFichesForHote(hoteName);
                     });
                 });
             }, 100);
@@ -3222,7 +3427,7 @@ L'équipe de la Tournée 2026</textarea>
                     filename = 'liste_tous_hebergeurs';
                     
                     // Créer les en-têtes pour l'export
-                    const exportHeaders = ['Nom', 'Email', 'Téléphone', 'Facebook', 'Adresse', 'Lieu', 'Pays', 'Date Début', 'Date Fin'];
+                    const exportHeaders = ['Nom', 'Email', 'Téléphone', 'Facebook', 'Adresse', 'Lieu', 'Pays', 'Type', 'Date Début', 'Date Fin'];
                     
                     // Récupérer tous les hébergeurs uniques
                     const uniqueHebergeurs = new Map();
@@ -3235,6 +3440,7 @@ L'équipe de la Tournée 2026</textarea>
                         const adresse = colAdresse !== -1 ? row[colAdresse] : '';
                         const lieu = colLieu !== -1 ? row[colLieu] : '';
                         const pays = colPays !== -1 ? row[colPays] : '';
+                        const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                         const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
                         const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
                         
@@ -3249,6 +3455,7 @@ L'équipe de la Tournée 2026</textarea>
                                     adresse: adresse ? adresse.trim() : '',
                                     lieu: lieu ? lieu.trim() : '',
                                     pays: pays ? pays.trim() : '',
+                                    type: type ? type.trim() : '',
                                     dates: dateDebut && dateFin ? `${dateDebut} au ${dateFin}` : ''
                                 });
                             }
@@ -3271,6 +3478,7 @@ L'équipe de la Tournée 2026</textarea>
                                 `"${item.adresse}"`,
                                 `"${item.lieu}"`,
                                 `"${item.pays}"`,
+                                `"${item.type}"`,
                                 `"${item.dates}"`
                             ];
                             csvContent += row.join(',') + '\n';
@@ -3300,6 +3508,7 @@ L'équipe de la Tournée 2026</textarea>
                         const telephone = colTelephone !== -1 ? row[colTelephone] : '';
                         const adresse = colAdresse !== -1 ? row[colAdresse] : '';
                         const lieu = colLieu !== -1 ? row[colLieu] : '';
+                        const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                         const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
                         const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
                         
@@ -3322,6 +3531,7 @@ L'équipe de la Tournée 2026</textarea>
                                     telephone: telephone ? telephone.trim() : '',
                                     adresse: adresse ? adresse.trim() : '',
                                     lieu: lieu ? lieu.trim() : '',
+                                    type: type ? type.trim() : '',
                                     dates: dateDebut && dateFin ? `${dateDebut} au ${dateFin}` : ''
                                 });
                             }
@@ -3330,7 +3540,7 @@ L'équipe de la Tournée 2026</textarea>
                     
                     if (selectedExportFormat === 'csv' || selectedExportFormat === 'excel') {
                         // Créer le CSV
-                        let csvContent = 'Pays,Nom,Email,Téléphone,Adresse,Lieu,Dates\n';
+                        let csvContent = 'Pays,Nom,Email,Téléphone,Adresse,Lieu,Type,Dates\n';
                         
                         Object.keys(hebergeursParPays).sort().forEach(pays => {
                             hebergeursParPays[pays].forEach(hebergeur => {
@@ -3341,6 +3551,7 @@ L'équipe de la Tournée 2026</textarea>
                                     `"${hebergeur.telephone}"`,
                                     `"${hebergeur.adresse}"`,
                                     `"${hebergeur.lieu}"`,
+                                    `"${hebergeur.type}"`,
                                     `"${hebergeur.dates}"`
                                 ];
                                 csvContent += row.join(',') + '\n';
@@ -3391,6 +3602,8 @@ L'équipe de la Tournée 2026</textarea>
                         .hote-name { font-size: 1.5em; color: #27ae60; font-weight: bold; margin-top: 5px; }
                         .section { margin-bottom: 15px; padding: 15px; border-left: 4px solid #3498db; background: #f8f9fa; border-radius: 5px; }
                         .section-title { font-weight: bold; color: #2c3e50; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+                        .type-section { border-left-color: #2196F3; background: #e3f2fd; }
+                        .type-title { color: #0d47a1; }
                         @media print {
                             .fiche-container { page-break-inside: avoid; }
                             body { margin: 10px; }
@@ -3424,13 +3637,13 @@ L'équipe de la Tournée 2026</textarea>
                 const photosLieux = colPhotosLieux !== -1 ? row[colPhotosLieux] : '';
                 const formulaire = colFormulaire !== -1 ? row[colFormulaire] : '';
                 const repartition = colRepartition !== -1 ? row[colRepartition] : '';
+                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                 
                 const adresseHebergeur = colAdresseHebergeur !== -1 ? row[colAdresseHebergeur] : '';
                 const lieuHebergeur = colLieuHebergeur !== -1 ? row[colLieuHebergeur] : '';
                 const paysHebergeur = colPaysHebergeur !== -1 ? row[colPaysHebergeur] : '';
                 const numeroHebergeur = colNumeroHebergeur !== -1 ? row[colNumeroHebergeur] : '';
                 
-                const hebergeEn = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                 const aSavoirHote = colASavoirHote !== -1 ? row[colASavoirHote] : '';
                 
                 let toutesPersonnes = [];
@@ -3499,10 +3712,10 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                         </div>
                         
-                        ${hebergeEn ? `
-                        <div class="section" style="border-left-color: #ff9800;">
-                            <div class="section-title">🏠 Hébergé en:</div>
-                            <div>${hebergeEn}</div>
+                        ${type ? `
+                        <div class="section type-section">
+                            <div class="section-title type-title">🏠 Hébergé en:</div>
+                            <div>${type}</div>
                         </div>
                         ` : ''}
                         
@@ -3606,6 +3819,7 @@ L'équipe de la Tournée 2026</textarea>
                                     <td>${item.adresse}</td>
                                     <td>${item.lieu}</td>
                                     <td>${item.pays}</td>
+                                    <td>${item.type}</td>
                                     <td>${item.dates}</td>
                                 </tr>
                             `).join('')}
@@ -3636,6 +3850,7 @@ L'équipe de la Tournée 2026</textarea>
                         td { padding: 10px; border: 1px solid #ddd; }
                         tr:nth-child(even) { background-color: #f9f9f9; }
                         .country-section { margin-bottom: 40px; }
+                        .type { background: #2196F3; color: white; padding: 2px 6px; border-radius: 5px; font-size: 0.9em; }
                     </style>
                 </head>
                 <body>
@@ -3655,6 +3870,7 @@ L'équipe de la Tournée 2026</textarea>
                                     <th>Téléphone</th>
                                     <th>Adresse</th>
                                     <th>Lieu</th>
+                                    <th>Type</th>
                                     <th>Dates</th>
                                 </tr>
                             </thead>
@@ -3666,6 +3882,7 @@ L'équipe de la Tournée 2026</textarea>
                                         <td>${hebergeur.telephone}</td>
                                         <td>${hebergeur.adresse}</td>
                                         <td>${hebergeur.lieu}</td>
+                                        <td><span class="type">${hebergeur.type}</span></td>
                                         <td>${hebergeur.dates}</td>
                                     </tr>
                                 `).join('')}
@@ -4130,6 +4347,10 @@ L'équipe de la Tournée 2026</textarea>
                     colRepartition = index;
                     console.log('👥 Colonne Répartition détectée:', index);
                 }
+                else if (lowerHeader.includes('hebergé en') || lowerHeader.includes('hébergé en')) {
+                    colHebergeEn = index;
+                    console.log('🏠 Colonne Hébergé en détectée:', index);
+                }
                 else if (lowerHeader.includes('adresse:') && !lowerHeader.includes('e-mail')) {
                     colAdresseHebergeur = index;
                     console.log('📍 Colonne Adresse hébergeur détectée:', index);
@@ -4145,10 +4366,6 @@ L'équipe de la Tournée 2026</textarea>
                 else if (lowerHeader.includes('numéro:') || lowerHeader.includes('numero:')) {
                     colNumeroHebergeur = index;
                     console.log('🔢 Colonne Numéro hébergeur détectée:', index);
-                }
-                else if (lowerHeader.includes('hebergé en') || lowerHeader.includes('hébergé en')) {
-                    colHebergeEn = index;
-                    console.log('🏠 Colonne Hebergé en détectée:', index);
                 }
                 else if (lowerHeader.includes('savoir sur le hôte') || lowerHeader.includes('savoir sur l\'hébergeur') || lowerHeader.includes('à savoir')) {
                     colASavoirHote = index;
@@ -4188,6 +4405,12 @@ L'équipe de la Tournée 2026</textarea>
             allHeberges.clear();
             allPrieres = [];
             bookingPeriods = [];
+            
+            // Réinitialiser les compteurs de type d'hébergement
+            typeFamille = 0;
+            typeHotel = 0;
+            typeCentre = 0;
+            typeAutre = 0;
             
             sheetData.forEach((row, index) => {
                 if (colNom !== -1) {
@@ -4229,6 +4452,20 @@ L'équipe de la Tournée 2026</textarea>
                     }
                 }
                 
+                // Compter les types d'hébergement
+                if (colHebergeEn !== -1) {
+                    const type = (row[colHebergeEn] || '').trim().toLowerCase();
+                    if (type.includes('famille')) {
+                        typeFamille++;
+                    } else if (type.includes('hotel') || type.includes('hôtel')) {
+                        typeHotel++;
+                    } else if (type.includes('centre')) {
+                        typeCentre++;
+                    } else if (type !== '') {
+                        typeAutre++;
+                    }
+                }
+                
                 if (colDateDebut !== -1 && colDateFin !== -1) {
                     const dateDebut = parseDate(row[colDateDebut]);
                     const dateFin = parseDate(row[colDateFin]);
@@ -4254,6 +4491,7 @@ L'équipe de la Tournée 2026</textarea>
             console.log('👥 Personnes hébergées extraites:', allHeberges.length);
             console.log('🙏 Prières extraites:', allPrieres.length);
             console.log('📅 Périodes de réservation:', bookingPeriods.length);
+            console.log('🏠 Types d\'hébergement:', { typeFamille, typeHotel, typeCentre, typeAutre });
         }
         
         function updateStats() {
@@ -4262,6 +4500,10 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('totalPays').textContent = allPays.length;
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalHeberges').textContent = allHeberges.length;
+            document.getElementById('totalFamille').textContent = typeFamille;
+            document.getElementById('totalHotel').textContent = typeHotel;
+            document.getElementById('totalCentre').textContent = typeCentre;
+            document.getElementById('totalAutre').textContent = typeAutre;
             
             // Mettre à jour les statistiques mobiles
             document.getElementById('totalHebergementsMobile').textContent = sheetData.length;
@@ -4269,6 +4511,10 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('totalPaysMobile').textContent = allPays.length;
             document.getElementById('totalLieuxMobile').textContent = allLieux.length;
             document.getElementById('totalHebergesMobile').textContent = allHeberges.length;
+            document.getElementById('totalFamilleMobile').textContent = typeFamille;
+            document.getElementById('totalHotelMobile').textContent = typeHotel;
+            document.getElementById('totalCentreMobile').textContent = typeCentre;
+            document.getElementById('totalAutreMobile').textContent = typeAutre;
         }
         
         function renderFilterTags() {
@@ -4560,6 +4806,7 @@ L'équipe de la Tournée 2026</textarea>
                 <div class="success-message">
                     ✅ Données chargées avec succès : ${sheetData.length} hébergement(s) trouvé(s)
                     <br><small>${allHotes.length} hôtes - ${allPays.length} pays - ${allLieux.length} lieux - ${allHeberges.length} personnes hébergées</small>
+                    <br><small>Types d'hébergement: ${typeFamille} Famille, ${typeHotel} Hôtel, ${typeCentre} Centre, ${typeAutre} Autres</small>
                 </div>
             `;
             dataInfo.style.display = 'block';
@@ -4688,13 +4935,13 @@ L'équipe de la Tournée 2026</textarea>
                     const photosLieux = colPhotosLieux !== -1 ? row[colPhotosLieux] : '';
                     const formulaire = colFormulaire !== -1 ? row[colFormulaire] : '';
                     const repartition = colRepartition !== -1 ? row[colRepartition] : '';
+                    const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                     
                     const adresseHebergeur = colAdresseHebergeur !== -1 ? row[colAdresseHebergeur] : '';
                     const lieuHebergeur = colLieuHebergeur !== -1 ? row[colLieuHebergeur] : '';
                     const paysHebergeur = colPaysHebergeur !== -1 ? row[colPaysHebergeur] : '';
                     const numeroHebergeur = colNumeroHebergeur !== -1 ? row[colNumeroHebergeur] : '';
                     
-                    const hebergeEn = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                     const aSavoirHote = colASavoirHote !== -1 ? row[colASavoirHote] : '';
                     
                     let adresseComplete = adresseHebergeur || adresse || '';
@@ -4774,10 +5021,10 @@ L'équipe de la Tournée 2026</textarea>
                                 </div>
                             </div>
                             
-                            ${hebergeEn ? `
-                            <div class="hote-info-section">
-                                <div class="hote-info-label">🏠 Hébergé en:</div>
-                                <div class="hote-info-content">${hebergeEn}</div>
+                            ${type ? `
+                            <div class="hebergement-type-section">
+                                <div class="hebergement-type-label">🏠 Hébergé en:</div>
+                                <div class="hebergement-type-content">${type}</div>
                             </div>
                             ` : ''}
                             
