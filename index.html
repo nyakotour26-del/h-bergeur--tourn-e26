@@ -3586,12 +3586,26 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('confirmExport').style.display = 'none';
         }
 
+        // CORRECTION ICI : La fonction corrigée pour bien gérer tous les types d'export
         function selectExportType(type) {
             selectedExportType = type;
+            
+            // Désélectionner tous les types
             document.getElementById('exportType1').classList.remove('selected');
             document.getElementById('exportType2').classList.remove('selected');
             document.getElementById('exportType3').classList.remove('selected');
-            document.getElementById('exportType4').classList.add('selected');
+            document.getElementById('exportType4').classList.remove('selected');
+            
+            // Sélectionner le bon type
+            if (type === 1) {
+                document.getElementById('exportType1').classList.add('selected');
+            } else if (type === 2) {
+                document.getElementById('exportType2').classList.add('selected');
+            } else if (type === 3) {
+                document.getElementById('exportType3').classList.add('selected');
+            } else if (type === 4) {
+                document.getElementById('exportType4').classList.add('selected');
+            }
             
             // Pour le type 3 (fiches) et 4 (tableau), on n'affiche pas les options de format, c'est toujours PDF
             if (type === 3 || type === 4) {
