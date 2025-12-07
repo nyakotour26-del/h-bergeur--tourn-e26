@@ -39,7 +39,7 @@
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 45% 1fr; /* Sidebar agrandie à 45% */
+            grid-template-columns: 300px 1fr; /* Sidebar fixe à gauche */
             gap: 20px;
         }
         
@@ -419,6 +419,7 @@
             text-align: center;
             border: 1px solid #e9ecef;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
         
         .stat-card:hover {
@@ -538,6 +539,14 @@
         
         .tag.heberge:hover {
             background: #d35400;
+        }
+        
+        .tag.type {
+            background: #2196F3;
+        }
+        
+        .tag.type:hover {
+            background: #0d47a1;
         }
         
         .results-section {
@@ -1276,6 +1285,7 @@
         .mobile-filter-title.pays { color: #27ae60; }
         .mobile-filter-title.lieux { color: #9b59b6; }
         .mobile-filter-title.heberges { color: #f39c12; }
+        .mobile-filter-title.types { color: #2196F3; }
         
         .mobile-filter-toggle {
             font-size: 0.8em;
@@ -1506,12 +1516,10 @@
         
         .hote-cell {
             font-weight: 600;
-            min-width: 80px; /* Réduit de 100px à 80px */
-            max-width: 100px; /* Réduit de 120px à 100px */
+            min-width: 100px;
+            max-width: 120px;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: normal; /* Permet le retour à la ligne */
-            word-wrap: break-word; /* Force la coupure des mots longs */
         }
         
         .pays-cell {
@@ -1530,16 +1538,10 @@
             min-width: 60px;
             text-align: center;
         }
-        
-        .type-cell {
-            min-width: 70px;
-            max-width: 100px;
-            font-size: 0.9em;
-        }
 
         @media (max-width: 1024px) {
             .container {
-                grid-template-columns: 300px 1fr; /* Retour à 300px sur tablette */
+                grid-template-columns: 300px 1fr;
             }
             
             .fixed-nav-buttons {
@@ -1824,6 +1826,10 @@
                 background: #f39c12;
             }
             
+            .mobile-tag.type {
+                background: #2196F3;
+            }
+            
             .mobile-tag:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -1868,8 +1874,6 @@
                 max-width: 100px;
                 min-width: 80px;
                 font-size: 13px; /* Plus grand pour les noms d'hôtes */
-                white-space: normal; /* Permet le retour à la ligne */
-                word-wrap: break-word; /* Force la coupure des mots longs */
             }
             
             .tableau-table th:nth-child(2),
@@ -1890,7 +1894,7 @@
             
             .tableau-table th:nth-child(4),
             .tableau-table td:nth-child(4) {
-                width: 18%; /* Réduit pour laisser de la place au type */
+                width: 23%; /* Ajusté après suppression de la colonne type */
                 max-width: 100px;
                 min-width: 90px;
                 font-size: 11px;
@@ -1898,23 +1902,15 @@
             
             .tableau-table th:nth-child(5),
             .tableau-table td:nth-child(5) {
-                width: 10%; /* Colonne type d'hébergement */
-                max-width: 70px;
-                min-width: 60px;
-                font-size: 11px;
-            }
-            
-            .tableau-table th:nth-child(6),
-            .tableau-table td:nth-child(6) {
                 width: 13%; /* Durée */
                 max-width: 80px;
                 min-width: 70px;
                 font-size: 12px;
             }
             
-            .tableau-table th:nth-child(7),
-            .tableau-table td:nth-child(7) {
-                width: 10%; /* Personnes hébergées */
+            .tableau-table th:nth-child(6),
+            .tableau-table td:nth-child(6) {
+                width: 15%; /* Personnes hébergées */
                 max-width: 120px;
                 min-width: 100px;
                 font-size: 12px;
@@ -1940,8 +1936,7 @@
                 max-width: 100px;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: normal; /* Permet le retour à la ligne */
-                word-wrap: break-word; /* Force la coupure des mots longs */
+                white-space: nowrap;
             }
             
             .date-cell {
@@ -1953,10 +1948,6 @@
             .duration-cell {
                 font-size: 12px; /* Augmenté de 10px à 12px */
                 text-align: center;
-            }
-            
-            .type-cell {
-                font-size: 11px;
             }
             
             /* Conteneur pour les personnes hébergées avec scroll vertical si nécessaire */
@@ -1991,8 +1982,6 @@
                 .tableau-table td:nth-child(1) {
                     width: 25%;
                     font-size: 12px;
-                    white-space: normal; /* Permet le retour à la ligne */
-                    word-wrap: break-word; /* Force la coupure des mots longs */
                 }
                 
                 .tableau-table th:nth-child(2),
@@ -2009,25 +1998,19 @@
                 
                 .tableau-table th:nth-child(4),
                 .tableau-table td:nth-child(4) {
-                    width: 18%;
+                    width: 23%;
                     font-size: 10px;
                 }
                 
                 .tableau-table th:nth-child(5),
                 .tableau-table td:nth-child(5) {
-                    width: 10%;
-                    font-size: 10px;
-                }
-                
-                .tableau-table th:nth-child(6),
-                .tableau-table td:nth-child(6) {
                     width: 13%;
                     font-size: 11px;
                 }
                 
-                .tableau-table th:nth-child(7),
-                .tableau-table td:nth-child(7) {
-                    width: 10%;
+                .tableau-table th:nth-child(6),
+                .tableau-table td:nth-child(6) {
+                    width: 15%;
                     font-size: 11px;
                 }
                 
@@ -2090,39 +2073,39 @@
             <div class="stats-section">
                 <h3 style="margin-bottom: 15px; color: var(--secondary-color); text-align: center;">📊 Statistiques</h3>
                 <div class="stats-grid">
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalHebergements">0</div>
                         <div class="stat-label">Hébergements total</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalHotes">0</div>
                         <div class="stat-label">Hôtes différents</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalPays">0</div>
                         <div class="stat-label">Pays différents</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalLieux">0</div>
                         <div class="stat-label">Lieux différents</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalHeberges">0</div>
                         <div class="stat-label">Personnes hébergées</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Famille')">
                         <div class="stat-value" id="totalFamille">0</div>
                         <div class="stat-label">Hébergements en Famille</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Hôtel')">
                         <div class="stat-value" id="totalHotel">0</div>
                         <div class="stat-label">Hébergements en Hôtel</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Centre')">
                         <div class="stat-value" id="totalCentre">0</div>
                         <div class="stat-label">Hébergements en Centre</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Autre')">
                         <div class="stat-value" id="totalAutre">0</div>
                         <div class="stat-label">Autres hébergements</div>
                     </div>
@@ -2185,6 +2168,16 @@
                         <!-- Les personnes hébergées seront générés ici -->
                     </div>
                 </div>
+                
+                <div class="filter-group">
+                    <h3 class="toggle-title" data-filter="types">
+                        <span style="color: #2196F3;">🏠 Types d'hébergement</span>
+                        <span class="toggle-indicator">▶ Cliquer pour afficher</span>
+                    </h3>
+                    <div class="filter-tags" id="typesTags" style="display: none;">
+                        <!-- Les types d'hébergement seront générés ici -->
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -2194,39 +2187,39 @@
             <div class="stats-section mobile-stats">
                 <h3 style="margin-bottom: 15px; color: var(--secondary-color); text-align: center;">📊 Statistiques</h3>
                 <div class="stats-grid">
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalHebergementsMobile">0</div>
                         <div class="stat-label">Hébergements total</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalHotesMobile">0</div>
                         <div class="stat-label">Hôtes différents</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalPaysMobile">0</div>
                         <div class="stat-label">Pays différents</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalLieuxMobile">0</div>
                         <div class="stat-label">Lieux différents</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="showAllData()">
                         <div class="stat-value" id="totalHebergesMobile">0</div>
                         <div class="stat-label">Personnes hébergées</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Famille')">
                         <div class="stat-value" id="totalFamilleMobile">0</div>
                         <div class="stat-label">Famille</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Hôtel')">
                         <div class="stat-value" id="totalHotelMobile">0</div>
                         <div class="stat-label">Hôtel</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Centre')">
                         <div class="stat-value" id="totalCentreMobile">0</div>
                         <div class="stat-label">Centre</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" onclick="filterByType('Autre')">
                         <div class="stat-value" id="totalAutreMobile">0</div>
                         <div class="stat-label">Autres</div>
                     </div>
@@ -2306,6 +2299,21 @@
                     <div class="mobile-filter-content" id="mobileHebergesContent">
                         <div class="mobile-tags-container" id="mobileHebergesTags">
                             <!-- Les personnes hébergées seront générés ici -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mobile-filter-group">
+                    <div class="mobile-filter-header" data-filter="types">
+                        <div class="mobile-filter-title types">
+                            <span>🏠</span>
+                            <span>Types d'hébergement</span>
+                        </div>
+                        <div class="mobile-filter-toggle collapsed"></div>
+                    </div>
+                    <div class="mobile-filter-content" id="mobileTypesContent">
+                        <div class="mobile-tags-container" id="mobileTypesTags">
+                            <!-- Les types d'hébergement seront générés ici -->
                         </div>
                     </div>
                 </div>
@@ -2589,6 +2597,7 @@ L'équipe de la Tournée 2026</textarea>
         let typeHotel = 0;
         let typeCentre = 0;
         let typeAutre = 0;
+        let allTypes = new Set();
 
         document.addEventListener('DOMContentLoaded', function() {
             // Initialiser les boutons de navigation fixes
@@ -2832,6 +2841,54 @@ L'équipe de la Tournée 2026</textarea>
             loadDataFromGoogleSheets();
         });
 
+        // Fonction pour filtrer par type d'hébergement
+        function filterByType(type) {
+            if (sheetData.length === 0) {
+                alert('Aucune donnée chargée');
+                return;
+            }
+            
+            let results = [];
+            
+            if (type === 'Famille' || type === 'Hôtel' || type === 'Centre') {
+                // Pour les types principaux, on cherche dans "Hebergé en"
+                results = sheetData.filter(row => {
+                    if (colHebergeEn !== -1) {
+                        const typeValue = (row[colHebergeEn] || '').trim().toLowerCase();
+                        const searchType = type.toLowerCase();
+                        
+                        if (searchType === 'famille' && typeValue.includes('famille')) {
+                            return true;
+                        } else if (searchType === 'hôtel' && (typeValue.includes('hotel') || typeValue.includes('hôtel'))) {
+                            return true;
+                        } else if (searchType === 'centre' && typeValue.includes('centre')) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            } else if (type === 'Autre') {
+                // Pour "Autre", on prend tous ceux qui ne sont pas Famille, Hôtel ou Centre
+                results = sheetData.filter(row => {
+                    if (colHebergeEn !== -1) {
+                        const typeValue = (row[colHebergeEn] || '').trim().toLowerCase();
+                        return typeValue !== '' && 
+                               !typeValue.includes('famille') && 
+                               !typeValue.includes('hotel') && 
+                               !typeValue.includes('hôtel') && 
+                               !typeValue.includes('centre');
+                    }
+                    return false;
+                });
+            }
+            
+            if (results.length > 0) {
+                displayResults(results, `Hébergements en ${type} (${results.length})`);
+            } else {
+                alert(`Aucun hébergement trouvé pour le type: ${type}`);
+            }
+        }
+
         // Fonction pour afficher le tableau des hébergeurs
         function showTableauHebergeurs() {
             if (sheetData.length === 0) {
@@ -2867,7 +2924,6 @@ L'équipe de la Tournée 2026</textarea>
                             <th class="pays-cell">Pays</th>
                             <th class="lieu-cell">Lieu</th>
                             <th class="date-cell">Dates</th>
-                            <th class="type-cell">Type</th>
                             <th class="duration-cell">Durée</th>
                             <th class="heberge-list-cell">Personnes hébergées</th>
                         </tr>
@@ -2889,11 +2945,6 @@ L'équipe de la Tournée 2026</textarea>
                             <div style="display: flex; flex-direction: column; gap: 2px; font-size: 0.9em;">
                                 ${hote.dates.map(date => `<div>${date}</div>`).join('')}
                             </div>
-                        </td>
-                        <td class="type-cell">
-                            <span style="display: inline-block; padding: 4px 8px; background: #2196F3; color: white; border-radius: 12px; font-size: 0.9em;">
-                                ${hote.type || 'Non spécifié'}
-                            </span>
                         </td>
                         <td class="duration-cell">
                             <div style="display: flex; flex-direction: column; gap: 4px;">
@@ -2952,13 +3003,11 @@ L'équipe de la Tournée 2026</textarea>
                 const nom = colNom !== -1 ? row[colNom] : '';
                 const pays = colPays !== -1 ? row[colPays] : '';
                 const lieu = colLieu !== -1 ? row[colLieu] : '';
-                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                 
                 if (nom && nom.trim()) {
                     const key = nom.trim().toLowerCase();
                     const paysValue = pays ? pays.trim() : 'Non spécifié';
                     const lieuValue = lieu ? lieu.trim() : 'Non spécifié';
-                    const typeValue = type ? type.trim() : 'Non spécifié';
                     const dateDebutObj = parseDate(dateDebut);
                     const dateFinObj = parseDate(dateFin);
                     
@@ -3003,7 +3052,6 @@ L'équipe de la Tournée 2026</textarea>
                             nom: nom.trim(),
                             pays: paysValue,
                             lieu: lieuValue,
-                            type: typeValue,
                             dates: [],
                             jours: 0,
                             nuits: 0,
@@ -3070,7 +3118,6 @@ L'équipe de la Tournée 2026</textarea>
                         .jours { background: #ffc107; color: #856404; padding: 2px 6px; border-radius: 5px; }
                         .nuits { background: #17a2b8; color: white; padding: 2px 6px; border-radius: 5px; }
                         .sejours { font-size: 0.8em; color: #666; }
-                        .type { background: #2196F3; color: white; padding: 2px 6px; border-radius: 5px; font-size: 0.9em; }
                         @media print {
                             body { margin: 10px; }
                             table { font-size: 11px; }
@@ -3093,7 +3140,6 @@ L'équipe de la Tournée 2026</textarea>
                                 <th>Pays</th>
                                 <th>Lieu</th>
                                 <th>Dates</th>
-                                <th>Type</th>
                                 <th>Durée</th>
                                 <th>Personnes hébergées</th>
                             </tr>
@@ -3110,7 +3156,6 @@ L'équipe de la Tournée 2026</textarea>
                         <td>
                             ${hote.dates.map(date => `<div>${date}</div>`).join('')}
                         </td>
-                        <td><span class="type">${hote.type}</span></td>
                         <td class="duration">
                             <div><span class="jours">${hote.jours} jour${hote.jours > 1 ? 's' : ''}</span></div>
                             <div style="margin-top: 3px;"><span class="nuits">${hote.nuits} nuitée${hote.nuits > 1 ? 's' : ''}</span></div>
@@ -3142,7 +3187,7 @@ L'équipe de la Tournée 2026</textarea>
         
         function exportTableauExcel() {
             // Créer le CSV
-            let csvContent = 'Hôte,Pays,Lieu,Dates,Type,Jours,Nuitées,Séjours,Personnes hébergées\n';
+            let csvContent = 'Hôte,Pays,Lieu,Dates,Jours,Nuitées,Séjours,Personnes hébergées\n';
             
             tableauData.forEach(hote => {
                 const personnesStr = hote.personnes.map(p => p.replace(/,/g, ';')).join(', ');
@@ -3153,7 +3198,6 @@ L'équipe de la Tournée 2026</textarea>
                     `"${hote.pays}"`,
                     `"${hote.lieu}"`,
                     `"${datesStr}"`,
-                    `"${hote.type}"`,
                     hote.jours,
                     hote.nuits,
                     hote.sejours,
@@ -3394,8 +3438,7 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('exportType1').classList.remove('selected');
             document.getElementById('exportType2').classList.remove('selected');
             document.getElementById('exportType3').classList.remove('selected');
-            document.getElementById('exportType4').classList.remove('selected');
-            document.getElementById('exportType' + type).classList.add('selected');
+            document.getElementById('exportType4').classList.add('selected');
             
             // Pour le type 3 (fiches) et 4 (tableau), on n'affiche pas les options de format, c'est toujours PDF
             if (type === 3 || type === 4) {
@@ -4412,6 +4455,7 @@ L'équipe de la Tournée 2026</textarea>
             allHeberges.clear();
             allPrieres = [];
             bookingPeriods = [];
+            allTypes.clear();
             
             // Réinitialiser les compteurs de type d'hébergement
             typeFamille = 0;
@@ -4459,17 +4503,22 @@ L'équipe de la Tournée 2026</textarea>
                     }
                 }
                 
-                // Compter les types d'hébergement
+                // Détecter et compter les types d'hébergement
                 if (colHebergeEn !== -1) {
-                    const type = (row[colHebergeEn] || '').trim().toLowerCase();
-                    if (type.includes('famille')) {
-                        typeFamille++;
-                    } else if (type.includes('hotel') || type.includes('hôtel')) {
-                        typeHotel++;
-                    } else if (type.includes('centre')) {
-                        typeCentre++;
-                    } else if (type !== '') {
-                        typeAutre++;
+                    const typeValue = (row[colHebergeEn] || '').trim();
+                    if (typeValue) {
+                        allTypes.add(typeValue);
+                        
+                        const typeLower = typeValue.toLowerCase();
+                        if (typeLower.includes('famille')) {
+                            typeFamille++;
+                        } else if (typeLower.includes('hotel') || typeLower.includes('hôtel')) {
+                            typeHotel++;
+                        } else if (typeLower.includes('centre')) {
+                            typeCentre++;
+                        } else {
+                            typeAutre++;
+                        }
                     }
                 }
                 
@@ -4491,6 +4540,7 @@ L'équipe de la Tournée 2026</textarea>
             allPays = Array.from(allPays).sort();
             allLieux = Array.from(allLieux).sort();
             allHeberges = Array.from(allHeberges).sort();
+            allTypes = Array.from(allTypes).sort();
             
             console.log('👤 Hôtes extraits:', allHotes.length);
             console.log('🌍 Pays extraits:', allPays.length);
@@ -4499,6 +4549,7 @@ L'équipe de la Tournée 2026</textarea>
             console.log('🙏 Prières extraites:', allPrieres.length);
             console.log('📅 Périodes de réservation:', bookingPeriods.length);
             console.log('🏠 Types d\'hébergement:', { typeFamille, typeHotel, typeCentre, typeAutre });
+            console.log('🏠 Tous les types distincts:', allTypes);
         }
         
         function updateStats() {
@@ -4529,6 +4580,7 @@ L'équipe de la Tournée 2026</textarea>
             renderTags('paysTags', allPays, 'pays');
             renderTags('lieuxTags', allLieux, 'lieu');
             renderTags('hebergesTags', allHeberges, 'heberge');
+            renderTags('typesTags', allTypes, 'type');
         }
         
         function renderMobileFilterTags() {
@@ -4536,6 +4588,7 @@ L'équipe de la Tournée 2026</textarea>
             renderMobileTags('mobilePaysTags', allPays, 'pays');
             renderMobileTags('mobileLieuxTags', allLieux, 'lieu');
             renderMobileTags('mobileHebergesTags', allHeberges, 'heberge');
+            renderMobileTags('mobileTypesTags', allTypes, 'type');
         }
         
         function renderTags(containerId, items, type) {
@@ -4558,6 +4611,13 @@ L'équipe de la Tournée 2026</textarea>
                         event.stopPropagation();
                         event.preventDefault();
                         showPersonOptionsBubble(tag, item);
+                    });
+                } else if (type === 'type') {
+                    tag.title = `Cliquez pour voir les fiches pour le type: ${item}`;
+                    tag.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        filterByType(item);
                     });
                 } else {
                     tag.title = `Cliquez pour voir les fiches pour ${item}`;
@@ -4594,6 +4654,13 @@ L'équipe de la Tournée 2026</textarea>
                         event.preventDefault();
                         showPersonOptionsBubble(tag, item);
                     });
+                } else if (type === 'type') {
+                    tag.title = `Cliquez pour voir les fiches pour le type: ${item}`;
+                    tag.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        filterByType(item);
+                    });
                 } else {
                     tag.title = `Cliquez pour voir les fiches pour ${item}`;
                     tag.addEventListener('click', (event) => {
@@ -4620,6 +4687,9 @@ L'équipe de la Tournée 2026</textarea>
                     break;
                 case 'lieu':
                     columnIndex = colLieu;
+                    break;
+                case 'type':
+                    columnIndex = colHebergeEn;
                     break;
             }
             
