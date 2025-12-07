@@ -2497,8 +2497,8 @@
             <span class="option-label">Voir toutes les fiches</span>
         </div>
         <div class="option-item" id="showPersonHotes">
-            <span class="option-icon">👤</span>
-            <span class="option-label">Afficher la liste des hôtes + pays</span>
+            <span class="option-icon">📊</span>
+            <span class="option-label">Tableau de liste de ses hébergeurs</span>
         </div>
     </div>
 
@@ -2892,7 +2892,7 @@ L'équipe de la Tournée 2026</textarea>
             
             document.getElementById('showPersonHotes').addEventListener('click', function() {
                 if (currentSelectedPerson) {
-                    showHotesForPerson(currentSelectedPerson);
+                    showHotesTableForPerson(currentSelectedPerson);
                     hidePersonBubble();
                 }
             });
@@ -3434,130 +3434,171 @@ L'équipe de la Tournée 2026</textarea>
             currentClickedPersonElement = null;
         }
         
-        function showHotesForPerson(personName) {
+        // Fonction pour afficher le tableau des hébergeurs d'une personne
+        function showHotesTableForPerson(personName) {
             const results = filterByHeberge(personName);
             const uniqueHotes = new Map();
             
+            // Compter les séjours par hôte
             results.forEach(row => {
                 const nom = colNom !== -1 ? row[colNom] : '';
                 const pays = colPays !== -1 ? row[colPays] : '';
                 const lieu = colLieu !== -1 ? row[colLieu] : '';
                 const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
                 const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                 
                 if (nom && nom.trim()) {
                     const key = nom.trim().toLowerCase();
+                    const paysValue = pays ? pays.trim() : 'Non spécifié';
+                    const lieuValue = lieu ? lieu.trim() : 'Non spécifié';
+                    const typeValue = type ? type.trim() : 'Non spécifié';
+                    
                     if (!uniqueHotes.has(key)) {
                         uniqueHotes.set(key, {
                             nom: nom.trim(),
-                            pays: pays ? pays.trim() : 'Non spécifié',
-                            lieu: lieu ? lieu.trim() : 'Non spécifié',
-                            dates: dateDebut && dateFin ? `${dateDebut} au ${dateFin}` : '',
+                            pays: paysValue,
+                            lieu: lieuValue,
+                            type: typeValue,
+                            dates: [],
                             jours: 0,
                             nuits: 0,
-                            séjours: 0
+                            sejours: 0
                         });
                     }
-                    const hote = uniqueHotes.get(key);
-                    hote.séjours++;
                     
-                    // Calculer le nombre de jours et nuits pour ce séjour
+                    const hote = uniqueHotes.get(key);
+                    
+                    // Ajouter les dates
+                    if (dateDebut && dateFin) {
+                        hote.dates.push(`${dateDebut} au ${dateFin}`);
+                    }
+                    
+                    // Calculer la durée
                     const dateDebutObj = parseDate(dateDebut);
                     const dateFinObj = parseDate(dateFin);
                     
                     if (dateDebutObj && dateFinObj) {
-                        // Calculer la différence en jours (nombre de nuits)
                         const diffTime = Math.abs(dateFinObj.getTime() - dateDebutObj.getTime());
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                         
                         hote.nuits += diffDays;
-                        hote.jours += diffDays + 1; // +1 car le jour d'arrivée compte
+                        hote.jours += diffDays + 1;
                     }
+                    
+                    hote.sejours++;
                 }
             });
             
-            const hotesList = Array.from(uniqueHotes.values());
+            const hotesList = Array.from(uniqueHotes.values()).sort((a, b) => a.nom.localeCompare(b.nom));
             
             // Calculer les totaux
             const totalJours = hotesList.reduce((sum, hote) => sum + hote.jours, 0);
             const totalNuits = hotesList.reduce((sum, hote) => sum + hote.nuits, 0);
-            const totalSéjours = hotesList.reduce((sum, hote) => sum + hote.séjours, 0);
+            const totalSéjours = hotesList.reduce((sum, hote) => sum + hote.sejours, 0);
+            
+            // Afficher le tableau dans la section tableau
+            const tableauSection = document.getElementById('tableauSection');
+            const tableauContent = document.getElementById('tableauContent');
+            
+            document.getElementById('tableauTitle').textContent = `📊 Tableau de liste des hébergeurs pour: ${personName}`;
             
             let html = `
-                <div class="fiche-item">
-                    <div class="fiche-header">
-                        <h2>👤 Hôtes pour: ${personName}</h2>
-                        <h3 class="fiche-title">${hotesList.length} hôte(s) trouvé(s) - ${totalSéjours} séjour(s)</h3>
+                <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 5px;">
+                    <strong>${hotesList.length} hébergeur(s) trouvé(s) pour ${personName}</strong>
+                    <div style="margin-top: 5px; font-size: 0.9em; color: #666;">
+                        Total des séjours: ${totalSéjours} |
+                        Total des jours: ${totalJours} |
+                        Total des nuitées: ${totalNuits}
                     </div>
-                    <div style="padding: 20px;">
-                        <div style="margin-bottom: 20px; background: #e8f4fd; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db;">
-                            <strong>📊 Récapitulatif:</strong> ${personName} a été hébergé(e) chez ${hotesList.length} hôte(s) différent(s) pour un total de ${totalSéjours} séjour(s), soit ${totalNuits} nuitée(s) et ${totalJours} jour(s).
-                        </div>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
-                                <tr style="background: #f8f9fa;">
-                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Hôte</th>
-                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Pays</th>
-                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Lieu</th>
-                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Dates</th>
-                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Durée</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${hotesList.map(hote => `
-                                    <tr style="border-bottom: 1px solid #eee;">
-                                        <td style="padding: 10px;">
-                                            <div style="font-weight: bold; color: #27ae60; cursor: pointer; text-decoration: underline;" class="clickable-hote" onclick="showFichesForHote('${hote.nom.replace(/'/g, "\\'")}')">${hote.nom}</div>
-                                        </td>
-                                        <td style="padding: 10px;">
-                                            <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;" class="clickable-pays" onclick="filterByLocation('${hote.pays.replace(/'/g, "\\'")}', 'pays')">
-                                                ${hote.pays}
-                                            </span>
-                                        </td>
-                                        <td style="padding: 10px;">
-                                            <span class="clickable-lieu" onclick="filterByLocation('${hote.lieu.replace(/'/g, "\\'")}', 'lieu')">${hote.lieu}</span>
-                                        </td>
-                                        <td style="padding: 10px; font-size: 0.9em; color: #666;">
-                                            ${hote.dates.split(' au ').map(dateStr => {
-                                                const date = parseDate(dateStr);
-                                                if (date) {
-                                                    return `<span class="clickable-date" onclick="searchByDate(new Date(${date.getTime()}))">${dateStr}</span>`;
-                                                }
-                                                return dateStr;
-                                            }).join(' au ')}
-                                        </td>
-                                        <td style="padding: 10px; text-align: center;">
-                                            <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                <div style="display: flex; flex-direction: column; align-items: center;">
-                                                    <span style="display: inline-block; padding: 3px 8px; background: #ffc107; color: #856404; border-radius: 8px; font-weight: bold; font-size: 0.9em;">
-                                                        ${hote.jours} jour${hote.jours > 1 ? 's' : ''}
-                                                    </span>
-                                                    <span style="display: inline-block; padding: 3px 8px; background: #17a2b8; color: white; border-radius: 8px; font-weight: bold; font-size: 0.9em; margin-top: 3px;">
-                                                        ${hote.nuits} nuitée${hote.nuits > 1 ? 's' : ''}
-                                                    </span>
-                                                </div>
-                                                <div style="font-size: 0.8em; color: #6c757d; margin-top: 3px;">
-                                                    (${hote.séjours} séjour${hote.séjours > 1 ? 's' : ''})
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                        
-                        <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
-                            <strong>💡 Note:</strong> Cliquez sur le nom d'un hôte pour voir ses fiches détaillées, sur le pays/lieu pour filtrer, et sur les dates pour rechercher.
-                        </div>
-                    </div>
+                </div>
+                
+                <table class="tableau-table">
+                    <thead>
+                        <tr>
+                            <th class="hote-cell">Hôte</th>
+                            <th class="pays-cell">Pays</th>
+                            <th class="lieu-cell">Lieu</th>
+                            <th class="type-cell">Type</th>
+                            <th class="date-cell">Dates</th>
+                            <th class="duration-cell">Durée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            hotesList.forEach(hote => {
+                // Rendre les dates cliquables dans le tableau
+                const datesHtml = hote.dates.map(date => {
+                    const dateMatch = date.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
+                    if (dateMatch) {
+                        const dateStr = dateMatch[1];
+                        return `<div class="clickable-date" onclick="searchByDateString('${dateStr}')">${date}</div>`;
+                    }
+                    return `<div>${date}</div>`;
+                }).join('');
+                
+                html += `
+                    <tr>
+                        <td class="hote-cell">
+                            <span class="clickable-hote" onclick="showFichesForHote('${hote.nom.replace(/'/g, "\\'")}')">
+                                ${hote.nom}
+                            </span>
+                        </td>
+                        <td class="pays-cell">
+                            <span class="clickable-pays" onclick="filterByLocation('${hote.pays.replace(/'/g, "\\'")}', 'pays')">
+                                ${hote.pays}
+                            </span>
+                        </td>
+                        <td class="lieu-cell">
+                            <span class="clickable-lieu" onclick="filterByLocation('${hote.lieu.replace(/'/g, "\\'")}', 'lieu')">
+                                ${hote.lieu}
+                            </span>
+                        </td>
+                        <td class="type-cell">
+                            ${hote.type}
+                        </td>
+                        <td class="date-cell">
+                            <div style="display: flex; flex-direction: column; gap: 2px; font-size: 0.9em;">
+                                ${datesHtml}
+                            </div>
+                        </td>
+                        <td class="duration-cell">
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <span style="display: inline-block; padding: 3px 6px; background: #ffc107; color: #856404; border-radius: 8px; font-weight: bold; font-size: 0.9em;">
+                                        ${hote.jours} j
+                                    </span>
+                                    <span style="display: inline-block; padding: 3px 6px; background: #17a2b8; color: white; border-radius: 8px; font-weight: bold; font-size: 0.9em; margin-top: 3px;">
+                                        ${hote.nuits} n
+                                    </span>
+                                </div>
+                                <div style="font-size: 0.8em; color: #6c757d; margin-top: 3px;">
+                                    (${hote.sejours})
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <strong>💡 Note:</strong> ${personName} a été hébergé(e) chez ${hotesList.length} hôte(s) différent(s) pour un total de ${totalSéjours} séjour(s), soit ${totalNuits} nuitée(s) et ${totalJours} jour(s).
                 </div>
             `;
             
-            document.getElementById('resultContent').innerHTML = html;
-            document.getElementById('resultTitle').textContent = `Hôtes pour: ${personName}`;
-            document.getElementById('resultsSection').style.display = 'block';
-            document.getElementById('tableauSection').style.display = 'none';
-            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            tableauContent.innerHTML = html;
+            tableauSection.style.display = 'block';
+            
+            // Cacher la section des résultats
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            // Faire défiler jusqu'au tableau
+            tableauSection.scrollIntoView({ behavior: 'smooth' });
         }
 
         function showPasswordModal() {
