@@ -2237,7 +2237,7 @@
                 </button>
                 
                 <button id="showTableauButton" class="action-button" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
-                    📊 Tableau des hébergeurs
+                    📊 Liste de répartition par hébergeur
                 </button>
                 
                 <button id="showPrieresButton" class="action-button priere">
@@ -2351,7 +2351,7 @@
                 </button>
                 
                 <button id="showTableauButtonMobile" class="action-button-mobile tableau">
-                    📊 Tableau
+                    📊 Répartition
                 </button>
                 
                 <button id="showPrieresButtonMobile" class="action-button-mobile priere">
@@ -2471,7 +2471,7 @@
             <!-- Section pour le tableau des hébergeurs -->
             <div class="tableau-container" id="tableauSection" style="display: none;">
                 <div class="tableau-header">
-                    <h2 id="tableauTitle">📊 Tableau des hébergeurs</h2>
+                    <h2 id="tableauTitle">📊 Liste de répartition par hébergeur</h2>
                 </div>
                 <div class="tableau-content">
                     <div class="tableau-export-buttons">
@@ -2511,7 +2511,7 @@
                 <div class="export-type" id="exportType1">
                     <div class="export-type-title">
                         <span>📋</span>
-                        <span>Liste de tous les hébergeurs</span>
+                        <span>Liste avec coordonnées des hébergeurs</span>
                     </div>
                     <div class="export-type-description">
                         Exporte tous les hébergeurs avec leurs informations complètes (nom, coordonnées, adresse, etc.)
@@ -2541,10 +2541,10 @@
                 <div class="export-type" id="exportType4">
                     <div class="export-type-title">
                         <span>📊</span>
-                        <span>Tableau des hébergeurs</span>
+                        <span>Liste de répartition par hébergeur</span>
                     </div>
                     <div class="export-type-description">
-                        Exporte le tableau complet des hébergeurs avec hôte, pays, lieu, dates, durée et hébergés
+                        Exporte la liste complète des hébergeurs avec hôte, pays, lieu, dates, durée et hébergés
                     </div>
                 </div>
             </div>
@@ -3021,6 +3021,9 @@ L'équipe de la Tournée 2026</textarea>
             const tableauSection = document.getElementById('tableauSection');
             const tableauContent = document.getElementById('tableauContent');
             
+            // Mettre à jour le titre
+            document.getElementById('tableauTitle').textContent = '📊 Liste de répartition par hébergeur';
+            
             // Générer les données du tableau
             generateTableauData();
             
@@ -3257,7 +3260,7 @@ L'équipe de la Tournée 2026</textarea>
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Tableau des hébergeurs - Tournée 2026</title>
+                    <title>Liste de répartition par hébergeur - Tournée 2026</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
                         h1 { color: #8b0000; text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #8b0000; }
@@ -3278,7 +3281,7 @@ L'équipe de la Tournée 2026</textarea>
                     </style>
                 </head>
                 <body>
-                    <h1>📊 Tableau des hébergeurs - Tournée 2026</h1>
+                    <h1>📊 Liste de répartition par hébergeur - Tournée 2026</h1>
                     <div class="info">
                         <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
                         <p>${tableauData.length} hébergeur(s) | 
@@ -3365,13 +3368,13 @@ L'équipe de la Tournée 2026</textarea>
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `tableau_hebergeurs_${new Date().toISOString().slice(0,10)}.csv`);
+            link.setAttribute('download', `liste_repartition_hebergeurs_${new Date().toISOString().slice(0,10)}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
             
-            alert(`Tableau exporté avec succès! ${tableauData.length} hébergeur(s)`);
+            alert(`Liste de répartition exportée avec succès! ${tableauData.length} hébergeur(s)`);
         }
 
         // Fonctions pour gérer la bulle d'options des personnes hébergées
@@ -3627,10 +3630,17 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('exportModal').style.display = 'none';
             
             if (selectedExportType === 3) {
-                // Export des fiches détaillées
+                // Export des fiches détaillées - CORRECTION ICI
+                if (sheetData.length === 0) {
+                    alert('Aucune donnée à exporter');
+                    return;
+                }
+                
+                // Appeler la fonction exportFiches avec toutes les données
                 exportFiches(sheetData, 'fiches_hebergements_completes');
+                
             } else if (selectedExportType === 4) {
-                // Export du tableau des hébergeurs
+                // Export de la liste de répartition par hébergeur
                 generateTableauData();
                 exportTableauPDF();
             } else {
@@ -3641,7 +3651,7 @@ L'équipe de la Tournée 2026</textarea>
                 
                 if (selectedExportType === 1) {
                     // Export de tous les hébergeurs avec leurs informations
-                    filename = 'liste_tous_hebergeurs';
+                    filename = 'liste_coordonnees_hebergeurs';
                     
                     // Créer les en-têtes pour l'export
                     const exportHeaders = ['Nom', 'Email', 'Téléphone', 'Facebook', 'Adresse', 'Lieu', 'Pays', 'Type', 'Date Début', 'Date Fin'];
@@ -3707,7 +3717,7 @@ L'équipe de la Tournée 2026</textarea>
                         
                     } else if (selectedExportFormat === 'pdf') {
                         // Créer le PDF (version simplifiée - ouvre une nouvelle fenêtre)
-                        createPDFExport(exportData, 'Liste de tous les hébergeurs', exportHeaders, filename);
+                        createPDFExport(exportData, 'Liste avec coordonnées des hébergeurs', exportHeaders, filename);
                         return;
                     }
                     
@@ -3862,6 +3872,14 @@ L'équipe de la Tournée 2026</textarea>
                 const numeroHebergeur = colNumeroHebergeur !== -1 ? row[colNumeroHebergeur] : '';
                 
                 const aSavoirHote = colASavoirHote !== -1 ? row[colASavoirHote] : '';
+                
+                let adresseComplete = adresseHebergeur || adresse || '';
+                if (adresseComplete && lieuHebergeur) {
+                    adresseComplete += ` - ${lieuHebergeur}`;
+                }
+                if (adresseComplete && paysHebergeur) {
+                    adresseComplete += ` / ${paysHebergeur}`;
+                }
                 
                 let toutesPersonnes = [];
                 const colonnesPersonnes = [
