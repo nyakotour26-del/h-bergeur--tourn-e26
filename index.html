@@ -39,7 +39,7 @@
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 300px 1fr; /* Sidebar fixe à gauche */
+            grid-template-columns: 40% 1fr; /* Sidebar augmentée à 40% */
             gap: 20px;
         }
         
@@ -397,7 +397,7 @@
             border: 2px solid #388E3C;
         }
         
-        /* Statistiques */
+        /* Statistiques - Modifié pour 5 par ligne */
         .stats-section {
             background: white;
             padding: 20px;
@@ -407,13 +407,13 @@
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(5, 1fr); /* 5 par ligne */
+            gap: 8px;
         }
         
         .stat-card {
             background: linear-gradient(135deg, white, #f8f9fa);
-            padding: 15px;
+            padding: 12px;
             border-radius: var(--border-radius);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
@@ -428,15 +428,16 @@
         }
         
         .stat-value {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
             color: var(--primary-color);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         
         .stat-label {
             color: #7f8c8d;
-            font-size: 0.8em;
+            font-size: 0.75em;
+            line-height: 1.2;
         }
         
         /* Filtres dans la sidebar */
@@ -624,6 +625,51 @@
         .info-value {
             color: var(--text-color);
             font-size: 1.1em;
+        }
+        
+        /* Styles pour les dates cliquables */
+        .date-clickable {
+            cursor: pointer;
+            color: #3498db;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .date-clickable:hover {
+            background-color: #e8f4fd;
+            color: #2980b9;
+        }
+        
+        /* Styles pour les lieux et pays cliquables */
+        .location-clickable {
+            cursor: pointer;
+            color: #27ae60;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .location-clickable:hover {
+            background-color: #e8f5e8;
+            color: #219653;
+        }
+        
+        /* Style pour les numéros de téléphone cliquables */
+        .phone-clickable {
+            cursor: pointer;
+            color: #e74c3c;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .phone-clickable:hover {
+            background-color: #fde8e6;
+            color: #c0392b;
         }
         
         .hote-section {
@@ -1453,19 +1499,19 @@
         .tableau-table th {
             background-color: var(--primary-color);
             color: white;
-            padding: 8px 10px;
+            padding: 10px 12px;
             text-align: left;
             font-weight: 600;
             position: sticky;
             top: 0;
             z-index: 10;
-            white-space: nowrap;
+            white-space: normal;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         
         .tableau-table td {
-            padding: 8px 10px;
+            padding: 10px 12px;
             border-bottom: 1px solid #e9ecef;
             vertical-align: top;
             word-wrap: break-word;
@@ -1491,35 +1537,33 @@
             color: #219653;
         }
         
-        .heberge-list-cell {
-            max-width: 200px;
-        }
-        
-        .heberge-item {
-            display: inline-block;
-            background: #ffc107;
-            color: #856404;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 10px;
-            margin: 1px;
-            white-space: nowrap;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
+        /* Styles spécifiques pour les colonnes du tableau - MODIFIÉ POUR MOBILE */
         .date-cell {
-            font-size: 0.8em;
-            min-width: 80px;
+            font-size: 0.95em; /* Augmenté pour meilleure lisibilité */
+            min-width: 100px;
+            cursor: pointer;
+            color: #3498db;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            padding: 4px;
+            border-radius: 4px;
         }
         
+        .date-cell:hover {
+            background-color: #e8f4fd;
+            color: #2980b9;
+        }
+        
+        /* Style modifié pour la colonne hôte sur mobile */
         .hote-cell {
             font-weight: 600;
-            min-width: 100px;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            min-width: 120px;
+            max-width: 180px;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            white-space: normal !important; /* Permet le retour à la ligne */
+            line-height: 1.3;
+            word-break: break-word; /* Permet de casser les mots longs */
         }
         
         .pays-cell {
@@ -1537,11 +1581,34 @@
         .duration-cell {
             min-width: 60px;
             text-align: center;
+            font-weight: bold;
+        }
+        
+        .heberge-list-cell {
+            max-width: 200px;
+        }
+        
+        .heberge-item {
+            display: inline-block;
+            background: #ffc107;
+            color: #856404;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin: 2px;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         @media (max-width: 1024px) {
             .container {
-                grid-template-columns: 300px 1fr;
+                grid-template-columns: 35% 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 par ligne sur tablette */
             }
             
             .fixed-nav-buttons {
@@ -1616,12 +1683,7 @@
                 margin-top: 10px;
             }
             
-            /* Afficher les filtres mobiles */
-            .mobile-filters {
-                display: flex;
-            }
-            
-            /* Afficher les statistiques mobiles */
+            /* Statistiques mobiles - 5 par ligne */
             .mobile-stats {
                 display: block;
                 order: -1;
@@ -1629,15 +1691,25 @@
             }
             
             .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(5, 1fr); /* 5 par ligne sur mobile */
+                gap: 6px;
             }
             
             .stat-card {
-                padding: 10px;
+                padding: 8px;
             }
             
             .stat-value {
-                font-size: 1.2em;
+                font-size: 1.1em;
+            }
+            
+            .stat-label {
+                font-size: 0.7em;
+            }
+            
+            /* Filtres mobiles */
+            .mobile-filters {
+                display: flex;
             }
             
             .filters-sidebar {
@@ -1842,7 +1914,7 @@
                 padding: 5px 0;
             }
             
-            /* Styles améliorés pour le tableau sur mobile - TAILLES AUGMENTÉES */
+            /* Styles améliorés pour le tableau sur mobile - MODIFIÉS */
             .tableau-export-buttons {
                 flex-direction: column;
             }
@@ -1851,78 +1923,85 @@
                 display: table;
                 width: 100%;
                 overflow-x: auto;
-                font-size: 12px; /* Augmenté de 11px à 12px */
+                font-size: 13px; /* Taille augmentée pour meilleure lisibilité */
             }
             
             .tableau-table th,
             .tableau-table td {
                 min-width: auto;
-                max-width: 100px;
-                padding: 8px 10px; /* Augmenté de 6px 8px à 8px 10px */
-                font-size: 12px; /* Ajouté pour uniformiser la taille */
+                max-width: none;
+                padding: 8px 10px;
+                font-size: 13px; /* Uniformise la taille */
             }
             
             .tableau-table th {
-                font-size: 13px; /* Plus grand pour les en-têtes */
-                padding: 10px 12px; /* Plus d'espacement */
+                font-size: 14px; /* Plus grand pour les en-têtes */
+                padding: 10px 12px;
+                white-space: nowrap;
             }
             
-            /* Largeurs spécifiques pour chaque colonne sur mobile */
+            /* Largeurs spécifiques pour chaque colonne sur mobile - OPTIMISÉ */
             .tableau-table th:nth-child(1),
             .tableau-table td:nth-child(1) {
-                width: 22%;
-                max-width: 100px;
-                min-width: 80px;
-                font-size: 13px; /* Plus grand pour les noms d'hôtes */
+                width: 25%; /* Colonne hôte plus large */
+                max-width: 150px;
+                min-width: 100px;
+                font-size: 13px;
+                white-space: normal; /* Permet le retour à la ligne */
+                word-wrap: break-word;
+                word-break: break-word; /* Permet de casser les mots longs */
             }
             
             .tableau-table th:nth-child(2),
             .tableau-table td:nth-child(2) {
-                width: 12%;
-                max-width: 70px;
-                min-width: 60px;
-                font-size: 12px;
+                width: 15%; /* Pays */
+                max-width: 80px;
+                min-width: 70px;
+                font-size: 13px;
             }
             
             .tableau-table th:nth-child(3),
             .tableau-table td:nth-child(3) {
-                width: 15%;
-                max-width: 80px;
-                min-width: 70px;
-                font-size: 12px;
+                width: 15%; /* Lieu */
+                max-width: 90px;
+                min-width: 80px;
+                font-size: 13px;
             }
             
             .tableau-table th:nth-child(4),
             .tableau-table td:nth-child(4) {
-                width: 23%; /* Ajusté après suppression de la colonne type */
-                max-width: 100px;
-                min-width: 90px;
-                font-size: 11px;
+                width: 20%; /* Dates - taille augmentée */
+                max-width: 120px;
+                min-width: 100px;
+                font-size: 12px; /* Un peu plus petit pour s'adapter */
+                white-space: normal; /* Permet le retour à la ligne */
+                line-height: 1.3;
             }
             
             .tableau-table th:nth-child(5),
             .tableau-table td:nth-child(5) {
-                width: 13%; /* Durée */
-                max-width: 80px;
-                min-width: 70px;
-                font-size: 12px;
+                width: 10%; /* Durée */
+                max-width: 70px;
+                min-width: 60px;
+                font-size: 13px;
+                text-align: center;
             }
             
             .tableau-table th:nth-child(6),
             .tableau-table td:nth-child(6) {
                 width: 15%; /* Personnes hébergées */
-                max-width: 120px;
-                min-width: 100px;
+                max-width: 150px;
+                min-width: 120px;
                 font-size: 12px;
             }
             
             .heberge-list-cell {
-                max-width: 120px;
+                max-width: 150px;
             }
             
             .heberge-item {
-                font-size: 10px; /* Augmenté de 9px à 10px */
-                padding: 3px 6px; /* Augmenté de 2px 5px à 3px 6px */
+                font-size: 10px;
+                padding: 3px 6px;
                 margin: 2px;
                 max-width: 100%;
                 overflow: hidden;
@@ -1932,21 +2011,23 @@
             }
             
             .hote-cell {
-                font-size: 12px; /* Augmenté de 10px à 12px */
-                max-width: 100px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+                font-size: 12px;
+                max-width: 150px;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                white-space: normal;
+                line-height: 1.3;
+                word-break: break-word;
             }
             
             .date-cell {
-                font-size: 11px; /* Augmenté de 9px à 11px */
+                font-size: 12px; /* Augmenté pour meilleure lisibilité */
                 white-space: normal;
                 line-height: 1.3;
             }
             
             .duration-cell {
-                font-size: 12px; /* Augmenté de 10px à 12px */
+                font-size: 12px;
                 text-align: center;
             }
             
@@ -1957,16 +2038,14 @@
                 padding-right: 5px;
             }
             
-            /* Style pour les indicateurs de durée */
-            .tableau-table td:nth-child(6) div div span {
-                font-size: 11px; /* Augmenté de 9px à 11px */
-                padding: 3px 6px;
-            }
-            
-            /* Ajustements pour les petits écrans */
+            /* Ajustements pour les très petits écrans */
             @media (max-width: 480px) {
+                .stats-grid {
+                    grid-template-columns: repeat(3, 1fr); /* 3 par ligne sur très petits écrans */
+                }
+                
                 .tableau-table {
-                    font-size: 11px;
+                    font-size: 12px;
                 }
                 
                 .tableau-table th,
@@ -1980,31 +2059,31 @@
                 
                 .tableau-table th:nth-child(1),
                 .tableau-table td:nth-child(1) {
-                    width: 25%;
+                    width: 28%;
                     font-size: 12px;
                 }
                 
                 .tableau-table th:nth-child(2),
                 .tableau-table td:nth-child(2) {
-                    width: 10%;
+                    width: 12%;
                     font-size: 11px;
                 }
                 
                 .tableau-table th:nth-child(3),
                 .tableau-table td:nth-child(3) {
-                    width: 14%;
+                    width: 15%;
                     font-size: 11px;
                 }
                 
                 .tableau-table th:nth-child(4),
                 .tableau-table td:nth-child(4) {
-                    width: 23%;
-                    font-size: 10px;
+                    width: 20%;
+                    font-size: 11px;
                 }
                 
                 .tableau-table th:nth-child(5),
                 .tableau-table td:nth-child(5) {
-                    width: 13%;
+                    width: 10%;
                     font-size: 11px;
                 }
                 
@@ -2932,18 +3011,33 @@ L'équipe de la Tournée 2026</textarea>
             `;
             
             tableauData.forEach(hote => {
+                // Rendre les dates cliquables dans le tableau
+                const datesHtml = hote.dates.map(date => {
+                    // Extraire la date de début pour le filtrage
+                    const dateMatch = date.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
+                    if (dateMatch) {
+                        const dateStr = dateMatch[1];
+                        return `<div class="date-clickable" onclick="searchByDateString('${dateStr}')">${date}</div>`;
+                    }
+                    return `<div>${date}</div>`;
+                }).join('');
+                
                 html += `
                     <tr>
-                        <td class="hote-cell" title="${hote.nom}" onclick="showFichesForHote('${hote.nom.replace(/'/g, "\\'")}')">${hote.nom}</td>
+                        <td class="hote-cell" title="${hote.nom}">${hote.nom}</td>
                         <td class="pays-cell">
-                            <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;">
+                            <span class="location-clickable" onclick="filterByLocation('${hote.pays.replace(/'/g, "\\'")}', 'pays')">
                                 ${hote.pays}
                             </span>
                         </td>
-                        <td class="lieu-cell" title="${hote.lieu}">${hote.lieu}</td>
+                        <td class="lieu-cell" title="${hote.lieu}">
+                            <span class="location-clickable" onclick="filterByLocation('${hote.lieu.replace(/'/g, "\\'")}', 'lieu')">
+                                ${hote.lieu}
+                            </span>
+                        </td>
                         <td class="date-cell">
                             <div style="display: flex; flex-direction: column; gap: 2px; font-size: 0.9em;">
-                                ${hote.dates.map(date => `<div>${date}</div>`).join('')}
+                                ${datesHtml}
                             </div>
                         </td>
                         <td class="duration-cell">
@@ -2963,7 +3057,7 @@ L'équipe de la Tournée 2026</textarea>
                         </td>
                         <td class="heberge-list-cell">
                             <div style="display: flex; flex-wrap: wrap; gap: 2px; max-height: 80px; overflow-y: auto; padding: 3px;">
-                                ${hote.personnes.map(p => `<span class="heberge-item" title="${p}">${p}</span>`).join('')}
+                                ${hote.personnes.map(p => `<span class="heberge-item" onclick="showPersonOptions(event, '${p.replace(/'/g, "\\'")}')">${p}</span>`).join('')}
                             </div>
                             <div style="font-size: 0.8em; color: #666; margin-top: 3px;">
                                 ${hote.personnes.length} p
@@ -2985,6 +3079,22 @@ L'équipe de la Tournée 2026</textarea>
             tableauSection.scrollIntoView({ behavior: 'smooth' });
             
             hidePersonBubble();
+        }
+        
+        // Fonction pour rechercher par chaîne de date (utilisée pour les dates cliquables dans le tableau)
+        function searchByDateString(dateStr) {
+            const date = parseDate(dateStr);
+            if (date) {
+                searchByDate(date);
+            } else {
+                alert('Date non valide: ' + dateStr);
+            }
+        }
+        
+        // Fonction pour filtrer par lieu ou pays (utilisée pour les lieux/pays cliquables)
+        function filterByLocation(value, type) {
+            const results = filterDataByType(value, type);
+            displayResults(results, `${type === 'pays' ? 'Pays' : 'Lieu'}: ${value}`);
         }
         
         // Fonction pour afficher les fiches d'un hôte spécifique
@@ -3788,7 +3898,7 @@ L'équipe de la Tournée 2026</textarea>
                             ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> ${numeroHebergeur}</div>` : ''}
                             ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Email:</strong> ${email}</div>` : ''}
                             ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Réseaux sociaux:</strong> ${facebook}</div>` : ''}
-                            ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Téléphone:</strong> ${telephone}</div>` : ''}
+                            ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Téléphone:</strong> <a href="tel:${telephone}">${telephone}</a></div>` : ''}
                         </div>
                         ` : ''}
                         
@@ -5067,6 +5177,22 @@ L'équipe de la Tournée 2026</textarea>
                     const isMobile = window.innerWidth <= 768;
                     const gridClass = isMobile ? 'info-grid-mobile' : 'info-grid';
                     
+                    // Fonction pour rendre les dates cliquables
+                    const rendreDateCliquable = (dateStr) => {
+                        if (!dateStr || dateStr === 'Non spécifiée') return dateStr;
+                        const dateObj = parseDate(dateStr);
+                        if (dateObj) {
+                            return `<span class="date-clickable" onclick="searchByDate(new Date(${dateObj.getTime()}))">${dateStr}</span>`;
+                        }
+                        return dateStr;
+                    };
+                    
+                    // Fonction pour rendre les lieux/pays cliquables
+                    const rendreLocationCliquable = (value, type) => {
+                        if (!value || value === 'Non spécifié') return value;
+                        return `<span class="location-clickable" onclick="filterByLocation('${value.replace(/'/g, "\\'")}', '${type}')">${value}</span>`;
+                    };
+                    
                     html += `
                         <div class="fiche-item">
                             <div class="fiche-header">
@@ -5082,19 +5208,19 @@ L'équipe de la Tournée 2026</textarea>
                             <div class="${gridClass}">
                                 <div class="info-item">
                                     <span class="info-label">📅 Date début:</span>
-                                    <span class="info-value">${dateDebut || 'Non spécifiée'}</span>
+                                    <span class="info-value">${rendreDateCliquable(dateDebut) || 'Non spécifiée'}</span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">📅 Date fin:</span>
-                                    <span class="info-value">${dateFin || 'Non spécifiée'}</span>
+                                    <span class="info-value">${rendreDateCliquable(dateFin) || 'Non spécifiée'}</span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">📍 Lieu:</span>
-                                    <span class="info-value">${lieu || 'Non spécifié'}</span>
+                                    <span class="info-value">${rendreLocationCliquable(lieu, 'lieu') || 'Non spécifié'}</span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">🌍 Pays:</span>
-                                    <span class="info-value">${pays || 'Non spécifié'}</span>
+                                    <span class="info-value">${rendreLocationCliquable(pays, 'pays') || 'Non spécifié'}</span>
                                 </div>
                             </div>
                             
@@ -5121,11 +5247,11 @@ L'équipe de la Tournée 2026</textarea>
                             <div class="contact-section">
                                 <div class="contact-label">📞 Information sur ${nom || 'l\'hébergeur'}:</div>
                                 ${adresseComplete ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresseComplete}</div>` : ''}
-                                ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> ${numeroHebergeur}</div>` : ''}
+                                ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> <span class="phone-clickable" onclick="window.location.href='tel:${numeroHebergeur}'">${numeroHebergeur}</span></div>` : ''}
                                 <div style="height: 1px; background: #ddd; margin: 10px 0;"></div>
                                 ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Adresse e-mail:</strong> <a href="mailto:${email}" class="contact-link">${email}</a></div>` : ''}
                                 ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Nom sur Facebook ou autres compte réseaux sociaux:</strong> ${facebook}</div>` : ''}
-                                ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <a href="tel:${telephone}" class="contact-link">${telephone}</a></div>` : ''}
+                                ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <span class="phone-clickable" onclick="window.location.href='tel:${telephone}'">${telephone}</span></div>` : ''}
                             </div>
                             ` : ''}
                             
