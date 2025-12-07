@@ -1526,30 +1526,60 @@
             background-color: #f0f0f0;
         }
         
-        .tableau-table .hote-cell {
+        /* Styles pour les cellules cliquables */
+        .clickable-hote {
+            cursor: pointer;
             color: #27ae60;
             font-weight: bold;
-            cursor: pointer;
             text-decoration: underline;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
         }
         
-        .tableau-table .hote-cell:hover {
+        .clickable-hote:hover {
+            background-color: #e8f5e8;
             color: #219653;
         }
         
-        /* Styles spécifiques pour les colonnes du tableau - MODIFIÉ POUR MOBILE */
-        .date-cell {
-            font-size: 0.95em; /* Augmenté pour meilleure lisibilité */
-            min-width: 100px;
+        .clickable-pays {
+            cursor: pointer;
+            color: #27ae60;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .clickable-pays:hover {
+            background-color: #e8f5e8;
+            color: #219653;
+        }
+        
+        .clickable-lieu {
+            cursor: pointer;
+            color: #9b59b6;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .clickable-lieu:hover {
+            background-color: #f5e8f8;
+            color: #8e44ad;
+        }
+        
+        .clickable-date {
             cursor: pointer;
             color: #3498db;
             text-decoration: underline;
             transition: all 0.3s ease;
-            padding: 4px;
-            border-radius: 4px;
+            padding: 2px 4px;
+            border-radius: 3px;
         }
         
-        .date-cell:hover {
+        .clickable-date:hover {
             background-color: #e8f4fd;
             color: #2980b9;
         }
@@ -1600,6 +1630,15 @@
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+        }
+        
+        .heberge-item:hover {
+            background: #e0a800;
+            color: #856404;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 1024px) {
@@ -1914,7 +1953,7 @@
                 padding: 5px 0;
             }
             
-            /* Styles améliorés pour le tableau sur mobile - MODIFIÉS */
+            /* Styles améliorés pour le tableau sur mobile */
             .tableau-export-buttons {
                 flex-direction: column;
             }
@@ -1940,7 +1979,7 @@
                 white-space: nowrap;
             }
             
-            /* Largeurs spécifiques pour chaque colonne sur mobile - OPTIMISÉ */
+            /* Largeurs spécifiques pour chaque colonne sur mobile */
             .tableau-table th:nth-child(1),
             .tableau-table td:nth-child(1) {
                 width: 25%; /* Colonne hôte plus large */
@@ -2020,7 +2059,7 @@
                 word-break: break-word;
             }
             
-            .date-cell {
+            .clickable-date {
                 font-size: 12px; /* Augmenté pour meilleure lisibilité */
                 white-space: normal;
                 line-height: 1.3;
@@ -2694,7 +2733,7 @@ L'équipe de la Tournée 2026</textarea>
             
             document.getElementById('showAllDataButton').addEventListener('click', showAllData);
             
-            // Bouton email dans les boutons fixes - CORRIGÉ
+            // Bouton email dans les boutons fixes
             document.getElementById('sendEmailsButton').addEventListener('click', function() {
                 if (this.classList.contains('disabled')) {
                     passwordModalAction = 'email';
@@ -2704,7 +2743,7 @@ L'équipe de la Tournée 2026</textarea>
                 }
             });
             
-            // Bouton export dans les boutons fixes - CORRIGÉ
+            // Bouton export dans les boutons fixes
             document.getElementById('exportDataButton').addEventListener('click', function() {
                 if (this.classList.contains('locked')) {
                     passwordModalAction = 'export';
@@ -2784,7 +2823,7 @@ L'équipe de la Tournée 2026</textarea>
                 });
             });
             
-            // Événements pour la modale de mot de passe - CORRIGÉ
+            // Événements pour la modale de mot de passe
             document.getElementById('cancelPassword').addEventListener('click', function() {
                 document.getElementById('passwordModal').style.display = 'none';
                 document.getElementById('adminPassword').value = '';
@@ -3017,21 +3056,25 @@ L'équipe de la Tournée 2026</textarea>
                     const dateMatch = date.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
                     if (dateMatch) {
                         const dateStr = dateMatch[1];
-                        return `<div class="date-clickable" onclick="searchByDateString('${dateStr}')">${date}</div>`;
+                        return `<div class="clickable-date" onclick="searchByDateString('${dateStr}')">${date}</div>`;
                     }
                     return `<div>${date}</div>`;
                 }).join('');
                 
                 html += `
                     <tr>
-                        <td class="hote-cell" title="${hote.nom}">${hote.nom}</td>
+                        <td class="hote-cell">
+                            <span class="clickable-hote" onclick="showFichesForHote('${hote.nom.replace(/'/g, "\\'")}')">
+                                ${hote.nom}
+                            </span>
+                        </td>
                         <td class="pays-cell">
-                            <span class="location-clickable" onclick="filterByLocation('${hote.pays.replace(/'/g, "\\'")}', 'pays')">
+                            <span class="clickable-pays" onclick="filterByLocation('${hote.pays.replace(/'/g, "\\'")}', 'pays')">
                                 ${hote.pays}
                             </span>
                         </td>
-                        <td class="lieu-cell" title="${hote.lieu}">
-                            <span class="location-clickable" onclick="filterByLocation('${hote.lieu.replace(/'/g, "\\'")}', 'lieu')">
+                        <td class="lieu-cell">
+                            <span class="clickable-lieu" onclick="filterByLocation('${hote.lieu.replace(/'/g, "\\'")}', 'lieu')">
                                 ${hote.lieu}
                             </span>
                         </td>
@@ -3461,15 +3504,25 @@ L'équipe de la Tournée 2026</textarea>
                                 ${hotesList.map(hote => `
                                     <tr style="border-bottom: 1px solid #eee;">
                                         <td style="padding: 10px;">
-                                            <div style="font-weight: bold; color: #27ae60; cursor: pointer; text-decoration: underline;" class="hote-link" data-hote="${hote.nom}">${hote.nom}</div>
+                                            <div style="font-weight: bold; color: #27ae60; cursor: pointer; text-decoration: underline;" class="clickable-hote" onclick="showFichesForHote('${hote.nom.replace(/'/g, "\\'")}')">${hote.nom}</div>
                                         </td>
                                         <td style="padding: 10px;">
-                                            <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;">
+                                            <span style="display: inline-block; padding: 4px 8px; background: #27ae60; color: white; border-radius: 12px; font-size: 0.9em;" class="clickable-pays" onclick="filterByLocation('${hote.pays.replace(/'/g, "\\'")}', 'pays')">
                                                 ${hote.pays}
                                             </span>
                                         </td>
-                                        <td style="padding: 10px;">${hote.lieu}</td>
-                                        <td style="padding: 10px; font-size: 0.9em; color: #666;">${hote.dates}</td>
+                                        <td style="padding: 10px;">
+                                            <span class="clickable-lieu" onclick="filterByLocation('${hote.lieu.replace(/'/g, "\\'")}', 'lieu')">${hote.lieu}</span>
+                                        </td>
+                                        <td style="padding: 10px; font-size: 0.9em; color: #666;">
+                                            ${hote.dates.split(' au ').map(dateStr => {
+                                                const date = parseDate(dateStr);
+                                                if (date) {
+                                                    return `<span class="clickable-date" onclick="searchByDate(new Date(${date.getTime()}))">${dateStr}</span>`;
+                                                }
+                                                return dateStr;
+                                            }).join(' au ')}
+                                        </td>
                                         <td style="padding: 10px; text-align: center;">
                                             <div style="display: flex; flex-direction: column; gap: 4px;">
                                                 <div style="display: flex; flex-direction: column; align-items: center;">
@@ -3491,7 +3544,7 @@ L'équipe de la Tournée 2026</textarea>
                         </table>
                         
                         <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
-                            <strong>💡 Note:</strong> Cliquez sur le nom d'un hôte pour voir ses fiches détaillées.
+                            <strong>💡 Note:</strong> Cliquez sur le nom d'un hôte pour voir ses fiches détaillées, sur le pays/lieu pour filtrer, et sur les dates pour rechercher.
                         </div>
                     </div>
                 </div>
@@ -3502,16 +3555,6 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('resultsSection').style.display = 'block';
             document.getElementById('tableauSection').style.display = 'none';
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
-            
-            // Ajouter des événements de clic sur les noms d'hôtes
-            setTimeout(() => {
-                document.querySelectorAll('.hote-link').forEach((link) => {
-                    link.addEventListener('click', function() {
-                        const hoteName = this.getAttribute('data-hote');
-                        showFichesForHote(hoteName);
-                    });
-                });
-            }, 100);
         }
 
         function showPasswordModal() {
@@ -3891,10 +3934,10 @@ L'équipe de la Tournée 2026</textarea>
                         </div>
                         ` : ''}
                         
-                        ${(adresseHebergeur || email || facebook || telephone || numeroHebergeur) ? `
+                        ${(adresseComplete || email || facebook || telephone || numeroHebergeur) ? `
                         <div class="section" style="border-left-color: #3498db;">
                             <div class="section-title">📞 Information de contact:</div>
-                            ${adresseHebergeur ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresseHebergeur}</div>` : ''}
+                            ${adresseComplete ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresseComplete}</div>` : ''}
                             ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> ${numeroHebergeur}</div>` : ''}
                             ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Email:</strong> ${email}</div>` : ''}
                             ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Réseaux sociaux:</strong> ${facebook}</div>` : ''}
