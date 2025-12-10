@@ -1436,15 +1436,16 @@
         .tableau-export-buttons {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin: 20px 0;
             flex-wrap: wrap;
+            justify-content: center;
         }
         
         .tableau-export-button {
             background: linear-gradient(135deg, #ff6b35, #e74c3c);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
@@ -1453,7 +1454,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            min-width: 180px;
         }
         
         .tableau-export-button:hover {
@@ -1956,6 +1958,13 @@
             /* Styles améliorés pour le tableau sur mobile */
             .tableau-export-buttons {
                 flex-direction: column;
+                align-items: center;
+            }
+            
+            .tableau-export-button {
+                min-width: 90%;
+                padding: 10px 15px;
+                margin: 5px 0;
             }
             
             .tableau-table {
@@ -2578,6 +2587,10 @@
                     <h2 id="tableauTitle">📊 Liste de répartition par hébergeur</h2>
                 </div>
                 <div class="tableau-content">
+                    <div id="tableauContent">
+                        <!-- Le tableau sera généré ici -->
+                    </div>
+                    <!-- BOUTONS D'EXPORT DÉPLACÉS EN BAS -->
                     <div class="tableau-export-buttons">
                         <button class="tableau-export-button pdf" id="exportTableauPDF">
                             📄 Exporter en PDF
@@ -2585,9 +2598,6 @@
                         <button class="tableau-export-button excel" id="exportTableauExcel">
                             📊 Exporter en Excel
                         </button>
-                    </div>
-                    <div id="tableauContent">
-                        <!-- Le tableau sera généré ici -->
                     </div>
                 </div>
             </div>
@@ -3050,12 +3060,20 @@ L'équipe de la Tournée 2026</textarea>
                 }
             });
             
-            // Boutons d'export du tableau
+            // CORRECTION : S'assurer que les boutons d'export du tableau sont correctement liés
             document.getElementById('exportTableauPDF').addEventListener('click', function() {
+                if (tableauData.length === 0) {
+                    alert('Aucune donnée à exporter. Veuillez d\'abord afficher le tableau des hébergeurs.');
+                    return;
+                }
                 exportTableau('pdf');
             });
             
             document.getElementById('exportTableauExcel').addEventListener('click', function() {
+                if (tableauData.length === 0) {
+                    alert('Aucune donnée à exporter. Veuillez d\'abord afficher le tableau des hébergeurs.');
+                    return;
+                }
                 exportTableau('excel');
             });
             
@@ -3955,7 +3973,7 @@ L'équipe de la Tournée 2026</textarea>
                     <title>Fiches d'hébergement - Tournée 2026</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { color: #8b0000; text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #8b0000; }
+                        h1 { color: #8b0000; text-align: center; margin-bottom: 30px; }
                         .fiche-container { margin-bottom: 40px; page-break-inside: avoid; border: 1px solid #ddd; padding: 20px; border-radius: 10px; }
                         .fiche-header { background: #6c757d; color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
                         .fiche-title { color: white; font-size: 1.2em; margin: 0; }
