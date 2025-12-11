@@ -1621,6 +1621,40 @@
             transform: translateY(-2px);
         }
 
+        /* Styles pour les options d'export dans la bulle qui nécessitent un mot de passe */
+        .option-item.requires-password {
+            opacity: 0.5;
+            cursor: not-allowed;
+            position: relative;
+        }
+        
+        .option-item.requires-password:hover::after {
+            content: '🔒 Mot de passe requis';
+            position: absolute;
+            top: -30px;
+            left: 0;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1001;
+        }
+        
+        .option-item.requires-password:hover {
+            background-color: inherit;
+        }
+        
+        /* Masquer les boutons d'export dans le tableau par personne */
+        .person-tableau-export-buttons {
+            display: none !important;
+        }
+        
+        .person-tableau-export-button {
+            display: none !important;
+        }
+
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 35% 1fr;
@@ -2551,13 +2585,13 @@
             <span class="option-icon">📊</span>
             <span class="option-label">Tableau de liste de ses hébergeurs</span>
         </div>
-        <div class="option-item" id="exportPersonPDF">
+        <div class="option-item requires-password" id="exportPersonPDF">
             <span class="option-icon">📄</span>
-            <span class="option-label">Exporter en PDF</span>
+            <span class="option-label">Exporter en PDF (admin)</span>
         </div>
-        <div class="option-item" id="exportPersonExcel">
+        <div class="option-item requires-password" id="exportPersonExcel">
             <span class="option-icon">📊</span>
-            <span class="option-label">Exporter en Excel</span>
+            <span class="option-label">Exporter en Excel (admin)</span>
         </div>
     </div>
 
@@ -2761,6 +2795,10 @@ L'équipe de la Tournée 2026</textarea>
         let allTypes = new Set();
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Au chargement, s'assurer que la page d'accueil est affichée
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('tableauSection').style.display = 'none';
+            
             document.getElementById('homeButton').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('resultsSection').style.display = 'none';
@@ -2872,6 +2910,12 @@ L'équipe de la Tournée 2026</textarea>
                     document.getElementById('sendEmailsButton').classList.remove('disabled');
                     document.getElementById('sendEmailsButton').title = "Envoyer un email de remerciements";
                     
+                    // Activer les options d'export dans la bulle
+                    document.getElementById('exportPersonPDF').classList.remove('requires-password');
+                    document.getElementById('exportPersonPDF').classList.add('export-active');
+                    document.getElementById('exportPersonExcel').classList.remove('requires-password');
+                    document.getElementById('exportPersonExcel').classList.add('export-active');
+                    
                     document.getElementById('passwordModal').style.display = 'none';
                     document.getElementById('adminPassword').value = '';
                     document.getElementById('passwordError').style.display = 'none';
@@ -2925,14 +2969,26 @@ L'équipe de la Tournée 2026</textarea>
             });
             
             document.getElementById('exportPersonPDF').addEventListener('click', function() {
-                if (currentSelectedPerson && currentPersonTableauData.length > 0) {
+                if (this.classList.contains('requires-password')) {
+                    passwordModalAction = 'export-person-pdf';
+                    showPasswordModal();
+                    return;
+                }
+                
+                if (currentSelectedPerson && currentPersonTableauData.length > 0 && isAdmin) {
                     exportPersonTableau('pdf', currentSelectedPerson, currentPersonTableauData);
                     hidePersonBubble();
                 }
             });
             
             document.getElementById('exportPersonExcel').addEventListener('click', function() {
-                if (currentSelectedPerson && currentPersonTableauData.length > 0) {
+                if (this.classList.contains('requires-password')) {
+                    passwordModalAction = 'export-person-excel';
+                    showPasswordModal();
+                    return;
+                }
+                
+                if (currentSelectedPerson && currentPersonTableauData.length > 0 && isAdmin) {
                     exportPersonTableau('excel', currentSelectedPerson, currentPersonTableauData);
                     hidePersonBubble();
                 }
@@ -3680,6 +3736,7 @@ L'équipe de la Tournée 2026</textarea>
             
             document.getElementById('tableauTitle').textContent = `📊 Tableau de liste des hébergeurs pour: ${personName}`;
             
+            // NE PAS afficher les boutons d'export dans ce tableau (ils sont masqués par CSS)
             let html = `
                 <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 5px;">
                     <strong>${hotesList.length} hébergeur(s) trouvé(s) pour ${personName}</strong>
@@ -3690,11 +3747,12 @@ L'équipe de la Tournée 2026</textarea>
                     </div>
                 </div>
                 
-                <div class="tableau-export-buttons">
-                    <button class="tableau-export-button pdf" onclick="exportPersonTableau('pdf', '${personName.replace(/'/g, "\\'")}', currentPersonTableauData)">
+                <!-- Les boutons d'export sont masqués par CSS (classe person-tableau-export-buttons) -->
+                <div class="person-tableau-export-buttons" style="display: none;">
+                    <button class="person-tableau-export-button pdf" onclick="exportPersonTableau('pdf', '${personName.replace(/'/g, "\\'")}', currentPersonTableauData)">
                         📄 Exporter en PDF
                     </button>
-                    <button class="tableau-export-button excel" onclick="exportPersonTableau('excel', '${personName.replace(/'/g, "\\'")}', currentPersonTableauData)">
+                    <button class="person-tableau-export-button excel" onclick="exportPersonTableau('excel', '${personName.replace(/'/g, "\\'")}', currentPersonTableauData)">
                         📊 Exporter en Excel
                     </button>
                 </div>
