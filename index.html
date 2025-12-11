@@ -221,6 +221,10 @@
             background: rgba(241, 196, 15, 0.9);
         }
         
+        .icon-button.search-btn {
+            background: rgba(41, 128, 185, 0.9);
+        }
+        
         .icon-button.email-btn.disabled {
             background: rgba(149, 165, 166, 0.9);
             cursor: not-allowed;
@@ -1655,6 +1659,189 @@
             display: none !important;
         }
 
+        /* Styles pour la barre de recherche globale - MODIFIÉ */
+        .global-search-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+            grid-column: 1 / -1;
+        }
+        
+        .global-search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .global-search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 20px;
+        }
+        
+        .global-search-button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--primary-color), #6a0000);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .global-search-button:hover {
+            background: linear-gradient(135deg, #6a0000, var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .suggestions-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            border: 1px solid #ddd;
+        }
+        
+        .suggestion-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .suggestion-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-text {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .suggestion-context {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: right;
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+        
+        .suggestion-context span {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+        }
+        
+        .no-suggestions {
+            padding: 15px;
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .search-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .search-results-summary {
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Styles pour les résultats surlignés - AMÉLIORÉ */
+        .highlight {
+            background-color: #FFD700 !important;
+            color: #333 !important;
+            padding: 1px 3px;
+            border-radius: 3px;
+            font-weight: bold;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            border: 1px solid #FFA500;
+        }
+        
+        .highlighted-field {
+            background-color: #e8f4fd;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 5px 0;
+            border-left: 3px solid #3498db;
+        }
+        
+        .highlighted-field-label {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .highlighted-field-content {
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 35% 1fr;
@@ -1893,7 +2080,8 @@
             
             .email-modal-content,
             .password-modal-content,
-            .export-modal-content {
+            .export-modal-content,
+            .search-modal-content {
                 padding: 20px;
                 width: 95%;
             }
@@ -2164,6 +2352,19 @@
                 padding-right: 5px;
             }
             
+            .suggestion-item {
+                padding: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .suggestion-context {
+                margin-left: 0;
+                margin-top: 5px;
+                text-align: left;
+                width: 100%;
+            }
+            
             @media (max-width: 480px) {
                 .stats-grid {
                     grid-template-columns: repeat(3, 1fr);
@@ -2267,6 +2468,9 @@
         <button class="icon-button calendar-btn" id="scrollToCalendarButton" title="Aller au calendrier">
             📅
         </button>
+        <button class="icon-button search-btn" id="openSearchModalButton" title="Rechercher dans toutes les données">
+            🔍
+        </button>
         <button class="icon-button email-btn disabled" id="sendEmailsButton" title="Envoyer un email de remerciements (verrouillé)">
             📧
         </button>
@@ -2300,6 +2504,16 @@
                 </div>
             </div>
         </header>
+        
+        <!-- Barre de recherche globale MODIFIÉE -->
+        <div class="global-search-container">
+            <input type="text" id="globalSearchInput" class="global-search-input" placeholder="🔍 Rechercher dans toutes les données (nom, lieu, pays, type, personnes, etc.)">
+            <div class="search-icon">🔍</div>
+            <div class="suggestions-container" id="suggestionsContainer"></div>
+            <button class="global-search-button" id="globalSearchButton">
+                🔍 Rechercher dans toutes les données
+            </button>
+        </div>
         
         <div class="sidebar">
             <div class="stats-section">
@@ -2576,6 +2790,33 @@
         </div>
     </div>
 
+    <!-- Modal de recherche -->
+    <div id="searchModal" class="search-modal">
+        <div class="search-modal-content">
+            <h3 style="margin-bottom: 20px; color: var(--secondary-color);">🔍 Recherche globale</h3>
+            
+            <div class="search-bar-container" style="margin-bottom: 20px;">
+                <input type="text" id="modalSearchInput" class="global-search-input" placeholder="Rechercher dans toutes les données...">
+                <div class="search-icon">🔍</div>
+                <div class="suggestions-container" id="modalSuggestionsContainer"></div>
+            </div>
+            
+            <div id="searchResultsSummary" class="search-results-summary" style="display: none;">
+                <strong id="searchResultsCount">0</strong> résultat(s) trouvé(s)
+            </div>
+            
+            <div id="modalSearchResults" style="max-height: 400px; overflow-y: auto;">
+                <!-- Les résultats de recherche seront affichés ici -->
+            </div>
+            
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button id="closeSearchModal" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="personOptionsBubble" class="options-bubble person-bubble">
         <div class="option-item" id="showPersonFiches">
             <span class="option-icon">📄</span>
@@ -2761,6 +3002,9 @@ L'équipe de la Tournée 2026</textarea>
         let currentClickedPersonElement = null;
         let tableauData = [];
         let currentPersonTableauData = [];
+        let searchData = [];
+        let searchTimeout = null;
+        let currentSearchTerm = '';
 
         let colDateDebut = -1;
         let colDateFin = -1;
@@ -2812,6 +3056,10 @@ L'équipe de la Tournée 2026</textarea>
             });
             
             document.getElementById('showAllDataButton').addEventListener('click', showAllData);
+            
+            document.getElementById('openSearchModalButton').addEventListener('click', function() {
+                openSearchModal();
+            });
             
             document.getElementById('sendEmailsButton').addEventListener('click', function() {
                 if (this.classList.contains('disabled')) {
@@ -3030,6 +3278,8 @@ L'équipe de la Tournée 2026</textarea>
             
             document.addEventListener('click', function(event) {
                 const personBubble = document.getElementById('personOptionsBubble');
+                const suggestionsContainer = document.getElementById('suggestionsContainer');
+                const modalSuggestionsContainer = document.getElementById('modalSuggestionsContainer');
                 
                 if (!event.target.closest('.heberge-tag') && !event.target.closest('#personOptionsBubble') && 
                     !event.target.closest('.tag.heberge') && !event.target.closest('#personOptionsBubble') &&
@@ -3038,10 +3288,641 @@ L'équipe de la Tournée 2026</textarea>
                         hidePersonBubble();
                     }
                 }
+                
+                // Fermer les suggestions si on clique ailleurs
+                if (!event.target.closest('.global-search-container')) {
+                    suggestionsContainer.style.display = 'none';
+                }
+                
+                if (!event.target.closest('#searchModal .search-bar-container')) {
+                    modalSuggestionsContainer.style.display = 'none';
+                }
             });
+            
+            // Gestion de la recherche globale
+            const globalSearchInput = document.getElementById('globalSearchInput');
+            const globalSearchButton = document.getElementById('globalSearchButton');
+            const modalSearchInput = document.getElementById('modalSearchInput');
+            const suggestionsContainer = document.getElementById('suggestionsContainer');
+            const modalSuggestionsContainer = document.getElementById('modalSuggestionsContainer');
+            
+            globalSearchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const searchTerm = this.value.trim();
+                
+                if (searchTerm.length < 2) {
+                    suggestionsContainer.style.display = 'none';
+                    return;
+                }
+                
+                searchTimeout = setTimeout(() => {
+                    showSuggestions(searchTerm, suggestionsContainer, false);
+                }, 300);
+            });
+            
+            globalSearchInput.addEventListener('focus', function() {
+                const searchTerm = this.value.trim();
+                if (searchTerm.length >= 2) {
+                    showSuggestions(searchTerm, suggestionsContainer, false);
+                }
+            });
+            
+            globalSearchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = this.value.trim();
+                    if (searchTerm) {
+                        performGlobalSearch(searchTerm, false);
+                        suggestionsContainer.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Ajout du bouton de recherche global
+            globalSearchButton.addEventListener('click', function() {
+                const searchTerm = globalSearchInput.value.trim();
+                if (searchTerm) {
+                    performGlobalSearch(searchTerm, false);
+                    suggestionsContainer.style.display = 'none';
+                } else {
+                    alert('Veuillez entrer un terme de recherche');
+                }
+            });
+            
+            modalSearchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const searchTerm = this.value.trim();
+                
+                if (searchTerm.length < 2) {
+                    modalSuggestionsContainer.style.display = 'none';
+                    return;
+                }
+                
+                searchTimeout = setTimeout(() => {
+                    showSuggestions(searchTerm, modalSuggestionsContainer, true);
+                }, 300);
+            });
+            
+            modalSearchInput.addEventListener('focus', function() {
+                const searchTerm = this.value.trim();
+                if (searchTerm.length >= 2) {
+                    showSuggestions(searchTerm, modalSuggestionsContainer, true);
+                }
+            });
+            
+            modalSearchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = this.value.trim();
+                    if (searchTerm) {
+                        performGlobalSearch(searchTerm, true);
+                        modalSuggestionsContainer.style.display = 'none';
+                    }
+                }
+            });
+            
+            document.getElementById('openSearchModalButton').addEventListener('click', openSearchModal);
+            document.getElementById('closeSearchModal').addEventListener('click', closeSearchModal);
             
             loadDataFromGoogleSheets();
         });
+
+        function openSearchModal() {
+            document.getElementById('searchModal').style.display = 'flex';
+            document.getElementById('modalSearchInput').focus();
+            hidePersonBubble();
+        }
+
+        function closeSearchModal() {
+            document.getElementById('searchModal').style.display = 'none';
+            document.getElementById('modalSearchInput').value = '';
+            document.getElementById('modalSearchResults').innerHTML = '';
+            document.getElementById('searchResultsSummary').style.display = 'none';
+        }
+
+        function prepareSearchData() {
+            searchData = [];
+            
+            sheetData.forEach((row, index) => {
+                const nom = colNom !== -1 ? row[colNom] : '';
+                const pays = colPays !== -1 ? row[colPays] : '';
+                const lieu = colLieu !== -1 ? row[colLieu] : '';
+                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
+                const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                const adresse = colAdresse !== -1 ? row[colAdresse] : '';
+                const email = colEmail !== -1 ? row[colEmail] : '';
+                const facebook = colFacebook !== -1 ? row[colFacebook] : '';
+                const telephone = colTelephone !== -1 ? row[colTelephone] : '';
+                
+                // Personnes hébergées
+                let personnes = [];
+                const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
+                colonnesPersonnes.forEach(colIndex => {
+                    if (colIndex !== -1) {
+                        const personnesCell = row[colIndex] || '';
+                        if (personnesCell.trim()) {
+                            personnesCell.split(',').forEach(p => {
+                                const trimmed = p.trim();
+                                if (trimmed) personnes.push(trimmed);
+                            });
+                        }
+                    }
+                });
+                
+                // Sujet de prière
+                const priere = colPriere !== -1 ? row[colPriere] : '';
+                
+                // Marquants
+                const marquants = colMarquants !== -1 ? row[colMarquants] : '';
+                
+                // À savoir sur le hôte
+                const aSavoir = colASavoirHote !== -1 ? row[colASavoirHote] : '';
+                
+                // Repartition
+                const repartition = colRepartition !== -1 ? row[colRepartition] : '';
+                
+                // Rassembler tous les textes de recherche
+                const searchText = `
+                    ${nom}
+                    ${pays}
+                    ${lieu}
+                    ${type}
+                    ${dateDebut}
+                    ${dateFin}
+                    ${adresse}
+                    ${email}
+                    ${facebook}
+                    ${telephone}
+                    ${personnes.join(' ')}
+                    ${priere}
+                    ${marquants}
+                    ${aSavoir}
+                    ${repartition}
+                `.toLowerCase();
+                
+                searchData.push({
+                    rowIndex: index,
+                    nom: nom,
+                    pays: pays,
+                    lieu: lieu,
+                    type: type,
+                    dateDebut: dateDebut,
+                    dateFin: dateFin,
+                    personnes: personnes,
+                    searchText: searchText,
+                    row: row,
+                    // Stocker toutes les données pour le surlignage
+                    allData: {
+                        nom: nom,
+                        pays: pays,
+                        lieu: lieu,
+                        type: type,
+                        dateDebut: dateDebut,
+                        dateFin: dateFin,
+                        adresse: adresse,
+                        email: email,
+                        facebook: facebook,
+                        telephone: telephone,
+                        personnes: personnes,
+                        priere: priere,
+                        marquants: marquants,
+                        aSavoir: aSavoir,
+                        repartition: repartition
+                    }
+                });
+            });
+        }
+
+        function showSuggestions(searchTerm, container, isModal) {
+            if (!searchTerm || searchTerm.length < 2) {
+                container.style.display = 'none';
+                return;
+            }
+            
+            const term = searchTerm.toLowerCase();
+            const suggestions = [];
+            
+            // Récupérer tous les mots uniques de toutes les données
+            const allWords = new Set();
+            const wordContexts = new Map();
+            
+            searchData.forEach(item => {
+                const words = item.searchText.split(/\s+/).filter(word => word.length >= 3);
+                words.forEach(word => {
+                    if (word.includes(term)) {
+                        if (!wordContexts.has(word)) {
+                            wordContexts.set(word, []);
+                        }
+                        wordContexts.get(word).push({
+                            nom: item.nom,
+                            pays: item.pays,
+                            lieu: item.lieu,
+                            dateDebut: item.dateDebut
+                        });
+                        allWords.add(word);
+                    }
+                });
+            });
+            
+            // Convertir en tableau et limiter à 20 suggestions
+            const sortedWords = Array.from(allWords)
+                .sort((a, b) => {
+                    // Prioriser les mots qui commencent par le terme de recherche
+                    const aStartsWith = a.startsWith(term);
+                    const bStartsWith = b.startsWith(term);
+                    if (aStartsWith && !bStartsWith) return -1;
+                    if (!aStartsWith && bStartsWith) return 1;
+                    return a.localeCompare(b);
+                })
+                .slice(0, 20);
+            
+            sortedWords.forEach(word => {
+                const contexts = wordContexts.get(word);
+                const sampleContext = contexts && contexts.length > 0 ? contexts[0] : null;
+                
+                suggestions.push({
+                    text: word,
+                    type: 'mot',
+                    context: sampleContext ? `${sampleContext.nom || ''} - ${sampleContext.pays || ''} - ${sampleContext.dateDebut || ''}` : '',
+                    action: () => {
+                        const results = searchData
+                            .filter(item => item.searchText.includes(word))
+                            .map(item => item.row);
+                        
+                        if (isModal) {
+                            displaySearchResults(results, `Mot: "${word}"`);
+                        } else {
+                            displayResults(results, `Mot: "${word}"`);
+                        }
+                    }
+                });
+            });
+            
+            // Ajouter les catégories principales
+            if (suggestions.length < 15) {
+                // Rechercher dans les noms
+                allHotes.forEach(nom => {
+                    const nomLower = nom.toLowerCase();
+                    if (nomLower.includes(term)) {
+                        suggestions.push({
+                            text: nom,
+                            type: 'hôte',
+                            action: () => {
+                                const results = filterDataByType(nom, 'nom');
+                                if (isModal) {
+                                    displaySearchResults(results, `Hôte: ${nom}`);
+                                } else {
+                                    displayResults(results, `Hôte: ${nom}`);
+                                }
+                            }
+                        });
+                    }
+                });
+                
+                // Rechercher dans les pays
+                allPays.forEach(pays => {
+                    const paysLower = pays.toLowerCase();
+                    if (paysLower.includes(term)) {
+                        suggestions.push({
+                            text: pays,
+                            type: 'pays',
+                            action: () => {
+                                const results = filterDataByType(pays, 'pays');
+                                if (isModal) {
+                                    displaySearchResults(results, `Pays: ${pays}`);
+                                } else {
+                                    displayResults(results, `Pays: ${pays}`);
+                                }
+                            }
+                        });
+                    }
+                });
+                
+                // Rechercher dans les lieux
+                allLieux.forEach(lieu => {
+                    const lieuLower = lieu.toLowerCase();
+                    if (lieuLower.includes(term)) {
+                        suggestions.push({
+                            text: lieu,
+                            type: 'lieu',
+                            action: () => {
+                                const results = filterDataByType(lieu, 'lieu');
+                                if (isModal) {
+                                    displaySearchResults(results, `Lieu: ${lieu}`);
+                                } else {
+                                    displayResults(results, `Lieu: ${lieu}`);
+                                }
+                            }
+                        });
+                    }
+                });
+                
+                // Rechercher dans les personnes hébergées
+                allHeberges.forEach(personne => {
+                    const personneLower = personne.toLowerCase();
+                    if (personneLower.includes(term)) {
+                        suggestions.push({
+                            text: personne,
+                            type: 'personne',
+                            action: () => {
+                                const results = filterByHeberge(personne);
+                                if (isModal) {
+                                    displaySearchResults(results, `Personne: ${personne}`);
+                                } else {
+                                    displayResults(results, `Personne: ${personne}`);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Éliminer les doublons
+            const uniqueSuggestions = Array.from(new Map(suggestions.map(s => [s.text, s])).values()).slice(0, 15);
+            
+            if (uniqueSuggestions.length === 0) {
+                container.innerHTML = '<div class="no-suggestions">Aucune suggestion trouvée</div>';
+            } else {
+                container.innerHTML = uniqueSuggestions.map(suggestion => `
+                    <div class="suggestion-item" onclick="${isModal ? 'modalSuggestionClick' : 'suggestionClick'}(event, '${suggestion.text.replace(/'/g, "\\'")}', '${suggestion.type}')">
+                        <div class="suggestion-text">
+                            <strong>${suggestion.text}</strong>
+                            <div style="font-size: 12px; color: #7f8c8d; margin-top: 2px;">
+                                ${suggestion.type.charAt(0).toUpperCase() + suggestion.type.slice(1)}
+                            </div>
+                        </div>
+                        ${suggestion.context ? `
+                        <div class="suggestion-context">
+                            ${suggestion.context}
+                        </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+            
+            container.style.display = 'block';
+        }
+
+        function suggestionClick(event, text, type) {
+            event.stopPropagation();
+            
+            if (type === 'mot') {
+                const results = searchData
+                    .filter(item => item.searchText.includes(text.toLowerCase()))
+                    .map(item => item.row);
+                displayResults(results, `Recherche: "${text}"`);
+            } else {
+                switch(type) {
+                    case 'hôte':
+                        const resultsNom = filterDataByType(text, 'nom');
+                        displayResults(resultsNom, `Hôte: ${text}`);
+                        break;
+                    case 'pays':
+                        const resultsPays = filterDataByType(text, 'pays');
+                        displayResults(resultsPays, `Pays: ${text}`);
+                        break;
+                    case 'lieu':
+                        const resultsLieu = filterDataByType(text, 'lieu');
+                        displayResults(resultsLieu, `Lieu: ${text}`);
+                        break;
+                    case 'personne':
+                        const resultsPersonne = filterByHeberge(text);
+                        displayResults(resultsPersonne, `Personne: ${text}`);
+                        break;
+                    case 'type':
+                        filterByType(text);
+                        break;
+                    case 'date':
+                        const dateObj = parseDate(text);
+                        if (dateObj) {
+                            searchByDate(dateObj);
+                        }
+                        break;
+                }
+            }
+            
+            document.getElementById('globalSearchInput').value = text;
+            document.getElementById('suggestionsContainer').style.display = 'none';
+        }
+
+        function modalSuggestionClick(event, text, type) {
+            event.stopPropagation();
+            
+            if (type === 'mot') {
+                const results = searchData
+                    .filter(item => item.searchText.includes(text.toLowerCase()))
+                    .map(item => item.row);
+                displaySearchResults(results, `Recherche: "${text}"`);
+            } else {
+                switch(type) {
+                    case 'hôte':
+                        const resultsNom = filterDataByType(text, 'nom');
+                        displaySearchResults(resultsNom, `Hôte: ${text}`);
+                        break;
+                    case 'pays':
+                        const resultsPays = filterDataByType(text, 'pays');
+                        displaySearchResults(resultsPays, `Pays: ${text}`);
+                        break;
+                    case 'lieu':
+                        const resultsLieu = filterDataByType(text, 'lieu');
+                        displaySearchResults(resultsLieu, `Lieu: ${text}`);
+                        break;
+                    case 'personne':
+                        const resultsPersonne = filterByHeberge(text);
+                        displaySearchResults(resultsPersonne, `Personne: ${text}`);
+                        break;
+                    case 'type':
+                        filterByType(text);
+                        closeSearchModal();
+                        break;
+                    case 'date':
+                        const dateObj = parseDate(text);
+                        if (dateObj) {
+                            searchByDate(dateObj);
+                            closeSearchModal();
+                        }
+                        break;
+                }
+            }
+            
+            document.getElementById('modalSearchInput').value = text;
+            document.getElementById('modalSuggestionsContainer').style.display = 'none';
+        }
+
+        function performGlobalSearch(searchTerm, isModal) {
+            if (searchData.length === 0) {
+                prepareSearchData();
+            }
+            
+            currentSearchTerm = searchTerm;
+            const terms = searchTerm.toLowerCase().split(/\s+/).filter(term => term.length > 0);
+            
+            if (terms.length === 0) {
+                if (isModal) {
+                    displaySearchResults([], `Recherche: "${searchTerm}"`);
+                } else {
+                    displayResults([], `Recherche: "${searchTerm}"`);
+                }
+                return;
+            }
+            
+            const results = [];
+            const searchDataWithMatchInfo = [];
+            
+            searchData.forEach(item => {
+                let matchesAllTerms = true;
+                let matchScore = 0;
+                
+                for (const term of terms) {
+                    if (item.searchText.includes(term)) {
+                        // Augmenter le score pour chaque correspondance
+                        matchScore += (item.searchText.split(term).length - 1);
+                    } else {
+                        matchesAllTerms = false;
+                        break;
+                    }
+                }
+                
+                if (matchesAllTerms) {
+                    searchDataWithMatchInfo.push({
+                        row: item.row,
+                        score: matchScore,
+                        allData: item.allData
+                    });
+                }
+            });
+            
+            // Trier par score de correspondance
+            searchDataWithMatchInfo.sort((a, b) => b.score - a.score);
+            
+            const sortedResults = searchDataWithMatchInfo.map(item => item.row);
+            const allDataForHighlighting = searchDataWithMatchInfo.map(item => item.allData);
+            
+            if (isModal) {
+                displaySearchResults(sortedResults, `Recherche: "${searchTerm}"`);
+            } else {
+                displayResults(sortedResults, `Recherche: "${searchTerm}"`, allDataForHighlighting);
+            }
+        }
+
+        function displaySearchResults(results, title) {
+            const resultsContainer = document.getElementById('modalSearchResults');
+            const summary = document.getElementById('searchResultsSummary');
+            const countElement = document.getElementById('searchResultsCount');
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>❌ Aucun résultat trouvé</h3>
+                        <p>Aucun hébergement ne correspond à votre recherche</p>
+                    </div>
+                `;
+                summary.style.display = 'none';
+                return;
+            }
+            
+            const searchTerms = currentSearchTerm ? currentSearchTerm.toLowerCase().split(/\s+/).filter(term => term.length > 0) : [];
+            
+            let html = '';
+            
+            results.forEach((row, index) => {
+                const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                const nom = colNom !== -1 ? row[colNom] : '';
+                const pays = colPays !== -1 ? row[colPays] : '';
+                const lieu = colLieu !== -1 ? row[colLieu] : '';
+                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
+                
+                // Personnes hébergées
+                let personnes = [];
+                const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
+                colonnesPersonnes.forEach(colIndex => {
+                    if (colIndex !== -1) {
+                        const personnesCell = row[colIndex] || '';
+                        if (personnesCell.trim()) {
+                            personnesCell.split(',').forEach(p => {
+                                const trimmed = p.trim();
+                                if (trimmed) personnes.push(trimmed);
+                            });
+                        }
+                    }
+                });
+                
+                // Préparer le texte avec surlignage
+                const highlightedNom = highlightText(nom, searchTerms);
+                const highlightedPays = highlightText(pays, searchTerms);
+                const highlightedLieu = highlightText(lieu, searchTerms);
+                const highlightedType = highlightText(type, searchTerms);
+                const highlightedPersonnes = personnes.map(p => highlightText(p, searchTerms)).join(', ');
+                
+                html += `
+                    <div class="fiche-item" style="margin-bottom: 20px; cursor: pointer;" onclick="showFicheFromSearch(${sheetData.findIndex(r => r === row)})">
+                        <div class="fiche-header" style="padding: 15px;">
+                            <h3 class="fiche-title" style="font-size: 1.2em;">${highlightedNom || 'Hôte non spécifié'}</h3>
+                        </div>
+                        <div style="padding: 15px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                                <div>
+                                    <span style="font-weight: bold; color: var(--primary-color); font-size: 0.9em;">📅 Dates:</span>
+                                    <div>${highlightText(dateDebut, searchTerms) || '?'} - ${highlightText(dateFin, searchTerms) || '?'}</div>
+                                </div>
+                                <div>
+                                    <span style="font-weight: bold; color: var(--primary-color); font-size: 0.9em;">📍 Localisation:</span>
+                                    <div>${highlightedLieu || '?'}, ${highlightedPays || '?'}</div>
+                                </div>
+                            </div>
+                            ${type ? `<div style="margin-bottom: 5px;"><span style="font-weight: bold;">🏠 Type:</span> ${highlightedType}</div>` : ''}
+                            ${personnes.length > 0 ? `<div><span style="font-weight: bold;">👥 Personnes:</span> ${highlightedPersonnes}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            resultsContainer.innerHTML = html;
+            countElement.textContent = results.length;
+            summary.style.display = 'block';
+        }
+
+        function showFicheFromSearch(rowIndex) {
+            if (rowIndex >= 0 && rowIndex < sheetData.length) {
+                const row = sheetData[rowIndex];
+                const results = [row];
+                displayResults(results, `Fiche détaillée`);
+                closeSearchModal();
+            }
+        }
+
+        // Fonction pour mettre en surbrillance le texte - AMÉLIORÉE
+        function highlightText(text, searchTerms) {
+            if (!text || !searchTerms || searchTerms.length === 0) return text;
+            
+            let highlightedText = text;
+            searchTerms.forEach(term => {
+                if (term.length < 2) return;
+                
+                // Échapper les caractères spéciaux pour RegExp
+                const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                
+                // Créer une expression régulière insensible à la casse
+                const regex = new RegExp(`(${escapedTerm})`, 'gi');
+                
+                highlightedText = highlightedText.replace(regex, '<span class="highlight">$1</span>');
+            });
+            
+            return highlightedText;
+        }
+
+        // Fonction pour créer un champ surligné
+        function createHighlightedField(label, content, searchTerms) {
+            if (!content || content.trim() === '') return '';
+            
+            const highlightedContent = highlightText(content, searchTerms);
+            return `
+                <div class="highlighted-field">
+                    <div class="highlighted-field-label">${label}</div>
+                    <div class="highlighted-field-content">${highlightedContent}</div>
+                </div>
+            `;
+        }
 
         function filterByType(type) {
             if (sheetData.length === 0) {
@@ -3964,6 +4845,7 @@ L'équipe de la Tournée 2026</textarea>
                 
                 normalizeData();
                 extractAllData();
+                prepareSearchData();
                 updateStats();
                 renderFilterTags();
                 renderMobileFilterTags();
@@ -4594,7 +5476,7 @@ L'équipe de la Tournée 2026</textarea>
             hidePersonBubble();
         }
         
-        function displayResults(results, title) {
+        function displayResults(results, title, allDataForHighlighting = null) {
             const resultsSection = document.getElementById('resultsSection');
             const resultContent = document.getElementById('resultContent');
             const resultTitle = document.getElementById('resultTitle');
@@ -4609,10 +5491,16 @@ L'équipe de la Tournée 2026</textarea>
                     </div>
                 `;
             } else {
+                const searchTerms = currentSearchTerm ? currentSearchTerm.toLowerCase().split(/\s+/).filter(term => term.length > 0) : [];
+                
                 let html = `
                     <div style="margin-bottom: 20px; padding: 15px; background: #ecf0f1; border-radius: 5px;">
                         <strong>${results.length} hébergement(s) trouvé(s)</strong>
                 `;
+                
+                if (currentSearchTerm) {
+                    html += `<br><em>Recherche: "${currentSearchTerm}"</em>`;
+                }
                 
                 if (currentSelectedPerson) {
                     html += `<br><em>Filtré par: ${currentSelectedPerson}</em>`;
@@ -4711,41 +5599,127 @@ L'équipe de la Tournée 2026</textarea>
                         return `<span class="location-clickable" onclick="filterByLocation('${value.replace(/'/g, "\\'")}', '${type}')">${value}</span>`;
                     };
                     
+                    // Préparer les textes avec surlignage
+                    const highlightedNom = highlightText(nom, searchTerms);
+                    const highlightedPays = highlightText(pays, searchTerms);
+                    const highlightedLieu = highlightText(lieu, searchTerms);
+                    const highlightedType = highlightText(type, searchTerms);
+                    const highlightedDateDebut = highlightText(dateDebut, searchTerms);
+                    const highlightedDateFin = highlightText(dateFin, searchTerms);
+                    const highlightedAdresse = highlightText(adresseComplete, searchTerms);
+                    const highlightedEmail = highlightText(email, searchTerms);
+                    const highlightedFacebook = highlightText(facebook, searchTerms);
+                    const highlightedTelephone = highlightText(telephone, searchTerms);
+                    const highlightedNumeroHebergeur = highlightText(numeroHebergeur, searchTerms);
+                    const highlightedPersonnes = toutesPersonnes.map(p => highlightText(p, searchTerms));
+                    const highlightedPriere = highlightText(priere, searchTerms);
+                    const highlightedMarquants = highlightText(marquants, searchTerms);
+                    const highlightedASavoir = highlightText(aSavoirHote, searchTerms);
+                    const highlightedRepartition = highlightText(repartition, searchTerms);
+                    
+                    // Créer les champs surlignés si nous avons des termes de recherche
+                    let highlightedFields = '';
+                    if (searchTerms.length > 0) {
+                        // Vérifier chaque champ pour les correspondances
+                        if (nom && searchTerms.some(term => nom.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('👤 Hôte', nom, searchTerms);
+                        }
+                        if (pays && searchTerms.some(term => pays.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('🌍 Pays', pays, searchTerms);
+                        }
+                        if (lieu && searchTerms.some(term => lieu.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('📍 Lieu', lieu, searchTerms);
+                        }
+                        if (type && searchTerms.some(term => type.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('🏠 Type', type, searchTerms);
+                        }
+                        if (dateDebut && searchTerms.some(term => dateDebut.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('📅 Date début', dateDebut, searchTerms);
+                        }
+                        if (dateFin && searchTerms.some(term => dateFin.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('📅 Date fin', dateFin, searchTerms);
+                        }
+                        if (adresseComplete && searchTerms.some(term => adresseComplete.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('📍 Adresse', adresseComplete, searchTerms);
+                        }
+                        if (email && searchTerms.some(term => email.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('📧 Email', email, searchTerms);
+                        }
+                        if (facebook && searchTerms.some(term => facebook.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('👥 Facebook', facebook, searchTerms);
+                        }
+                        if (telephone && searchTerms.some(term => telephone.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('📱 Téléphone', telephone, searchTerms);
+                        }
+                        if (numeroHebergeur && searchTerms.some(term => numeroHebergeur.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('🔢 Numéro', numeroHebergeur, searchTerms);
+                        }
+                        if (personnesPourTags.length > 0) {
+                            const personnesMatch = personnesPourTags.filter(p => 
+                                searchTerms.some(term => p.toLowerCase().includes(term))
+                            );
+                            if (personnesMatch.length > 0) {
+                                highlightedFields += createHighlightedField('👥 Personnes hébergées', personnesMatch.join(', '), searchTerms);
+                            }
+                        }
+                        if (priere && searchTerms.some(term => priere.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('🙏 Sujet de prière', priere, searchTerms);
+                        }
+                        if (marquants && searchTerms.some(term => marquants.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('⭐ Marquants', marquants, searchTerms);
+                        }
+                        if (aSavoirHote && searchTerms.some(term => aSavoirHote.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('ℹ️ À savoir sur le hôte', aSavoirHote, searchTerms);
+                        }
+                        if (repartition && searchTerms.some(term => repartition.toLowerCase().includes(term))) {
+                            highlightedFields += createHighlightedField('📊 Répartition', repartition, searchTerms);
+                        }
+                    }
+                    
                     html += `
                         <div class="fiche-item">
                             <div class="fiche-header">
                                 <h2>🏨 Hébergement Tournée 2026</h2>
-                                <h3 class="fiche-title">${titreFiche}</h3>
+                                <h3 class="fiche-title">${highlightText(titreFiche, searchTerms)}</h3>
                             </div>
+                            
+                            ${highlightedFields ? `
+                            <div style="padding: 15px; background: #fff3cd; border-bottom: 1px solid #ffc107;">
+                                <div style="font-weight: bold; color: #856404; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                                    🔍 Correspondances trouvées
+                                </div>
+                                ${highlightedFields}
+                            </div>
+                            ` : ''}
                             
                             <div class="hote-section">
                                 <span class="hote-label">👤 Hébergé chez :</span>
-                                <div class="hote-name">${nom || 'Hôte non spécifié'}</div>
+                                <div class="hote-name">${highlightedNom || 'Hôte non spécifié'}</div>
                             </div>
                             
                             <div class="${gridClass}">
                                 <div class="info-item">
                                     <span class="info-label">📅 Date début:</span>
-                                    <span class="info-value">${rendreDateCliquable(dateDebut) || 'Non spécifiée'}</span>
+                                    <span class="info-value">${rendreDateCliquable(highlightedDateDebut) || 'Non spécifiée'}</span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">📅 Date fin:</span>
-                                    <span class="info-value">${rendreDateCliquable(dateFin) || 'Non spécifiée'}</span>
+                                    <span class="info-value">${rendreDateCliquable(highlightedDateFin) || 'Non spécifiée'}</span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">📍 Lieu:</span>
-                                    <span class="info-value">${rendreLocationCliquable(lieu, 'lieu') || 'Non spécifié'}</span>
+                                    <span class="info-value">${rendreLocationCliquable(highlightedLieu, 'lieu') || 'Non spécifié'}</span>
                                 </div>
                                 <div class="info-item">
                                     <span class="info-label">🌍 Pays:</span>
-                                    <span class="info-value">${rendreLocationCliquable(pays, 'pays') || 'Non spécifié'}</span>
+                                    <span class="info-value">${rendreLocationCliquable(highlightedPays, 'pays') || 'Non spécifié'}</span>
                                 </div>
                             </div>
                             
                             ${type ? `
                             <div class="hebergement-type-section">
                                 <div class="hebergement-type-label">🏠 Hébergé en:</div>
-                                <div class="hebergement-type-content">${type}</div>
+                                <div class="hebergement-type-content">${highlightedType}</div>
                             </div>
                             ` : ''}
                             
@@ -4753,30 +5727,30 @@ L'équipe de la Tournée 2026</textarea>
                             <div class="heberges-list">
                                 <div class="heberges-label">👥 Les hébergés:</div>
                                 <div class="heberges-tags">
-                                    ${personnesPourTags.map(p => `<div class="heberge-tag" onclick="showPersonOptions(event, '${p.replace(/'/g, "\\'")}')">${p}</div>`).join('')}
+                                    ${personnesPourTags.map(p => `<div class="heberge-tag" onclick="showPersonOptions(event, '${p.replace(/'/g, "\\'")}')">${highlightText(p, searchTerms)}</div>`).join('')}
                                 </div>
                                 <div style="margin-top: 10px; font-style: italic; color: #666;">
-                                    ${personnesAffichees}
+                                    ${highlightText(personnesAffichees, searchTerms)}
                                 </div>
                             </div>
                             ` : ''}
                             
                             ${(adresseComplete || email || facebook || telephone || numeroHebergeur) ? `
                             <div class="contact-section">
-                                <div class="contact-label">📞 Information sur ${nom || 'l\'hébergeur'}:</div>
-                                ${adresseComplete ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresseComplete}</div>` : ''}
-                                ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> <span class="phone-clickable" onclick="window.location.href='tel:${numeroHebergeur}'">${numeroHebergeur}</span></div>` : ''}
+                                <div class="contact-label">📞 Information sur ${highlightText(nom, searchTerms) || 'l\'hébergeur'}:</div>
+                                ${adresseComplete ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${highlightedAdresse}</div>` : ''}
+                                ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> <span class="phone-clickable" onclick="window.location.href='tel:${numeroHebergeur}'">${highlightedNumeroHebergeur}</span></div>` : ''}
                                 <div style="height: 1px; background: #ddd; margin: 10px 0;"></div>
-                                ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Adresse e-mail:</strong> <a href="mailto:${email}" class="contact-link">${email}</a></div>` : ''}
-                                ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Nom sur Facebook ou autres compte réseaux sociaux:</strong> ${facebook}</div>` : ''}
-                                ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <span class="phone-clickable" onclick="window.location.href='tel:${telephone}'">${telephone}</span></div>` : ''}
+                                ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Adresse e-mail:</strong> <a href="mailto:${email}" class="contact-link">${highlightedEmail}</a></div>` : ''}
+                                ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Nom sur Facebook ou autres compte réseaux sociaux:</strong> ${highlightedFacebook}</div>` : ''}
+                                ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Numéro téléphone/Whatsapp:</strong> <span class="phone-clickable" onclick="window.location.href='tel:${telephone}'">${highlightedTelephone}</span></div>` : ''}
                             </div>
                             ` : ''}
                             
                             ${aSavoirHote ? `
                             <div class="hote-info-section">
                                 <div class="hote-info-label">ℹ️ À savoir sur le hôte/l'hébergeur:</div>
-                                <div class="hote-info-content">${aSavoirHote}</div>
+                                <div class="hote-info-content">${highlightedASavoir}</div>
                             </div>
                             ` : ''}
                             
@@ -4791,14 +5765,14 @@ L'équipe de la Tournée 2026</textarea>
                             ${marquants ? `
                             <div class="marquants-section">
                                 <div class="marquants-label">⭐ Marquants:</div>
-                                <div class="marquants-content">${marquants}</div>
+                                <div class="marquants-content">${highlightedMarquants}</div>
                             </div>
                             ` : ''}
                             
                             ${priere ? `
                             <div class="priere-section">
                                 <div class="priere-label">🙏 Sujet de prière:</div>
-                                <div class="priere-content">${priere}</div>
+                                <div class="priere-content">${highlightedPriere}</div>
                             </div>
                             ` : ''}
                         </div>
