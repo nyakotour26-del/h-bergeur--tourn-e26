@@ -59,7 +59,7 @@
             grid-column: 1 / -1;
             text-align: center;
             margin-bottom: 20px;
-            padding: 20px;
+            padding: 15px;
             background: white url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center center;
             background-size: cover;
             border-radius: var(--border-radius);
@@ -77,7 +77,7 @@
         
         .header-overlay {
             background: rgba(139, 0, 0, 0.7);
-            padding: 20px;
+            padding: 15px;
             border-radius: var(--border-radius);
             width: 100%;
         }
@@ -91,43 +91,7 @@
         }
         
         .header-search {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .search-input {
-            padding: 10px 15px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: var(--border-radius);
-            transition: border-color 0.3s;
-            width: 200px;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .search-icon-button {
-            background: linear-gradient(135deg, var(--primary-color), #6a0000);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .search-icon-button:hover {
-            background: linear-gradient(135deg, #6a0000, var(--primary-color));
-            transform: translateY(-2px);
+            display: none; /* Supprimé selon la demande */
         }
         
         .decoration-images {
@@ -456,7 +420,8 @@
         .filter-group h3 {
             margin-bottom: 10px;
             color: #3498db;
-            font-size: 1em;
+            font-size: 1.1em; /* Augmenté */
+            font-weight: 600; /* Ajouté */
             display: flex;
             align-items: center;
             gap: 8px;
@@ -579,12 +544,14 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             background: #f8f9fa;
+            position: relative;
         }
         
         .fiche-header {
             background: linear-gradient(135deg, #6c757d, #5a6268);
             color: white;
             padding: 20px;
+            position: relative;
         }
         
         .fiche-title {
@@ -592,6 +559,18 @@
             font-weight: bold;
             margin-top: 0;
             font-size: 1.4em;
+        }
+        
+        .fiche-pays {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: white;
+            font-weight: normal;
         }
         
         .info-grid {
@@ -650,6 +629,27 @@
         .location-clickable:hover {
             background-color: #e8f5e8;
             color: #219653;
+        }
+        
+        .localisation-section {
+            padding: 15px;
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            border-bottom: 1px solid #c3e6cb;
+        }
+        
+        .localisation-label {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1.1em; /* Augmenté */
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .localisation-content {
+            color: var(--text-color);
+            font-size: 1.2em; /* Augmenté */
+            font-weight: bold; /* Ajouté */
+            line-height: 1.4;
         }
         
         .phone-clickable {
@@ -713,20 +713,20 @@
             transform: translateY(-2px);
         }
         
-        /* =============== STYLE POUR LES APERÇUS PHOTOS =============== */
+        /* =============== STYLE POUR LES APERÇUS PHOTOS - AGRANDI =============== */
         .photo-preview-container {
             display: inline-block;
             margin: 10px;
             text-align: center;
             vertical-align: top;
-            width: 220px; /* Environ 6cm (augmenté de 200px à 220px) */
+            width: 280px; /* Environ 7cm (220px -> 280px) */
             max-width: 100%;
         }
         
         .photo-link-with-preview {
             display: block;
-            width: 220px; /* Augmenté de 200px à 220px */
-            height: 220px; /* Augmenté de 200px à 220px */
+            width: 280px; /* Environ 7cm (220px -> 280px) */
+            height: 280px; /* Environ 7cm (220px -> 280px) */
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -800,7 +800,7 @@
         .photos-preview-grid {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start; /* Changé de center à flex-start pour mieux s'aligner */
+            justify-content: flex-start;
             gap: 20px;
             margin: 15px 0;
             padding: 15px;
@@ -1493,7 +1493,7 @@
         
         .mobile-filter-title {
             font-weight: bold;
-            font-size: 0.9em;
+            font-size: 1em; /* Augmenté */
             display: flex;
             align-items: center;
             gap: 8px;
@@ -2048,12 +2048,12 @@
             }
             
             .photo-preview-container {
-                width: 180px; /* Réduit pour tablette */
+                width: 250px; /* Réduit pour tablette */
             }
             
             .photo-link-with-preview {
-                width: 180px;
-                height: 180px;
+                width: 250px;
+                height: 250px;
             }
             
             .photos-preview-grid {
@@ -2078,25 +2078,15 @@
             
             header {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
                 text-align: center;
-                padding: 15px;
+                padding: 10px;
             }
             
             .header-left {
                 align-items: center;
                 text-align: center;
                 width: 100%;
-            }
-            
-            .header-search {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .search-input {
-                width: 100%;
-                max-width: 300px;
             }
             
             .decoration-images,
@@ -2195,7 +2185,7 @@
             }
             
             .info-grid {
-                grid-template-columns: 1fr; /* Sur mobile, une seule colonne */
+                grid-template-columns: 1fr;
             }
             
             .info-item {
@@ -2499,34 +2489,32 @@
             
             /* Ajustements pour les aperçus photos sur mobile */
             .photo-preview-container {
-                width: 160px; /* Réduit pour mobile */
+                width: 200px; /* Environ 7cm sur mobile */
                 margin: 8px;
             }
             
             .photo-link-with-preview {
-                width: 160px;
-                height: 160px;
+                width: 200px;
+                height: 200px;
             }
             
             .photos-preview-grid {
-                justify-content: center; /* Centré sur mobile */
+                justify-content: center;
                 gap: 10px;
             }
             
-            /* Sur mobile, les dates et lieux/pays restent sur une colonne */
-            .info-grid-mobile {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 0;
+            /* Ajustements pour les titres de fiche sur mobile */
+            .fiche-pays {
+                position: relative;
+                top: auto;
+                right: auto;
+                display: inline-block;
+                margin-top: 5px;
+                font-size: 0.8em;
             }
             
-            .info-grid-mobile .info-item {
-                border: none;
-                border-bottom: 1px solid #e9ecef;
-            }
-            
-            .info-grid-mobile .info-item:last-child {
-                border-bottom: none;
+            .localisation-content {
+                font-size: 1.1em;
             }
             
             @media (max-width: 480px) {
@@ -2619,16 +2607,16 @@
                 }
                 
                 .photo-preview-container {
-                    width: 140px; /* Plus petit sur très petits écrans */
+                    width: 180px;
                 }
                 
                 .photo-link-with-preview {
-                    width: 140px;
-                    height: 140px;
+                    width: 180px;
+                    height: 180px;
                 }
                 
                 .photos-preview-grid {
-                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
                     justify-content: center;
                 }
             }
@@ -2689,16 +2677,10 @@
                     <h1>Hébergements Tournée 2026</h1>
                     <p>Consultation des hébergements par date et par hôte</p>
                 </div>
-                <div class="header-search">
-                    <input type="date" id="dateInput" class="search-input">
-                    <button class="search-icon-button" id="searchButton" title="Rechercher par date">
-                        🔍
-                    </button>
-                </div>
             </div>
         </header>
         
-        <!-- Barre de recherche globale MODIFIÉE -->
+        <!-- Barre de recherche globale -->
         <div class="global-search-container">
             <input type="text" id="globalSearchInput" class="global-search-input" placeholder="🔍 Rechercher dans toutes les données (nom, lieu, pays, type, personnes, etc.)">
             <div class="search-icon">🔍</div>
@@ -2748,6 +2730,8 @@
                         <div class="stat-value" id="totalAutre">0</div>
                         <div class="stat-label">Autres hébergements</div>
                     </div>
+                    <!-- Les statistiques pour les types supplémentaires seront ajoutées dynamiquement -->
+                    <div id="additionalTypeStats"></div>
                 </div>
             </div>
             
@@ -2853,6 +2837,8 @@
                         <div class="stat-value" id="totalAutreMobile">0</div>
                         <div class="stat-label">Autres</div>
                     </div>
+                    <!-- Les statistiques mobiles pour les types supplémentaires seront ajoutées dynamiquement -->
+                    <div id="additionalTypeStatsMobile"></div>
                 </div>
             </div>
             
@@ -3206,6 +3192,7 @@ L'équipe de la Tournée 2026</textarea>
         let searchData = [];
         let searchTimeout = null;
         let currentSearchTerm = '';
+        let allTypes = new Map(); // Map pour stocker les types et leurs compteurs
 
         let colDateDebut = -1;
         let colDateFin = -1;
@@ -3233,12 +3220,6 @@ L'équipe de la Tournée 2026</textarea>
         let colNumeroHebergeur = -1;
         let colASavoirHote = -1;
         let colObservations = -1;
-
-        let typeFamille = 0;
-        let typeHotel = 0;
-        let typeCentre = 0;
-        let typeAutre = 0;
-        let allTypes = new Set();
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('resultsSection').style.display = 'none';
@@ -3280,8 +3261,8 @@ L'équipe de la Tournée 2026</textarea>
                 }
             });
             
-            document.getElementById('searchButton').addEventListener('click', handleSearch);
-            document.getElementById('dateInput').addEventListener('keypress', function(e) {
+            document.getElementById('searchButton')?.addEventListener('click', handleSearch);
+            document.getElementById('dateInput')?.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     handleSearch();
                 }
@@ -4070,8 +4051,9 @@ L'équipe de la Tournée 2026</textarea>
                 
                 html += `
                     <div class="fiche-item" style="margin-bottom: 20px; cursor: pointer;" onclick="showFicheFromSearch(${sheetData.findIndex(r => r === row)})">
-                        <div class="fiche-header" style="padding: 15px;">
+                        <div class="fiche-header" style="padding: 15px; position: relative;">
                             <h3 class="fiche-title" style="font-size: 1.2em;">${highlightedNom || 'Hôte non spécifié'}</h3>
+                            <div class="fiche-pays">${highlightedPays || ''}</div>
                         </div>
                         <div style="padding: 15px;">
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
@@ -4165,6 +4147,15 @@ L'équipe de la Tournée 2026</textarea>
                                !typeValue.includes('hotel') && 
                                !typeValue.includes('hôtel') && 
                                !typeValue.includes('centre');
+                    }
+                    return false;
+                });
+            } else {
+                // Recherche pour un type spécifique
+                results = sheetData.filter(row => {
+                    if (colHebergeEn !== -1) {
+                        const typeValue = (row[colHebergeEn] || '').trim();
+                        return typeValue === type;
                     }
                     return false;
                 });
@@ -5185,11 +5176,6 @@ L'équipe de la Tournée 2026</textarea>
             bookingPeriods = [];
             allTypes.clear();
             
-            typeFamille = 0;
-            typeHotel = 0;
-            typeCentre = 0;
-            typeAutre = 0;
-            
             sheetData.forEach((row, index) => {
                 if (colNom !== -1) {
                     const nom = row[colNom] || '';
@@ -5233,17 +5219,11 @@ L'équipe de la Tournée 2026</textarea>
                 if (colHebergeEn !== -1) {
                     const typeValue = (row[colHebergeEn] || '').trim();
                     if (typeValue) {
-                        allTypes.add(typeValue);
-                        
-                        const typeLower = typeValue.toLowerCase();
-                        if (typeLower.includes('famille')) {
-                            typeFamille++;
-                        } else if (typeLower.includes('hotel') || typeLower.includes('hôtel')) {
-                            typeHotel++;
-                        } else if (typeLower.includes('centre')) {
-                            typeCentre++;
+                        // Ajouter le type à la Map avec compteur
+                        if (allTypes.has(typeValue)) {
+                            allTypes.set(typeValue, allTypes.get(typeValue) + 1);
                         } else {
-                            typeAutre++;
+                            allTypes.set(typeValue, 1);
                         }
                     }
                 }
@@ -5266,7 +5246,6 @@ L'équipe de la Tournée 2026</textarea>
             allPays = Array.from(allPays).sort();
             allLieux = Array.from(allLieux).sort();
             allHeberges = Array.from(allHeberges).sort();
-            allTypes = Array.from(allTypes).sort();
             
             console.log('👤 Hôtes extraits:', allHotes.length);
             console.log('🌍 Pays extraits:', allPays.length);
@@ -5274,7 +5253,7 @@ L'équipe de la Tournée 2026</textarea>
             console.log('👥 Personnes hébergées extraites:', allHeberges.length);
             console.log('🙏 Prières extraites:', allPrieres.length);
             console.log('📅 Périodes de réservation:', bookingPeriods.length);
-            console.log('🏠 Types d\'hébergement:', { typeFamille, typeHotel, typeCentre, typeAutre });
+            console.log('🏠 Types d\'hébergement:', Array.from(allTypes.entries()));
         }
         
         function updateStats() {
@@ -5283,6 +5262,26 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('totalPays').textContent = allPays.length;
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalHeberges').textContent = allHeberges.length;
+            
+            // Compter les types principaux
+            let typeFamille = 0;
+            let typeHotel = 0;
+            let typeCentre = 0;
+            let typeAutre = 0;
+            
+            allTypes.forEach((count, type) => {
+                const typeLower = type.toLowerCase();
+                if (typeLower.includes('famille')) {
+                    typeFamille += count;
+                } else if (typeLower.includes('hotel') || typeLower.includes('hôtel')) {
+                    typeHotel += count;
+                } else if (typeLower.includes('centre')) {
+                    typeCentre += count;
+                } else {
+                    typeAutre += count;
+                }
+            });
+            
             document.getElementById('totalFamille').textContent = typeFamille;
             document.getElementById('totalHotel').textContent = typeHotel;
             document.getElementById('totalCentre').textContent = typeCentre;
@@ -5297,6 +5296,49 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('totalHotelMobile').textContent = typeHotel;
             document.getElementById('totalCentreMobile').textContent = typeCentre;
             document.getElementById('totalAutreMobile').textContent = typeAutre;
+            
+            // Ajouter les statistiques pour les types supplémentaires
+            renderAdditionalTypeStats();
+        }
+        
+        function renderAdditionalTypeStats() {
+            const additionalTypeStats = document.getElementById('additionalTypeStats');
+            const additionalTypeStatsMobile = document.getElementById('additionalTypeStatsMobile');
+            
+            let desktopHtml = '';
+            let mobileHtml = '';
+            
+            // Trier les types par fréquence décroissante
+            const sortedTypes = Array.from(allTypes.entries())
+                .filter(([type, count]) => {
+                    const typeLower = type.toLowerCase();
+                    return !typeLower.includes('famille') && 
+                           !typeLower.includes('hotel') && 
+                           !typeLower.includes('hôtel') && 
+                           !typeLower.includes('centre');
+                })
+                .sort((a, b) => b[1] - a[1]);
+            
+            sortedTypes.forEach(([type, count], index) => {
+                if (index < 5) { // Limiter à 5 types supplémentaires pour éviter le surchargement
+                    desktopHtml += `
+                        <div class="stat-card" onclick="filterByType('${type.replace(/'/g, "\\'")}')">
+                            <div class="stat-value">${count}</div>
+                            <div class="stat-label">${type}</div>
+                        </div>
+                    `;
+                    
+                    mobileHtml += `
+                        <div class="stat-card" onclick="filterByType('${type.replace(/'/g, "\\'")}')">
+                            <div class="stat-value">${count}</div>
+                            <div class="stat-label">${type.length > 15 ? type.substring(0, 15) + '...' : type}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            additionalTypeStats.innerHTML = desktopHtml;
+            additionalTypeStatsMobile.innerHTML = mobileHtml;
         }
         
         function renderFilterTags() {
@@ -5304,7 +5346,48 @@ L'équipe de la Tournée 2026</textarea>
             renderTags('paysTags', allPays, 'pays');
             renderTags('lieuxTags', allLieux, 'lieu');
             renderTags('hebergesTags', allHeberges, 'heberge');
-            renderTags('typesTags', allTypes, 'type');
+            
+            // Rendre les tags de types
+            const typesContainer = document.getElementById('typesTags');
+            typesContainer.innerHTML = '';
+            
+            // Ajouter d'abord les types principaux
+            const mainTypes = ['Famille', 'Hôtel', 'Centre', 'Autre'];
+            mainTypes.forEach(type => {
+                const tag = document.createElement('div');
+                tag.className = `tag type`;
+                tag.textContent = type;
+                tag.title = `Cliquez pour voir les fiches pour le type: ${type}`;
+                tag.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    filterByType(type);
+                });
+                typesContainer.appendChild(tag);
+            });
+            
+            // Puis les types spécifiques de la Map
+            allTypes.forEach((count, type) => {
+                // Ne pas ajouter les types principaux qui sont déjà inclus
+                const typeLower = type.toLowerCase();
+                if (!typeLower.includes('famille') && 
+                    !typeLower.includes('hotel') && 
+                    !typeLower.includes('hôtel') && 
+                    !typeLower.includes('centre') &&
+                    type !== 'Autre') {
+                    
+                    const tag = document.createElement('div');
+                    tag.className = `tag type`;
+                    tag.textContent = type;
+                    tag.title = `Cliquez pour voir les fiches pour le type: ${type} (${count})`;
+                    tag.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        filterByType(type);
+                    });
+                    typesContainer.appendChild(tag);
+                }
+            });
         }
         
         function renderMobileFilterTags() {
@@ -5312,7 +5395,48 @@ L'équipe de la Tournée 2026</textarea>
             renderMobileTags('mobilePaysTags', allPays, 'pays');
             renderMobileTags('mobileLieuxTags', allLieux, 'lieu');
             renderMobileTags('mobileHebergesTags', allHeberges, 'heberge');
-            renderMobileTags('mobileTypesTags', allTypes, 'type');
+            
+            // Rendre les tags de types mobiles
+            const mobileTypesContainer = document.getElementById('mobileTypesTags');
+            mobileTypesContainer.innerHTML = '';
+            
+            // Ajouter d'abord les types principaux
+            const mainTypes = ['Famille', 'Hôtel', 'Centre', 'Autre'];
+            mainTypes.forEach(type => {
+                const tag = document.createElement('div');
+                tag.className = `mobile-tag type`;
+                tag.textContent = type;
+                tag.title = `Cliquez pour voir les fiches pour le type: ${type}`;
+                tag.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    filterByType(type);
+                });
+                mobileTypesContainer.appendChild(tag);
+            });
+            
+            // Puis les types spécifiques de la Map
+            allTypes.forEach((count, type) => {
+                // Ne pas ajouter les types principaux qui sont déjà inclus
+                const typeLower = type.toLowerCase();
+                if (!typeLower.includes('famille') && 
+                    !typeLower.includes('hotel') && 
+                    !typeLower.includes('hôtel') && 
+                    !typeLower.includes('centre') &&
+                    type !== 'Autre') {
+                    
+                    const tag = document.createElement('div');
+                    tag.className = `mobile-tag type`;
+                    tag.textContent = type.length > 20 ? type.substring(0, 20) + '...' : type;
+                    tag.title = `Cliquez pour voir les fiches pour le type: ${type} (${count})`;
+                    tag.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        filterByType(type);
+                    });
+                    mobileTypesContainer.appendChild(tag);
+                }
+            });
         }
         
         function renderTags(containerId, items, type) {
@@ -5454,6 +5578,7 @@ L'équipe de la Tournée 2026</textarea>
                         <div class="fiche-header">
                             <h2>🙏 Sujet de Prière</h2>
                             <h3 class="fiche-title">${priere.hote}</h3>
+                            <div class="fiche-pays">${getPaysForRow(priere.rowIndex)}</div>
                         </div>
                         <div class="priere-section">
                             <div class="priere-content">${priere.priere}</div>
@@ -5467,6 +5592,13 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('resultsSection').style.display = 'block';
             document.getElementById('tableauSection').style.display = 'none';
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function getPaysForRow(rowIndex) {
+            if (rowIndex >= 0 && rowIndex < sheetData.length && colPays !== -1) {
+                return sheetData[rowIndex][colPays] || '';
+            }
+            return '';
         }
         
         function renderCalendar() {
@@ -5606,7 +5738,7 @@ L'équipe de la Tournée 2026</textarea>
                 <div class="success-message">
                     ✅ Données chargées avec succès : ${sheetData.length} hébergement(s) trouvé(s)
                     <br><small>${allHotes.length} hôtes - ${allPays.length} pays - ${allLieux.length} lieux - ${allHeberges.length} personnes hébergées</small>
-                    <br><small>Types d'hébergement: ${typeFamille} Famille, ${typeHotel} Hôtel, ${typeCentre} Centre, ${typeAutre} Autres</small>
+                    <br><small>${Array.from(allTypes.entries()).map(([type, count]) => `${count} ${type}`).join(', ')}</small>
                 </div>
             `;
             dataInfo.style.display = 'block';
@@ -5629,7 +5761,7 @@ L'équipe de la Tournée 2026</textarea>
         }
         
         function handleSearch() {
-            const dateValue = document.getElementById('dateInput').value;
+            const dateValue = document.getElementById('dateInput')?.value;
             
             if (!dateValue) {
                 alert('Veuillez sélectionner une date');
@@ -5794,7 +5926,6 @@ L'équipe de la Tournée 2026</textarea>
                     const titreFiche = `${dateDebut || '?'} - ${dateFin || '?'} / ${personnesPourTags.length > 0 ? personnesPourTags.join(', ') : 'Aucun hébergé'}`;
                     
                     const isMobile = window.innerWidth <= 768;
-                    const gridClass = isMobile ? 'info-grid' : 'info-grid'; // Même classe pour les deux pour le moment
                     
                     const rendreDateCliquable = (dateStr) => {
                         if (!dateStr || dateStr === 'Non spécifiée') return dateStr;
@@ -5906,7 +6037,7 @@ L'équipe de la Tournée 2026</textarea>
                                 <div class="photo-preview-container">
                                     <a href="${link}" target="_blank" class="photo-link-with-preview" onclick="event.stopPropagation()">
                                         <img src="${thumbnailUrl}" alt="${photoTitle}" class="photo-thumbnail" 
-                                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIwIiBoZWlnaHQ9IjIyMCIgdmlld0JveD0iMCAwIDIyMCAyMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIyMCIgaGVpZ2h0PSIyMjAiIGZpbGw9IiNlOGY0ZjgiLz48cGF0aCBkPSJNNTAgODBMMTcwIDgwTDE0MCAxNDBINzBMMTcwIDE0MEg1MFY4MFoiIGZpbGw9IiMzNDk4ZGIiLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxMTAiIHI9IjM1IiBmaWxsPSIjZjc0YzNjIi8+PC9zdmc+'; this.alt='Image non disponible'">
+                                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4MCIgdmlld0JveD0iMCAwIDI4MCAyODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI4MCIgaGVpZ2h0PSIyODAiIGZpbGw9IiNlOGY0ZjgiLz48cGF0aCBkPSJNNjAgMTAwTDIyMCAxMDBMMTgwIDE4MEg5MEwyMjAgMTgwSDYwVjEwMFoiIGZpbGw9IiMzNDk4ZGIiLz48Y2lyY2xlIGN4PSIxNDAiIGN5PSIxNDAiIHI9IjQ1IiBmaWxsPSIjZjc0YzNjIi8+PC9zdmc+'; this.alt='Image non disponible'">
                                     </a>
                                     <div class="photo-label">
                                         ${type} ${idx + 1}<br>
@@ -5925,6 +6056,7 @@ L'équipe de la Tournée 2026</textarea>
                             <div class="fiche-header">
                                 <h2>🏨 Hébergement Tournée 2026</h2>
                                 <h3 class="fiche-title">${highlightText(titreFiche, searchTerms)}</h3>
+                                <div class="fiche-pays">${highlightedPays || ''}</div>
                             </div>
                             
                             ${highlightedFields ? `
@@ -5941,19 +6073,20 @@ L'équipe de la Tournée 2026</textarea>
                                 <div class="hote-name">${highlightedNom || 'Hôte non spécifié'}</div>
                             </div>
                             
-                            <div class="${gridClass}">
+                            <div class="localisation-section">
+                                <span class="localisation-label">📍 Localisation :</span>
+                                <div class="localisation-content">
+                                    ${rendreLocationCliquable(highlightedLieu, 'lieu') || 'Non spécifié'}, 
+                                    ${rendreLocationCliquable(highlightedPays, 'pays') || 'Non spécifié'}
+                                </div>
+                            </div>
+                            
+                            <div class="info-grid">
                                 <div class="info-item">
                                     <span class="info-label">📅 Dates:</span>
                                     <span class="info-value">
                                         ${rendreDateCliquable(highlightedDateDebut) || 'Non spécifiée'} - 
                                         ${rendreDateCliquable(highlightedDateFin) || 'Non spécifiée'}
-                                    </span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">📍 Localisation:</span>
-                                    <span class="info-value">
-                                        ${rendreLocationCliquable(highlightedLieu, 'lieu') || 'Non spécifié'}, 
-                                        ${rendreLocationCliquable(highlightedPays, 'pays') || 'Non spécifié'}
                                     </span>
                                 </div>
                             </div>
@@ -5996,6 +6129,20 @@ L'équipe de la Tournée 2026</textarea>
                             </div>
                             ` : ''}
                             
+                            ${marquants ? `
+                            <div class="marquants-section">
+                                <div class="marquants-label">⭐ Marquants:</div>
+                                <div class="marquants-content">${highlightedMarquants}</div>
+                            </div>
+                            ` : ''}
+                            
+                            ${priere ? `
+                            <div class="priere-section">
+                                <div class="priere-label">🙏 Sujet de prière:</div>
+                                <div class="priere-content">${highlightedPriere}</div>
+                            </div>
+                            ` : ''}
+                            
                             ${observations ? `
                             <div class="observations-section">
                                 <div class="observations-label">📝 Observations:</div>
@@ -6018,20 +6165,6 @@ L'équipe de la Tournée 2026</textarea>
                                     ${generatePhotoPreviews(photosLieux, 'Photos lieux')}
                                 </div>
                                 ` : ''}
-                            </div>
-                            ` : ''}
-                            
-                            ${marquants ? `
-                            <div class="marquants-section">
-                                <div class="marquants-label">⭐ Marquants:</div>
-                                <div class="marquants-content">${highlightedMarquants}</div>
-                            </div>
-                            ` : ''}
-                            
-                            ${priere ? `
-                            <div class="priere-section">
-                                <div class="priere-label">🙏 Sujet de prière:</div>
-                                <div class="priere-content">${highlightedPriere}</div>
                             </div>
                             ` : ''}
                         </div>
@@ -6293,14 +6426,18 @@ L'équipe de la Tournée 2026</textarea>
                         body { font-family: Arial, sans-serif; margin: 20px; }
                         h1 { color: #8b0000; text-align: center; margin-bottom: 30px; }
                         .fiche-container { margin-bottom: 40px; page-break-inside: avoid; border: 1px solid #ddd; padding: 20px; border-radius: 10px; }
-                        .fiche-header { background: #6c757d; color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+                        .fiche-header { background: #6c757d; color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; position: relative; }
                         .fiche-title { color: white; font-size: 1.2em; margin: 0; }
+                        .fiche-pays { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.2); padding: 5px 10px; border-radius: 20px; font-size: 0.9em; color: white; }
                         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
                         .info-item { padding: 10px; background: #f8f9fa; border-radius: 5px; }
                         .info-label { font-weight: bold; color: #8b0000; font-size: 0.9em; margin-bottom: 5px; }
                         .info-value { color: #2c3e50; }
                         .hote-section { background: #e8f5e8; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
                         .hote-name { font-size: 1.5em; color: #27ae60; font-weight: bold; margin-top: 5px; }
+                        .localisation-section { background: #d4edda; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+                        .localisation-label { font-weight: bold; color: #27ae60; font-size: 1.1em; margin-bottom: 5px; }
+                        .localisation-content { color: #2c3e50; font-size: 1.2em; font-weight: bold; }
                         .section { margin-bottom: 15px; padding: 15px; border-left: 4px solid #3498db; background: #f8f9fa; border-radius: 5px; }
                         .section-title { font-weight: bold; color: #2c3e50; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
                         .type-section { border-left-color: #2196F3; background: #e3f2fd; }
@@ -6399,6 +6536,7 @@ L'équipe de la Tournée 2026</textarea>
                     <div class="fiche-container">
                         <div class="fiche-header">
                             <h2 class="fiche-title">🏨 Hébergement Tournée 2026 - Fiche ${index + 1}</h2>
+                            <div class="fiche-pays">${pays || ''}</div>
                             <div style="color: #e0e0e0; margin-top: 5px;">${titreFiche}</div>
                         </div>
                         
@@ -6407,14 +6545,15 @@ L'équipe de la Tournée 2026</textarea>
                             <div class="hote-name">${nom || 'Hôte non spécifié'}</div>
                         </div>
                         
+                        <div class="localisation-section">
+                            <div class="localisation-label">📍 Localisation :</div>
+                            <div class="localisation-content">${lieu || 'Non spécifié'}, ${pays || 'Non spécifié'}</div>
+                        </div>
+                        
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">📅 Dates:</div>
                                 <div class="info-value">${dateDebut || 'Non spécifiée'} - ${dateFin || 'Non spécifiée'}</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-label">📍 Localisation:</div>
-                                <div class="info-value">${lieu || 'Non spécifié'}, ${pays || 'Non spécifié'}</div>
                             </div>
                         </div>
                         
@@ -6455,6 +6594,20 @@ L'équipe de la Tournée 2026</textarea>
                         </div>
                         ` : ''}
                         
+                        ${marquants ? `
+                        <div class="section" style="border-left-color: #9b59b6;">
+                            <div class="section-title">⭐ Marquants:</div>
+                            <div>${marquants}</div>
+                        </div>
+                        ` : ''}
+                        
+                        ${priere ? `
+                        <div class="section" style="border-left-color: #e74c3c;">
+                            <div class="section-title">🙏 Sujet de prière:</div>
+                            <div>${priere}</div>
+                        </div>
+                        ` : ''}
+                        
                         ${observations ? `
                         <div class="section observations-section">
                             <div class="section-title observations-title">📝 Observations:</div>
@@ -6470,20 +6623,6 @@ L'équipe de la Tournée 2026</textarea>
                                 ${photosLieux ? `<span style="background: #e74c3c; color: white; padding: 8px 12px; border-radius: 5px; font-size: 0.9em;">🏞️ Photos des lieux</span>` : ''}
                                 ${formulaire ? `<span style="background: #27ae60; color: white; padding: 8px 12px; border-radius: 5px; font-size: 0.9em;">🔗 Formulaire</span>` : ''}
                             </div>
-                        </div>
-                        ` : ''}
-                        
-                        ${marquants ? `
-                        <div class="section" style="border-left-color: #9b59b6;">
-                            <div class="section-title">⭐ Marquants:</div>
-                            <div>${marquants}</div>
-                        </div>
-                        ` : ''}
-                        
-                        ${priere ? `
-                        <div class="section" style="border-left-color: #e74c3c;">
-                            <div class="section-title">🙏 Sujet de prière:</div>
-                            <div>${priere}</div>
                         </div>
                         ` : ''}
                     </div>
