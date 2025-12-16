@@ -713,28 +713,28 @@
             transform: translateY(-2px);
         }
         
-        /* =============== STYLE POUR LES APERÇUS PHOTOS - AGRANDI =============== */
-        .photo-preview-container {
-            display: inline-block;
-            margin: 10px;
-            text-align: center;
-            vertical-align: top;
-            width: 280px; /* Environ 7cm (220px -> 280px) */
-            max-width: 100%;
-        }
-        
-        .photo-link-with-preview {
-            display: block;
-            width: 280px; /* Environ 7cm (220px -> 280px) */
-            height: 280px; /* Environ 7cm (220px -> 280px) */
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            border: 3px solid #ffd700;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        }
+    /* =============== STYLE POUR LES APERÇUS PHOTOS - AGRANDI 10cm =============== */
+.photo-preview-container {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    vertical-align: top;
+    width: 400px; /* Environ 10cm */
+    max-width: 100%;
+}
+
+.photo-link-with-preview {
+    display: block;
+    width: 400px; /* Environ 10cm */
+    height: 400px; /* Environ 10cm */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border: 3px solid #ffd700;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
         
         .photo-link-with-preview:hover {
             transform: translateY(-8px) scale(1.05);
@@ -2048,17 +2048,26 @@
     }
     
     .photo-preview-container {
-        width: 280px; /* Même taille que sur ordi */
+        width: 300px; /* Réduit légèrement pour tablette */
     }
     
     .photo-link-with-preview {
-        width: 280px;
-        height: 280px; /* Même taille que sur ordi */
+        width: 300px;
+        height: 300px;
     }
     
     .photos-preview-grid {
-        justify-content: center; /* Centrer sur tablette */
+        display: flex;
+        flex-wrap: nowrap; /* IMPORTANT : empêche le retour à la ligne */
+        overflow-x: auto; /* Permet le défilement horizontal */
+        justify-content: flex-start; /* Aligne à gauche */
         gap: 15px;
+        padding: 10px;
+        -webkit-overflow-scrolling: touch; /* Défilement fluide sur mobile */
+    }
+    
+    .photo-preview-container {
+        flex: 0 0 auto; /* Empêche le redimensionnement */
     }
 }
 
@@ -2489,20 +2498,28 @@
 
             /* Ajustements pour les aperçus photos sur mobile */
 .photo-preview-container {
-    width: 280px; /* Même taille que sur ordi (7cm) */
-    margin: 8px;
-}
-
-.photo-link-with-preview {
-    width: 280px;
-    height: 280px; /* Même taille que sur ordi */
-}
-
-            
-            .photos-preview-grid {
-                justify-content: center;
-                gap: 10px;
-            }
+        width: 280px; /* Réduit pour mobile */
+        margin: 8px;
+    }
+    
+    .photo-link-with-preview {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .photos-preview-grid {
+        display: flex;
+        flex-wrap: nowrap; /* IMPORTANT : photos sur une ligne */
+        overflow-x: auto; /* Défilement horizontal */
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .photo-preview-container {
+        flex: 0 0 auto; /* Empêche le redimensionnement */
+    }
             
             /* Ajustements pour les titres de fiche sur mobile */
             .fiche-pays {
