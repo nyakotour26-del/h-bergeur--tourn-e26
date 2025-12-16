@@ -2048,12 +2048,12 @@
     }
     
     .photo-preview-container {
-        width: 300px; /* Réduit légèrement pour tablette */
+        width: 400px; /* 10cm x 10cm sur tablette aussi */
     }
     
     .photo-link-with-preview {
-        width: 300px;
-        height: 300px;
+        width: 400px;
+        height: 400px; /* 10cm x 10cm sur tablette aussi */
     }
     
     .photos-preview-grid {
@@ -2070,7 +2070,6 @@
         flex: 0 0 auto; /* Empêche le redimensionnement */
     }
 }
-
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
@@ -2498,13 +2497,13 @@
 
             /* Ajustements pour les aperçus photos sur mobile */
 .photo-preview-container {
-        width: 280px; /* Réduit pour mobile */
+        width: 400px; /* 10cm x 10cm sur mobile aussi */
         margin: 8px;
     }
     
     .photo-link-with-preview {
-        width: 280px;
-        height: 280px;
+        width: 400px;
+        height: 400px; /* 10cm x 10cm sur mobile aussi */
     }
     
     .photos-preview-grid {
@@ -2519,8 +2518,7 @@
     
     .photo-preview-container {
         flex: 0 0 auto; /* Empêche le redimensionnement */
-    }
-            
+    }            
             /* Ajustements pour les titres de fiche sur mobile */
             .fiche-pays {
                 position: relative;
@@ -2625,19 +2623,27 @@
                 }
                 
                  .photo-preview-container {
-        width: 280px; /* Même taille que sur ordi */
+        width: 320px; /* Légèrement réduit pour très petit écran, mais garde une bonne taille */
     }
     
     .photo-link-with-preview {
-        width: 280px;
-        height: 280px; /* Même taille que sur ordi */
+        width: 320px;
+        height: 320px;
     }
     
     .photos-preview-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        justify-content: center;
+        display: flex;
+        flex-wrap: nowrap; /* Photos sur une ligne */
+        overflow-x: auto;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 10px;
+        -webkit-overflow-scrolling: touch;
     }
-            }
+    
+    .photo-preview-container {
+        flex: 0 0 auto;
+    }
         }
 
         /* Styles spécifiques pour les aperçus photos sur ordinateur */
