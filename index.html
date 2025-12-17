@@ -3090,11 +3090,11 @@
                 
                 <div class="export-type" id="exportType3">
                     <div class="export-type-title">
-                        <span>📄</span>
-                        <span>Fiches détaillées par hébergement</span>
+                        <span>📕</span>
+                        <span>Générer le Livre de la Tournée 2026</span>
                     </div>
                     <div class="export-type-description">
-                        Exporte toutes les fiches détaillées de chaque hébergement (PDF)
+                        Crée un livre complet avec statistiques, fiches détaillées, photos et remerciements
                     </div>
                 </div>
                 
@@ -3232,7 +3232,7 @@ L'équipe de la Tournée 2026</textarea>
         let searchData = [];
         let searchTimeout = null;
         let currentSearchTerm = '';
-        let allTypes = new Map(); // Map pour stocker les types et leurs compteurs
+        let allTypes = new Map();
 
         let colDateDebut = -1;
         let colDateFin = -1;
@@ -3298,13 +3298,6 @@ L'équipe de la Tournée 2026</textarea>
                     showPasswordModal();
                 } else {
                     showExportModal();
-                }
-            });
-            
-            document.getElementById('searchButton')?.addEventListener('click', handleSearch);
-            document.getElementById('dateInput')?.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    handleSearch();
                 }
             });
             
@@ -4191,7 +4184,6 @@ L'équipe de la Tournée 2026</textarea>
                     return false;
                 });
             } else {
-                // Recherche pour un type spécifique
                 results = sheetData.filter(row => {
                     if (colHebergeEn !== -1) {
                         const typeValue = (row[colHebergeEn] || '').trim();
@@ -5259,7 +5251,6 @@ L'équipe de la Tournée 2026</textarea>
                 if (colHebergeEn !== -1) {
                     const typeValue = (row[colHebergeEn] || '').trim();
                     if (typeValue) {
-                        // Ajouter le type à la Map avec compteur
                         if (allTypes.has(typeValue)) {
                             allTypes.set(typeValue, allTypes.get(typeValue) + 1);
                         } else {
@@ -5303,7 +5294,6 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalHeberges').textContent = allHeberges.length;
             
-            // Compter les types principaux
             let typeFamille = 0;
             let typeHotel = 0;
             let typeCentre = 0;
@@ -5337,7 +5327,6 @@ L'équipe de la Tournée 2026</textarea>
             document.getElementById('totalCentreMobile').textContent = typeCentre;
             document.getElementById('totalAutreMobile').textContent = typeAutre;
             
-            // Ajouter les statistiques pour les types supplémentaires
             renderAdditionalTypeStats();
         }
         
@@ -5348,7 +5337,6 @@ L'équipe de la Tournée 2026</textarea>
             let desktopHtml = '';
             let mobileHtml = '';
             
-            // Trier les types par fréquence décroissante
             const sortedTypes = Array.from(allTypes.entries())
                 .filter(([type, count]) => {
                     const typeLower = type.toLowerCase();
@@ -5360,7 +5348,7 @@ L'équipe de la Tournée 2026</textarea>
                 .sort((a, b) => b[1] - a[1]);
             
             sortedTypes.forEach(([type, count], index) => {
-                if (index < 5) { // Limiter à 5 types supplémentaires pour éviter le surchargement
+                if (index < 5) {
                     desktopHtml += `
                         <div class="stat-card" onclick="filterByType('${type.replace(/'/g, "\\'")}')">
                             <div class="stat-value">${count}</div>
@@ -5387,11 +5375,9 @@ L'équipe de la Tournée 2026</textarea>
             renderTags('lieuxTags', allLieux, 'lieu');
             renderTags('hebergesTags', allHeberges, 'heberge');
             
-            // Rendre les tags de types
             const typesContainer = document.getElementById('typesTags');
             typesContainer.innerHTML = '';
             
-            // Ajouter d'abord les types principaux
             const mainTypes = ['Famille', 'Hôtel', 'Centre', 'Autre'];
             mainTypes.forEach(type => {
                 const tag = document.createElement('div');
@@ -5406,9 +5392,7 @@ L'équipe de la Tournée 2026</textarea>
                 typesContainer.appendChild(tag);
             });
             
-            // Puis les types spécifiques de la Map
             allTypes.forEach((count, type) => {
-                // Ne pas ajouter les types principaux qui sont déjà inclus
                 const typeLower = type.toLowerCase();
                 if (!typeLower.includes('famille') && 
                     !typeLower.includes('hotel') && 
@@ -5436,11 +5420,9 @@ L'équipe de la Tournée 2026</textarea>
             renderMobileTags('mobileLieuxTags', allLieux, 'lieu');
             renderMobileTags('mobileHebergesTags', allHeberges, 'heberge');
             
-            // Rendre les tags de types mobiles
             const mobileTypesContainer = document.getElementById('mobileTypesTags');
             mobileTypesContainer.innerHTML = '';
             
-            // Ajouter d'abord les types principaux
             const mainTypes = ['Famille', 'Hôtel', 'Centre', 'Autre'];
             mainTypes.forEach(type => {
                 const tag = document.createElement('div');
@@ -5455,9 +5437,7 @@ L'équipe de la Tournée 2026</textarea>
                 mobileTypesContainer.appendChild(tag);
             });
             
-            // Puis les types spécifiques de la Map
             allTypes.forEach((count, type) => {
-                // Ne pas ajouter les types principaux qui sont déjà inclus
                 const typeLower = type.toLowerCase();
                 if (!typeLower.includes('famille') && 
                     !typeLower.includes('hotel') && 
@@ -6272,7 +6252,11 @@ L'équipe de la Tournée 2026</textarea>
                 document.getElementById('exportType4').classList.add('selected');
             }
             
-            if (type === 3 || type === 4) {
+            if (type === 3) {
+                document.getElementById('formatOptions').style.display = 'none';
+                document.getElementById('confirmExport').style.display = 'block';
+                selectedExportFormat = 'pdf';
+            } else if (type === 4) {
                 document.getElementById('formatOptions').style.display = 'none';
                 document.getElementById('confirmExport').style.display = 'block';
                 selectedExportFormat = 'pdf';
@@ -6283,8 +6267,8 @@ L'équipe de la Tournée 2026</textarea>
         }
 
         function exportData() {
-            if (!selectedExportType || (selectedExportType !== 3 && selectedExportType !== 4 && !selectedExportFormat)) {
-                alert('Veuillez sélectionner un type et un format d\'exportation');
+            if (!selectedExportType) {
+                alert('Veuillez sélectionner un type d\'exportation');
                 return;
             }
             
@@ -6296,7 +6280,7 @@ L'équipe de la Tournée 2026</textarea>
                     return;
                 }
                 
-                exportFiches(sheetData, 'fiches_hebergements_completes');
+                generateLivreTournee();
                 
             } else if (selectedExportType === 4) {
                 generateTableauData();
@@ -6449,57 +6433,607 @@ L'équipe de la Tournée 2026</textarea>
             
             resetExportModal();
         }
-        
-        function exportFiches(rows, baseFilename) {
-            if (rows.length === 0) {
-                alert('Aucune fiche à exporter');
-                return;
-            }
-            
+
+        function generateLivreTournee() {
             const printWindow = window.open('', '_blank');
+            
             let pdfContent = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Fiches d'hébergement - Tournée 2026</title>
+                    <title>Livre de la Tournée 2026 - Ligue pour la Lecture de la Bible</title>
                     <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { color: #8b0000; text-align: center; margin-bottom: 30px; }
-                        .fiche-container { margin-bottom: 40px; page-break-inside: avoid; border: 1px solid #ddd; padding: 20px; border-radius: 10px; }
-                        .fiche-header { background: #6c757d; color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; position: relative; }
-                        .fiche-title { color: white; font-size: 1.2em; margin: 0; }
-                        .fiche-pays { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.2); padding: 5px 10px; border-radius: 20px; font-size: 0.9em; color: white; }
-                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-                        .info-item { padding: 10px; background: #f8f9fa; border-radius: 5px; }
-                        .info-label { font-weight: bold; color: #8b0000; font-size: 0.9em; margin-bottom: 5px; }
-                        .info-value { color: #2c3e50; }
-                        .hote-section { background: #e8f5e8; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
-                        .hote-name { font-size: 1.5em; color: #27ae60; font-weight: bold; margin-top: 5px; }
-                        .localisation-section { background: #d4edda; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
-                        .localisation-label { font-weight: bold; color: #27ae60; font-size: 1.1em; margin-bottom: 5px; }
-                        .localisation-content { color: #2c3e50; font-size: 1.2em; font-weight: bold; }
-                        .section { margin-bottom: 15px; padding: 15px; border-left: 4px solid #3498db; background: #f8f9fa; border-radius: 5px; }
-                        .section-title { font-weight: bold; color: #2c3e50; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-                        .type-section { border-left-color: #2196F3; background: #e3f2fd; }
-                        .type-title { color: #0d47a1; }
-                        .observations-section { border-left-color: #ff9800; background: #fff8e1; }
-                        .observations-title { color: #e65100; }
-                        .photo-section { border-left-color: #9b59b6; background: #f5e8f8; }
-                        .photo-title { color: #8e44ad; }
+                        body { 
+                            font-family: 'Georgia', 'Times New Roman', serif; 
+                            margin: 0;
+                            padding: 40px;
+                            line-height: 1.8;
+                            color: #2c3e50;
+                            background: #fefefe;
+                        }
+                        @page {
+                            size: A4;
+                            margin: 2cm;
+                            @top-center {
+                                content: "Tournée 2026 - Ligue pour la Lecture de la Bible";
+                                font-size: 12px;
+                                color: #666;
+                            }
+                            @bottom-center {
+                                content: counter(page);
+                                font-size: 12px;
+                                color: #666;
+                            }
+                        }
+                        .page-break {
+                            page-break-before: always;
+                        }
+                        .cover-page {
+                            text-align: center;
+                            padding: 100px 40px;
+                            background: linear-gradient(135deg, #8b0000 0%, #6a0000 100%);
+                            color: white;
+                            border-radius: 20px;
+                            margin-bottom: 60px;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        }
+                        .cover-title {
+                            font-size: 42px;
+                            font-weight: bold;
+                            margin-bottom: 20px;
+                            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                        }
+                        .cover-subtitle {
+                            font-size: 28px;
+                            margin-bottom: 30px;
+                            opacity: 0.9;
+                        }
+                        .cover-logo {
+                            font-size: 80px;
+                            margin: 40px 0;
+                        }
+                        .cover-date {
+                            font-size: 22px;
+                            margin-top: 40px;
+                            padding-top: 20px;
+                            border-top: 2px solid rgba(255,255,255,0.3);
+                        }
+                        .chapter-title {
+                            font-size: 32px;
+                            font-weight: bold;
+                            color: #8b0000;
+                            margin: 60px 0 30px 0;
+                            padding-bottom: 15px;
+                            border-bottom: 3px solid #8b0000;
+                            text-align: center;
+                        }
+                        .section-title {
+                            font-size: 24px;
+                            font-weight: bold;
+                            color: #2c3e50;
+                            margin: 40px 0 20px 0;
+                            padding-left: 15px;
+                            border-left: 5px solid #27ae60;
+                        }
+                        .subsection-title {
+                            font-size: 20px;
+                            font-weight: bold;
+                            color: #3498db;
+                            margin: 30px 0 15px 0;
+                        }
+                        .stats-grid {
+                            display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 20px;
+                            margin: 30px 0;
+                        }
+                        .stat-item {
+                            background: #f8f9fa;
+                            padding: 20px;
+                            border-radius: 10px;
+                            text-align: center;
+                            border: 2px solid #e9ecef;
+                            transition: all 0.3s ease;
+                        }
+                        .stat-value {
+                            font-size: 36px;
+                            font-weight: bold;
+                            color: #8b0000;
+                            margin-bottom: 10px;
+                        }
+                        .stat-label {
+                            font-size: 14px;
+                            color: #666;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                        }
+                        .fiche-container {
+                            margin: 40px 0;
+                            padding: 30px;
+                            background: #f8f9fa;
+                            border-radius: 15px;
+                            border-left: 8px solid #27ae60;
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                            page-break-inside: avoid;
+                        }
+                        .fiche-header {
+                            background: linear-gradient(135deg, #6c757d, #5a6268);
+                            color: white;
+                            padding: 25px;
+                            border-radius: 10px 10px 0 0;
+                            margin: -30px -30px 25px -30px;
+                            position: relative;
+                        }
+                        .fiche-title {
+                            color: white;
+                            font-weight: bold;
+                            margin: 0;
+                            font-size: 24px;
+                        }
+                        .fiche-pays {
+                            position: absolute;
+                            top: 25px;
+                            right: 25px;
+                            background: rgba(255, 255, 255, 0.2);
+                            padding: 8px 15px;
+                            border-radius: 20px;
+                            font-size: 14px;
+                            color: white;
+                            font-weight: normal;
+                        }
+                        .info-grid {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 25px;
+                            margin-bottom: 25px;
+                        }
+                        .info-item {
+                            padding: 20px;
+                            background: white;
+                            border-radius: 10px;
+                            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+                        }
+                        .info-label {
+                            font-weight: bold;
+                            color: #8b0000;
+                            font-size: 14px;
+                            margin-bottom: 8px;
+                            display: block;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+                        .info-value {
+                            color: #2c3e50;
+                            font-size: 16px;
+                            line-height: 1.6;
+                        }
+                        .hote-section {
+                            padding: 25px;
+                            background: linear-gradient(135deg, #f8fff8, #e8f5e8);
+                            border-radius: 10px;
+                            margin-bottom: 25px;
+                            border: 2px solid #c3e6cb;
+                        }
+                        .hote-name {
+                            font-family: 'Georgia', serif;
+                            font-size: 32px;
+                            color: #27ae60;
+                            font-weight: bold;
+                            margin-top: 15px;
+                            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+                        }
+                        .photo-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                            gap: 20px;
+                            margin: 25px 0;
+                        }
+                        .photo-item {
+                            border-radius: 10px;
+                            overflow: hidden;
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                            border: 3px solid #ffd700;
+                        }
+                        .photo-item img {
+                            width: 100%;
+                            height: 250px;
+                            object-fit: cover;
+                            display: block;
+                        }
+                        .photo-caption {
+                            padding: 12px;
+                            background: white;
+                            text-align: center;
+                            font-size: 14px;
+                            color: #666;
+                            border-top: 1px solid #eee;
+                        }
+                        .country-section {
+                            margin: 50px 0;
+                            padding: 30px;
+                            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+                            border-radius: 15px;
+                            border-left: 8px solid #2196F3;
+                        }
+                        .country-title {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #0d47a1;
+                            margin-bottom: 25px;
+                            text-align: center;
+                        }
+                        .country-stats {
+                            display: flex;
+                            justify-content: space-around;
+                            margin: 25px 0;
+                            padding: 20px;
+                            background: white;
+                            border-radius: 10px;
+                            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+                        }
+                        .country-stat {
+                            text-align: center;
+                        }
+                        .country-stat-value {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #2196F3;
+                        }
+                        .country-stat-label {
+                            font-size: 14px;
+                            color: #666;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                        }
+                        .message-section {
+                            margin: 50px 0;
+                            padding: 40px;
+                            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+                            border-radius: 15px;
+                            border-left: 8px solid #ff9800;
+                            font-style: italic;
+                            line-height: 1.9;
+                        }
+                        .message-title {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #e65100;
+                            margin-bottom: 25px;
+                            text-align: center;
+                        }
+                        .signature {
+                            text-align: right;
+                            margin-top: 40px;
+                            padding-top: 20px;
+                            border-top: 2px solid #eee;
+                            font-weight: bold;
+                            font-size: 18px;
+                            color: #8b0000;
+                        }
+                        .verse {
+                            font-style: italic;
+                            color: #666;
+                            text-align: center;
+                            margin: 30px 0;
+                            padding: 20px;
+                            background: #f8f9fa;
+                            border-radius: 10px;
+                            border-left: 5px solid #9b59b6;
+                        }
+                        .tableau-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 30px 0;
+                            font-size: 14px;
+                        }
+                        .tableau-table th {
+                            background-color: #8b0000;
+                            color: white;
+                            padding: 15px;
+                            text-align: left;
+                            font-weight: bold;
+                            border: 1px solid #ddd;
+                        }
+                        .tableau-table td {
+                            padding: 12px;
+                            border: 1px solid #ddd;
+                            vertical-align: top;
+                        }
+                        .tableau-table tr:nth-child(even) {
+                            background-color: #f9f9f9;
+                        }
+                        .personne-tag {
+                            background: #ffc107;
+                            color: #856404;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 12px;
+                            margin: 2px;
+                            display: inline-block;
+                        }
+                        .priere-box {
+                            background: #f8f9fa;
+                            padding: 25px;
+                            border-radius: 10px;
+                            margin: 20px 0;
+                            border-left: 5px solid #e74c3c;
+                            font-style: italic;
+                            line-height: 1.8;
+                        }
+                        .footer-note {
+                            text-align: center;
+                            margin-top: 50px;
+                            padding-top: 20px;
+                            border-top: 1px solid #eee;
+                            font-size: 12px;
+                            color: #999;
+                        }
                         @media print {
-                            .fiche-container { page-break-inside: avoid; }
-                            body { margin: 10px; }
+                            body {
+                                padding: 20px;
+                            }
+                            .page-break {
+                                page-break-before: always;
+                            }
+                            .fiche-container {
+                                page-break-inside: avoid;
+                            }
                         }
                     </style>
                 </head>
                 <body>
-                    <h1>📄 Fiches d'hébergement - Tournée 2026</h1>
-                    <p style="text-align: center; margin-bottom: 30px; color: #666;">
-                        Export généré le ${new Date().toLocaleDateString('fr-FR')} - ${rows.length} fiche(s)
-                    </p>
+                    <!-- Page de couverture -->
+                    <div class="cover-page">
+                        <div class="cover-logo">📖 ✝️</div>
+                        <h1 class="cover-title">Livre de la Tournée 2026</h1>
+                        <h2 class="cover-subtitle">Ligue pour la Lecture de la Bible</h2>
+                        <div style="margin: 40px auto; width: 80%; border-top: 2px solid rgba(255,255,255,0.5); padding-top: 30px;">
+                            <p style="font-size: 20px; line-height: 1.6;">
+                                "Proclamer l'Évangile,<br>
+                                Réveiller les cœurs,<br>
+                                Donner de la joie"
+                            </p>
+                        </div>
+                        <div class="cover-date">
+                            ${new Date().toLocaleDateString('fr-FR', { 
+                                weekday: 'long', 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                            })}
+                        </div>
+                    </div>
+                    
+                    <!-- Page de dédicace -->
+                    <div class="page-break"></div>
+                    <div class="message-section">
+                        <h2 class="message-title">Dédicace</h2>
+                        <p>
+                            Ce livre est dédié à tous nos hôtes généreux qui, par leur hospitalité, 
+                            ont permis à notre mission de propagation de l'Évangile de s'accomplir.
+                        </p>
+                        <p>
+                            "N'oubliez pas l'hospitalité ; car, en l'exerçant, quelques-uns ont logé 
+                            des anges sans le savoir."<br>
+                            <strong>Hébreux 13:2</strong>
+                        </p>
+                        <div class="signature">
+                            L'équipe de la Tournée 2026<br>
+                            Ligue pour la Lecture de la Bible
+                        </div>
+                    </div>
+                    
+                    <!-- Table des matières -->
+                    <div class="page-break"></div>
+                    <h2 class="chapter-title">Table des Matières</h2>
+                    <div style="margin: 40px 0;">
+                        <ol style="font-size: 18px; line-height: 2.5;">
+                            <li>Introduction et Mission</li>
+                            <li>Statistiques Générales</li>
+                            <li>Liste des Hébergeurs par Pays</li>
+                            <li>Fiches Détaillées des Hébergements</li>
+                            <li>Sujets de Prière</li>
+                            <li>Remerciements et Conclusion</li>
+                        </ol>
+                    </div>
+                    
+                    <!-- Chapitre 1: Introduction -->
+                    <div class="page-break"></div>
+                    <h2 class="chapter-title">Chapitre 1: Introduction et Mission</h2>
+                    
+                    <div class="message-section">
+                        <p>
+                            En tant que groupe évangélique de la Ligue pour la Lecture de la Bible, 
+                            notre mission pour la Tournée 2026 était claire : <strong>proclamer l'Évangile, 
+                            réveiller les cœurs et donner de la joie</strong> à travers nos prestations 
+                            évangéliques et culturelles.
+                        </p>
+                        <p>
+                            Cette tournée nous a conduits à travers ${allPays.length} pays différents, 
+                            où nous avons été accueillis par ${allHotes.length} hôtes généreux. 
+                            Chaque hébergement représentait bien plus qu'un simple lieu de repos : 
+                            c'était un tremplin pour notre mission, un lieu de rencontre fraternelle, 
+                            et souvent le point de départ de nouvelles amitiés dans la foi.
+                        </p>
+                        <p>
+                            Ce livre retrace notre parcours, honore nos hôtes, et rend gloire à Dieu 
+                            pour toutes les portes qu'Il a ouvertes.
+                        </p>
+                    </div>
+                    
+                    <!-- Chapitre 2: Statistiques -->
+                    <div class="page-break"></div>
+                    <h2 class="chapter-title">Chapitre 2: Statistiques Générales</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">${sheetData.length}</div>
+                            <div class="stat-label">Hébergements totaux</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${allHotes.length}</div>
+                            <div class="stat-label">Hôtes différents</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${allPays.length}</div>
+                            <div class="stat-label">Pays visités</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${allLieux.length}</div>
+                            <div class="stat-label">Lieux différents</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${allHeberges.size}</div>
+                            <div class="stat-label">Personnes hébergées</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${bookingPeriods.length}</div>
+                            <div class="stat-label">Périodes de séjour</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-title">Répartition par type d'hébergement</div>
+                    <div style="margin: 30px 0;">
             `;
             
-            rows.forEach((row, index) => {
+            let typeFamille = 0;
+            let typeHotel = 0;
+            let typeCentre = 0;
+            let typeAutre = 0;
+            
+            allTypes.forEach((count, type) => {
+                const typeLower = type.toLowerCase();
+                if (typeLower.includes('famille')) {
+                    typeFamille += count;
+                } else if (typeLower.includes('hotel') || typeLower.includes('hôtel')) {
+                    typeHotel += count;
+                } else if (typeLower.includes('centre')) {
+                    typeCentre += count;
+                } else {
+                    typeAutre += count;
+                }
+            });
+            
+            pdfContent += `
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 25px 0;">
+                            <div style="padding: 20px; background: #e8f5e8; border-radius: 10px; text-align: center;">
+                                <div style="font-size: 28px; font-weight: bold; color: #27ae60;">${typeFamille}</div>
+                                <div style="font-size: 16px; color: #666;">Familles</div>
+                            </div>
+                            <div style="padding: 20px; background: #e3f2fd; border-radius: 10px; text-align: center;">
+                                <div style="font-size: 28px; font-weight: bold; color: #2196F3;">${typeHotel}</div>
+                                <div style="font-size: 16px; color: #666;">Hôtels</div>
+                            </div>
+                            <div style="padding: 20px; background: #fff8e1; border-radius: 10px; text-align: center;">
+                                <div style="font-size: 28px; font-weight: bold; color: #ff9800;">${typeCentre}</div>
+                                <div style="font-size: 16px; color: #666;">Centres</div>
+                            </div>
+                            <div style="padding: 20px; background: #f5e8f8; border-radius: 10px; text-align: center;">
+                                <div style="font-size: 28px; font-weight: bold; color: #9b59b6;">${typeAutre}</div>
+                                <div style="font-size: 16px; color: #666;">Autres</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chapitre 3: Liste par pays -->
+                    <div class="page-break"></div>
+                    <h2 class="chapter-title">Chapitre 3: Liste des Hébergeurs par Pays</h2>
+            `;
+            
+            const hebergeursParPays = {};
+            
+            sheetData.forEach(row => {
+                const nom = colNom !== -1 ? row[colNom] : '';
+                const pays = colPays !== -1 ? row[colPays] : '';
+                const lieu = colLieu !== -1 ? row[colLieu] : '';
+                const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+                const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
+                
+                if (pays && pays.trim() && nom && nom.trim()) {
+                    const paysKey = pays.trim();
+                    
+                    if (!hebergeursParPays[paysKey]) {
+                        hebergeursParPays[paysKey] = [];
+                    }
+                    
+                    const hebergeurKey = nom.trim().toLowerCase();
+                    const existeDeja = hebergeursParPays[paysKey].some(h => 
+                        h.nom.toLowerCase() === hebergeurKey
+                    );
+                    
+                    if (!existeDeja) {
+                        hebergeursParPays[paysKey].push({
+                            nom: nom.trim(),
+                            lieu: lieu ? lieu.trim() : '',
+                            type: type ? type.trim() : '',
+                            dates: dateDebut && dateFin ? `${dateDebut} au ${dateFin}` : ''
+                        });
+                    }
+                }
+            });
+            
+            Object.keys(hebergeursParPays).sort().forEach(pays => {
+                const hebergeurs = hebergeursParPays[pays];
+                
+                pdfContent += `
+                    <div class="country-section">
+                        <h3 class="country-title">${pays}</h3>
+                        <div class="country-stats">
+                            <div class="country-stat">
+                                <div class="country-stat-value">${hebergeurs.length}</div>
+                                <div class="country-stat-label">Hébergeurs</div>
+                            </div>
+                        </div>
+                        <table class="tableau-table">
+                            <thead>
+                                <tr>
+                                    <th>Hébergeur</th>
+                                    <th>Lieu</th>
+                                    <th>Type</th>
+                                    <th>Dates</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                hebergeurs.forEach(hebergeur => {
+                    pdfContent += `
+                        <tr>
+                            <td><strong>${hebergeur.nom}</strong></td>
+                            <td>${hebergeur.lieu || 'Non spécifié'}</td>
+                            <td>${hebergeur.type || 'Non spécifié'}</td>
+                            <td>${hebergeur.dates || 'Non spécifiées'}</td>
+                        </tr>
+                    `;
+                });
+                
+                pdfContent += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
+            
+            // Chapitre 4: Fiches détaillées
+            pdfContent += `
+                <div class="page-break"></div>
+                <h2 class="chapter-title">Chapitre 4: Fiches Détaillées des Hébergements</h2>
+                <div class="verse">
+                    "Car j'ai eu faim, et vous m'avez donné à manger ; j'ai eu soif, et vous m'avez donné à boire ; 
+                    j'étais étranger, et vous m'avez recueilli."<br>
+                    <strong>Matthieu 25:35</strong>
+                </div>
+                <p style="font-size: 18px; text-align: center; margin-bottom: 40px;">
+                    ${sheetData.length} hébergements qui ont marqué notre tournée
+                </p>
+            `;
+            
+            sheetData.forEach((row, index) => {
+                if (index > 0 && index % 3 === 0) {
+                    pdfContent += `<div class="page-break"></div>`;
+                }
+                
                 const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
                 const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
                 const nom = colNom !== -1 ? row[colNom] : '';
@@ -6507,7 +7041,6 @@ L'équipe de la Tournée 2026</textarea>
                 const lieu = colLieu !== -1 ? row[colLieu] : '';
                 const adresse = colAdresse !== -1 ? row[colAdresse] : '';
                 const email = colEmail !== -1 ? row[colEmail] : '';
-                const facebook = colFacebook !== -1 ? row[colFacebook] : '';
                 const telephone = colTelephone !== -1 ? row[colTelephone] : '';
                 const mpihiraLehilahy = colMpihiraLehilahy !== -1 ? row[colMpihiraLehilahy] : '';
                 const mpitendry = colMpitendry !== -1 ? row[colMpitendry] : '';
@@ -6517,25 +7050,10 @@ L'équipe de la Tournée 2026</textarea>
                 const marquants = colMarquants !== -1 ? row[colMarquants] : '';
                 const photosHotes = colPhotosHotes !== -1 ? row[colPhotosHotes] : '';
                 const photosLieux = colPhotosLieux !== -1 ? row[colPhotosLieux] : '';
-                const formulaire = colFormulaire !== -1 ? row[colFormulaire] : '';
                 const repartition = colRepartition !== -1 ? row[colRepartition] : '';
                 const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
                 const observations = colObservations !== -1 ? row[colObservations] : '';
-                
-                const adresseHebergeur = colAdresseHebergeur !== -1 ? row[colAdresseHebergeur] : '';
-                const lieuHebergeur = colLieuHebergeur !== -1 ? row[colLieuHebergeur] : '';
-                const paysHebergeur = colPaysHebergeur !== -1 ? row[colPaysHebergeur] : '';
-                const numeroHebergeur = colNumeroHebergeur !== -1 ? row[colNumeroHebergeur] : '';
-                
                 const aSavoirHote = colASavoirHote !== -1 ? row[colASavoirHote] : '';
-                
-                let adresseComplete = adresseHebergeur || adresse || '';
-                if (adresseComplete && lieuHebergeur) {
-                    adresseComplete += ` - ${lieuHebergeur}`;
-                }
-                if (adresseComplete && paysHebergeur) {
-                    adresseComplete += ` / ${paysHebergeur}`;
-                }
                 
                 let toutesPersonnes = [];
                 const colonnesPersonnes = [
@@ -6555,125 +7073,266 @@ L'équipe de la Tournée 2026</textarea>
                 });
                 
                 let personnesAffichees = '';
-                let personnesPourTags = [];
-                
                 if (repartition && repartition.trim()) {
                     if (repartition.toLowerCase().includes('tout le monde')) {
-                        personnesPourTags = Array.from(allHeberges);
-                        personnesAffichees = `Tout le monde / ${personnesPourTags.join(', ')}`;
+                        personnesAffichees = `Tout le monde / ${Array.from(allHeberges).join(', ')}`;
                     } else {
-                        personnesPourTags = toutesPersonnes;
                         personnesAffichees = `${repartition} / ${toutesPersonnes.join(', ')}`;
                     }
                 } else {
-                    personnesPourTags = toutesPersonnes;
                     personnesAffichees = toutesPersonnes.join(', ');
                 }
                 
-                const titreFiche = `${dateDebut || '?'} - ${dateFin || '?'} / ${personnesPourTags.length > 0 ? personnesPourTags.join(', ') : 'Aucun hébergé'}`;
+                const titreFiche = `${dateDebut || '?'} - ${dateFin || '?'} / ${toutesPersonnes.length > 0 ? toutesPersonnes.join(', ') : 'Aucun hébergé'}`;
+                
+                let photosHtml = '';
+                const photos = [];
+                
+                if (photosHotes && photosHotes.trim()) {
+                    photosHotes.split(/[,;]/).forEach(link => {
+                        const trimmedLink = link.trim();
+                        if (trimmedLink) photos.push({url: trimmedLink, type: 'Photo avec hôte'});
+                    });
+                }
+                
+                if (photosLieux && photosLieux.trim()) {
+                    photosLieux.split(/[,;]/).forEach(link => {
+                        const trimmedLink = link.trim();
+                        if (trimmedLink) photos.push({url: trimmedLink, type: 'Photo du lieu'});
+                    });
+                }
+                
+                if (photos.length > 0) {
+                    photosHtml += '<div class="photo-grid">';
+                    photos.slice(0, 4).forEach((photo, idx) => {
+                        const thumbnailUrl = generatePhotoThumbnail(photo.url);
+                        photosHtml += `
+                            <div class="photo-item">
+                                <img src="${thumbnailUrl}" alt="${photo.type} ${idx + 1}">
+                                <div class="photo-caption">${photo.type} ${idx + 1}</div>
+                            </div>
+                        `;
+                    });
+                    photosHtml += '</div>';
+                }
                 
                 pdfContent += `
                     <div class="fiche-container">
                         <div class="fiche-header">
-                            <h2 class="fiche-title">🏨 Hébergement Tournée 2026 - Fiche ${index + 1}</h2>
+                            <h3 class="fiche-title">Fiche ${index + 1}: ${titreFiche}</h3>
                             <div class="fiche-pays">${pays || ''}</div>
-                            <div style="color: #e0e0e0; margin-top: 5px;">${titreFiche}</div>
                         </div>
                         
                         <div class="hote-section">
-                            <div style="font-weight: bold; color: #27ae60;">👤 Hébergé chez :</div>
+                            <div style="font-size: 14px; color: #27ae60; font-weight: bold;">👤 Hébergé chez :</div>
                             <div class="hote-name">${nom || 'Hôte non spécifié'}</div>
-                        </div>
-                        
-                        <div class="localisation-section">
-                            <div class="localisation-label">📍 Localisation :</div>
-                            <div class="localisation-content">${lieu || 'Non spécifié'}, ${pays || 'Non spécifié'}</div>
                         </div>
                         
                         <div class="info-grid">
                             <div class="info-item">
-                                <div class="info-label">📅 Dates:</div>
-                                <div class="info-value">${dateDebut || 'Non spécifiée'} - ${dateFin || 'Non spécifiée'}</div>
+                                <span class="info-label">📍 Localisation</span>
+                                <span class="info-value">${lieu || 'Non spécifié'}, ${pays || 'Non spécifié'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">📅 Dates</span>
+                                <span class="info-value">${dateDebut || 'Non spécifiée'} - ${dateFin || 'Non spécifiée'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">🏠 Type</span>
+                                <span class="info-value">${type || 'Non spécifié'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">👥 Personnes hébergées</span>
+                                <span class="info-value">${personnesAffichees || 'Aucun'}</span>
                             </div>
                         </div>
-                        
-                        ${type ? `
-                        <div class="section type-section">
-                            <div class="section-title type-title">🏠 Hébergé en:</div>
-                            <div>${type}</div>
+                `;
+                
+                if (adresse || email || telephone) {
+                    pdfContent += `
+                        <div class="subsection-title">📞 Informations de contact</div>
+                        <div style="padding: 20px; background: white; border-radius: 10px; margin: 15px 0;">
+                            ${adresse ? `<p><strong>Adresse:</strong> ${adresse}</p>` : ''}
+                            ${email ? `<p><strong>Email:</strong> ${email}</p>` : ''}
+                            ${telephone ? `<p><strong>Téléphone:</strong> ${telephone}</p>` : ''}
                         </div>
-                        ` : ''}
-                        
-                        ${personnesPourTags.length > 0 ? `
-                        <div class="section" style="border-left-color: #ffc107;">
-                            <div class="section-title">👥 Les hébergés:</div>
-                            <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;">
-                                ${personnesPourTags.map(p => `<span style="background: #ffc107; color: #856404; padding: 4px 8px; border-radius: 12px; font-size: 0.9em;">${p}</span>`).join('')}
-                            </div>
-                            <div style="margin-top: 10px; font-style: italic; color: #666;">
-                                ${personnesAffichees}
-                            </div>
+                    `;
+                }
+                
+                if (aSavoirHote) {
+                    pdfContent += `
+                        <div class="subsection-title">ℹ️ À savoir sur l'hôte</div>
+                        <div style="padding: 20px; background: #fff8e1; border-radius: 10px; margin: 15px 0;">
+                            ${aSavoirHote}
                         </div>
-                        ` : ''}
-                        
-                        ${(adresseComplete || email || facebook || telephone || numeroHebergeur) ? `
-                        <div class="section" style="border-left-color: #3498db;">
-                            <div class="section-title">📞 Information de contact:</div>
-                            ${adresseComplete ? `<div style="margin-bottom: 8px;"><strong>📍 Adresse:</strong> ${adresseComplete}</div>` : ''}
-                            ${numeroHebergeur ? `<div style="margin-bottom: 8px;"><strong>🔢 Numéro:</strong> ${numeroHebergeur}</div>` : ''}
-                            ${email ? `<div style="margin-bottom: 8px;"><strong>📧 Email:</strong> ${email}</div>` : ''}
-                            ${facebook ? `<div style="margin-bottom: 8px;"><strong>👥 Réseaux sociaux:</strong> ${facebook}</div>` : ''}
-                            ${telephone ? `<div style="margin-bottom: 8px;"><strong>📱 Téléphone:</strong> <a href="tel:${telephone}">${telephone}</a></div>` : ''}
+                    `;
+                }
+                
+                if (marquants) {
+                    pdfContent += `
+                        <div class="subsection-title">⭐ Moments marquants</div>
+                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px; margin: 15px 0;">
+                            ${marquants}
                         </div>
-                        ` : ''}
-                        
-                        ${aSavoirHote ? `
-                        <div class="section" style="border-left-color: #e65100;">
-                            <div class="section-title">ℹ️ À savoir sur le hôte:</div>
-                            <div>${aSavoirHote}</div>
+                    `;
+                }
+                
+                if (observations) {
+                    pdfContent += `
+                        <div class="subsection-title">📝 Observations</div>
+                        <div style="padding: 20px; background: #e8f5e8; border-radius: 10px; margin: 15px 0;">
+                            ${observations}
                         </div>
-                        ` : ''}
-                        
-                        ${marquants ? `
-                        <div class="section" style="border-left-color: #9b59b6;">
-                            <div class="section-title">⭐ Marquants:</div>
-                            <div>${marquants}</div>
+                    `;
+                }
+                
+                if (photosHtml) {
+                    pdfContent += `
+                        <div class="subsection-title">📸 Aperçus photos</div>
+                        ${photosHtml}
+                    `;
+                }
+                
+                if (priere) {
+                    pdfContent += `
+                        <div class="priere-box">
+                            <div style="font-weight: bold; color: #e74c3c; margin-bottom: 10px;">🙏 Sujet de prière</div>
+                            ${priere}
                         </div>
-                        ` : ''}
-                        
-                        ${priere ? `
-                        <div class="section" style="border-left-color: #e74c3c;">
-                            <div class="section-title">🙏 Sujet de prière:</div>
-                            <div>${priere}</div>
-                        </div>
-                        ` : ''}
-                        
-                        ${observations ? `
-                        <div class="section observations-section">
-                            <div class="section-title observations-title">📝 Observations:</div>
-                            <div>${observations}</div>
-                        </div>
-                        ` : ''}
-                        
-                        ${(photosHotes || photosLieux || formulaire) ? `
-                        <div class="section photo-section">
-                            <div class="section-title photo-title">🔗 Liens et photos:</div>
-                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-                                ${photosHotes ? `<span style="background: #9b59b6; color: white; padding: 8px 12px; border-radius: 5px; font-size: 0.9em;">📸 Photos avec hôtes</span>` : ''}
-                                ${photosLieux ? `<span style="background: #e74c3c; color: white; padding: 8px 12px; border-radius: 5px; font-size: 0.9em;">🏞️ Photos des lieux</span>` : ''}
-                                ${formulaire ? `<span style="background: #27ae60; color: white; padding: 8px 12px; border-radius: 5px; font-size: 0.9em;">🔗 Formulaire</span>` : ''}
-                            </div>
-                        </div>
-                        ` : ''}
+                    `;
+                }
+                
+                pdfContent += `
                     </div>
                 `;
             });
+            
+            // Chapitre 5: Sujets de prière
+            if (allPrieres.length > 0) {
+                pdfContent += `
+                    <div class="page-break"></div>
+                    <h2 class="chapter-title">Chapitre 5: Sujets de Prière</h2>
+                    <div class="verse">
+                        "Priez sans cesse."<br>
+                        <strong>1 Thessaloniciens 5:17</strong>
+                    </div>
+                    <p style="font-size: 18px; text-align: center; margin-bottom: 40px;">
+                        ${allPrieres.length} sujets de prière partagés par nos hôtes
+                    </p>
+                `;
+                
+                allPrieres.forEach((priere, index) => {
+                    if (index > 0 && index % 4 === 0) {
+                        pdfContent += `<div class="page-break"></div>`;
+                    }
+                    
+                    pdfContent += `
+                        <div style="margin: 30px 0; padding: 25px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                            <div style="font-weight: bold; color: #8b0000; margin-bottom: 10px;">
+                                🙏 ${priere.hote}
+                            </div>
+                            <div style="font-style: italic; line-height: 1.8;">
+                                ${priere.priere}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Chapitre 6: Conclusion et remerciements
+            pdfContent += `
+                <div class="page-break"></div>
+                <h2 class="chapter-title">Chapitre 6: Remerciements et Conclusion</h2>
+                
+                <div class="message-section">
+                    <h3 style="color: #8b0000; margin-bottom: 25px;">Remerciements</h3>
+                    <p>
+                        Nous tenons à exprimer notre profonde gratitude à tous les ${allHotes.length} hôtes 
+                        qui nous ont accueillis avec tant de générosité et de chaleur humaine durant notre 
+                        Tournée 2026.
+                    </p>
+                    <p>
+                        Votre hospitalité a été bien plus qu'un simple hébergement : elle a été 
+                        <strong>un signe tangible de l'amour du Christ</strong>, une manifestation concrète 
+                        de la fraternité en action, et un soutien précieux pour notre mission.
+                    </p>
+                    <p>
+                        Grâce à vous, nous avons pu accomplir notre vocation : <strong>proclamer l'Évangile, 
+                        réveiller les cœurs et donner de la joie</strong> à travers nos prestations 
+                        évangéliques et culturelles.
+                    </p>
+                    <p>
+                        Chaque sourire partagé, chaque repas pris ensemble, chaque conversation 
+                        spirituelle a enrichi notre parcours et fortifié notre foi.
+                    </p>
+                </div>
+                
+                <div style="margin: 50px 0; padding: 40px; background: linear-gradient(135deg, #8b0000, #6a0000); color: white; border-radius: 15px;">
+                    <h3 style="color: white; text-align: center; margin-bottom: 30px;">Notre Mission Accomplie</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center;">
+                        <div>
+                            <div style="font-size: 36px; margin-bottom: 10px;">📖</div>
+                            <div style="font-weight: bold;">Évangile Proclamé</div>
+                            <div style="font-size: 14px; opacity: 0.9;">Dans ${allPays.length} pays</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 36px; margin-bottom: 10px;">❤️</div>
+                            <div style="font-weight: bold;">Cœurs Réveillés</div>
+                            <div style="font-size: 14px; opacity: 0.9;">${allHeberges.size} personnes touchées</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 36px; margin-bottom: 10px;">😊</div>
+                            <div style="font-weight: bold;">Joie Donnée</div>
+                            <div style="font-size: 14px; opacity: 0.9;">${sheetData.length} moments de grâce</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="verse">
+                    "Je vous laisse la paix, je vous donne ma paix. Je ne vous donne pas comme le monde donne. 
+                    Que votre cœur ne se trouble point, et ne s'alarme point."<br>
+                    <strong>Jean 14:27</strong>
+                </div>
+                
+                <div style="text-align: center; margin: 50px 0; padding: 30px; border-top: 2px solid #eee; border-bottom: 2px solid #eee;">
+                    <p style="font-size: 20px; font-weight: bold; color: #8b0000;">
+                        À tous nos hôtes, du fond du cœur :<br>
+                        <span style="font-size: 24px;">MERCI</span>
+                    </p>
+                    <p style="font-size: 18px; margin-top: 20px;">
+                        Que Dieu vous bénisse abondamment pour votre générosité et votre hospitalité.
+                    </p>
+                </div>
+                
+                <div class="signature" style="text-align: center; margin-top: 60px;">
+                    <div style="font-size: 22px; color: #8b0000; margin-bottom: 10px;">
+                        L'équipe de la Tournée 2026
+                    </div>
+                    <div style="font-size: 18px; color: #666;">
+                        Ligue pour la Lecture de la Bible
+                    </div>
+                    <div style="font-size: 16px; color: #999; margin-top: 20px;">
+                        ${new Date().toLocaleDateString('fr-FR', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                        })}
+                    </div>
+                </div>
+                
+                <div class="footer-note">
+                    Livre généré électroniquement - Tournée 2026 - Ligue pour la Lecture de la Bible<br>
+                    Tous droits réservés - Usage interne uniquement
+                </div>
+            `;
             
             pdfContent += `</body></html>`;
             
             printWindow.document.write(pdfContent);
             printWindow.document.close();
             printWindow.print();
+            
+            alert(`Livre de la Tournée 2026 généré avec succès! ${sheetData.length} fiches incluses.`);
         }
         
         function createPDFExport(data, title, headers, filename) {
