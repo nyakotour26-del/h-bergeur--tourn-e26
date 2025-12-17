@@ -6785,13 +6785,13 @@ L'équipe de la Tournée 2026</textarea>
                     <!-- Page de couverture -->
                     <div class="cover-page">
                         <div class="cover-logo">📖 ✝️</div>
-                        <h1 class="cover-title">Livre de la Tournée 2026</h1>
-                        <h2 class="cover-subtitle">Ligue pour la Lecture de la Bible</h2>
+                        <h1 class="cover-title">Archives de la Tournée 2026</h1>
+                        <h2 class="cover-subtitle">Groupe NY AKO - Ligue pour la Lecture de la Bible</h2>
                         <div style="margin: 40px auto; width: 80%; border-top: 2px solid rgba(255,255,255,0.5); padding-top: 30px;">
                             <p style="font-size: 20px; line-height: 1.6;">
-                                "Proclamer l'Évangile,<br>
-                                Réveiller les cœurs,<br>
-                                Donner de la joie"
+                                "Documentation et souvenirs<br>
+                                de notre parcours missionnaire<br>
+                                pour l'Évangile"
                             </p>
                         </div>
                         <div class="cover-date">
@@ -6804,21 +6804,22 @@ L'équipe de la Tournée 2026</textarea>
                         </div>
                     </div>
                     
-                    <!-- Page de dédicace -->
+                    <!-- Page de présentation -->
                     <div class="page-break"></div>
                     <div class="message-section">
-                        <h2 class="message-title">Dédicace</h2>
+                        <h2 class="message-title">Présentation</h2>
                         <p>
-                            Ce livre est dédié à tous nos hôtes généreux qui, par leur hospitalité, 
-                            ont permis à notre mission de propagation de l'Évangile de s'accomplir.
+                            Ce livre d'archives rassemble la documentation complète des hébergements 
+                            durant notre Tournée 2026. Il sert de mémoire pour le groupe et de ressource 
+                            pour les membres qui n'ont pas pu participer directement à tous les déplacements.
                         </p>
                         <p>
-                            "N'oubliez pas l'hospitalité ; car, en l'exerçant, quelques-uns ont logé 
-                            des anges sans le savoir."<br>
-                            <strong>Hébreux 13:2</strong>
+                            "Que la parole de Christ habite parmi vous abondamment ; instruisez-vous 
+                            et exhortez-vous les uns les autres en toute sagesse..."<br>
+                            <strong>Colossiens 3:16</strong>
                         </p>
                         <div class="signature">
-                            L'équipe de la Tournée 2026<br>
+                            Archives du groupe NY AKO<br>
                             Ligue pour la Lecture de la Bible
                         </div>
                     </div>
@@ -6828,36 +6829,37 @@ L'équipe de la Tournée 2026</textarea>
                     <h2 class="chapter-title">Table des Matières</h2>
                     <div style="margin: 40px 0;">
                         <ol style="font-size: 18px; line-height: 2.5;">
-                            <li>Introduction et Mission</li>
+                            <li>Présentation et objectifs</li>
                             <li>Statistiques Générales</li>
                             <li>Liste des Hébergeurs par Pays</li>
-                            <li>Fiches Détaillées des Hébergements</li>
-                            <li>Sujets de Prière</li>
-                            <li>Remerciements et Conclusion</li>
+                            <li>Documentation des Hébergements</li>
+                            <li>Sujets de Prière collectés</li>
+                            <li>Conclusion et perspectives</li>
                         </ol>
                     </div>
                     
-                    <!-- Chapitre 1: Introduction -->
+                    <!-- Chapitre 1: Présentation -->
                     <div class="page-break"></div>
-                    <h2 class="chapter-title">Chapitre 1: Introduction et Mission</h2>
+                    <h2 class="chapter-title">Chapitre 1: Présentation et objectifs</h2>
                     
                     <div class="message-section">
                         <p>
-                            En tant que groupe évangélique de la Ligue pour la Lecture de la Bible, 
-                            notre mission pour la Tournée 2026 était claire : <strong>proclamer l'Évangile, 
-                            réveiller les cœurs et donner de la joie</strong> à travers nos prestations 
-                            évangéliques et culturelles.
+                            Ce livre d'archives a pour objectif de documenter l'ensemble des hébergements 
+                            durant la Tournée 2026 du groupe NY AKO de la Ligue pour la Lecture de la Bible.
                         </p>
                         <p>
-                            Cette tournée nous a conduits à travers ${allPays.length} pays différents, 
-                            où nous avons été accueillis par ${allHotes.length} hôtes généreux. 
-                            Chaque hébergement représentait bien plus qu'un simple lieu de repos : 
-                            c'était un tremplin pour notre mission, un lieu de rencontre fraternelle, 
-                            et souvent le point de départ de nouvelles amitiés dans la foi.
+                            Cette documentation permet :
                         </p>
+                        <ul style="margin: 20px 0 20px 40px; line-height: 1.8;">
+                            <li>De garder une trace des hébergements pour les membres du groupe</li>
+                            <li>De partager l'expérience avec ceux qui n'ont pas pu participer</li>
+                            <li>De documenter les coordonnées pour d'éventuels recontacts</li>
+                            <li>De conserver les sujets de prière partagés</li>
+                            <li>De servir de référence pour les tournées futures</li>
+                        </ul>
                         <p>
-                            Ce livre retrace notre parcours, honore nos hôtes, et rend gloire à Dieu 
-                            pour toutes les portes qu'Il a ouvertes.
+                            La tournée nous a conduits à travers ${allPays.length} pays différents, 
+                            où nous avons été accueillis par ${allHotes.length} hôtes généreux.
                         </p>
                     </div>
                     
@@ -6884,7 +6886,7 @@ L'équipe de la Tournée 2026</textarea>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value">${allHeberges.size}</div>
-                            <div class="stat-label">Personnes hébergées</div>
+                            <div class="stat-label">Membres hébergés</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value">${bookingPeriods.length}</div>
@@ -7015,17 +7017,16 @@ L'équipe de la Tournée 2026</textarea>
                 `;
             });
             
-            // Chapitre 4: Fiches détaillées
+            // Chapitre 4: Documentation des hébergements
             pdfContent += `
                 <div class="page-break"></div>
-                <h2 class="chapter-title">Chapitre 4: Fiches Détaillées des Hébergements</h2>
+                <h2 class="chapter-title">Chapitre 4: Documentation des Hébergements</h2>
                 <div class="verse">
-                    "Car j'ai eu faim, et vous m'avez donné à manger ; j'ai eu soif, et vous m'avez donné à boire ; 
-                    j'étais étranger, et vous m'avez recueilli."<br>
-                    <strong>Matthieu 25:35</strong>
+                    "Celui qui est fidèle dans les petites choses l'est aussi dans les grandes..."<br>
+                    <strong>Luc 16:10</strong>
                 </div>
                 <p style="font-size: 18px; text-align: center; margin-bottom: 40px;">
-                    ${sheetData.length} hébergements qui ont marqué notre tournée
+                    ${sheetData.length} hébergements documentés
                 </p>
             `;
             
@@ -7075,7 +7076,7 @@ L'équipe de la Tournée 2026</textarea>
                 let personnesAffichees = '';
                 if (repartition && repartition.trim()) {
                     if (repartition.toLowerCase().includes('tout le monde')) {
-                        personnesAffichees = `Tout le monde / ${Array.from(allHeberges).join(', ')}`;
+                        personnesAffichees = `Tout le groupe / ${Array.from(allHeberges).join(', ')}`;
                     } else {
                         personnesAffichees = `${repartition} / ${toutesPersonnes.join(', ')}`;
                     }
@@ -7083,7 +7084,7 @@ L'équipe de la Tournée 2026</textarea>
                     personnesAffichees = toutesPersonnes.join(', ');
                 }
                 
-                const titreFiche = `${dateDebut || '?'} - ${dateFin || '?'} / ${toutesPersonnes.length > 0 ? toutesPersonnes.join(', ') : 'Aucun hébergé'}`;
+                const titreFiche = `Hébergement du ${dateDebut || '?'} au ${dateFin || '?'}`;
                 
                 let photosHtml = '';
                 const photos = [];
@@ -7091,14 +7092,14 @@ L'équipe de la Tournée 2026</textarea>
                 if (photosHotes && photosHotes.trim()) {
                     photosHotes.split(/[,;]/).forEach(link => {
                         const trimmedLink = link.trim();
-                        if (trimmedLink) photos.push({url: trimmedLink, type: 'Photo avec hôte'});
+                        if (trimmedLink) photos.push({url: trimmedLink, type: `Photos avec ${nom || 'les hôtes'}`});
                     });
                 }
                 
                 if (photosLieux && photosLieux.trim()) {
                     photosLieux.split(/[,;]/).forEach(link => {
                         const trimmedLink = link.trim();
-                        if (trimmedLink) photos.push({url: trimmedLink, type: 'Photo du lieu'});
+                        if (trimmedLink) photos.push({url: trimmedLink, type: 'Photos des lieux'});
                     });
                 }
                 
@@ -7119,7 +7120,7 @@ L'équipe de la Tournée 2026</textarea>
                 pdfContent += `
                     <div class="fiche-container">
                         <div class="fiche-header">
-                            <h3 class="fiche-title">Fiche ${index + 1}: ${titreFiche}</h3>
+                            <h3 class="fiche-title">${titreFiche}</h3>
                             <div class="fiche-pays">${pays || ''}</div>
                         </div>
                         
@@ -7142,7 +7143,7 @@ L'équipe de la Tournée 2026</textarea>
                                 <span class="info-value">${type || 'Non spécifié'}</span>
                             </div>
                             <div class="info-item">
-                                <span class="info-label">👥 Personnes hébergées</span>
+                                <span class="info-label">👥 Membres présents</span>
                                 <span class="info-value">${personnesAffichees || 'Aucun'}</span>
                             </div>
                         </div>
@@ -7161,7 +7162,7 @@ L'équipe de la Tournée 2026</textarea>
                 
                 if (aSavoirHote) {
                     pdfContent += `
-                        <div class="subsection-title">ℹ️ À savoir sur l'hôte</div>
+                        <div class="subsection-title">ℹ️ Informations sur l'hôte</div>
                         <div style="padding: 20px; background: #fff8e1; border-radius: 10px; margin: 15px 0;">
                             ${aSavoirHote}
                         </div>
@@ -7170,7 +7171,7 @@ L'équipe de la Tournée 2026</textarea>
                 
                 if (marquants) {
                     pdfContent += `
-                        <div class="subsection-title">⭐ Moments marquants</div>
+                        <div class="subsection-title">⭐ Éléments marquants</div>
                         <div style="padding: 20px; background: #f8f9fa; border-radius: 10px; margin: 15px 0;">
                             ${marquants}
                         </div>
@@ -7188,7 +7189,7 @@ L'équipe de la Tournée 2026</textarea>
                 
                 if (photosHtml) {
                     pdfContent += `
-                        <div class="subsection-title">📸 Aperçus photos</div>
+                        <div class="subsection-title">📸 Photos </div>
                         ${photosHtml}
                     `;
                 }
@@ -7196,7 +7197,7 @@ L'équipe de la Tournée 2026</textarea>
                 if (priere) {
                     pdfContent += `
                         <div class="priere-box">
-                            <div style="font-weight: bold; color: #e74c3c; margin-bottom: 10px;">🙏 Sujet de prière</div>
+                            <div style="font-weight: bold; color: #e74c3c; margin-bottom: 10px;">🙏 Sujet de prière partagé</div>
                             ${priere}
                         </div>
                     `;
@@ -7211,13 +7212,13 @@ L'équipe de la Tournée 2026</textarea>
             if (allPrieres.length > 0) {
                 pdfContent += `
                     <div class="page-break"></div>
-                    <h2 class="chapter-title">Chapitre 5: Sujets de Prière</h2>
+                    <h2 class="chapter-title">Chapitre 5: Sujets de Prière Collectés</h2>
                     <div class="verse">
-                        "Priez sans cesse."<br>
-                        <strong>1 Thessaloniciens 5:17</strong>
+                        "Priez les uns pour les autres..."<br>
+                        <strong>Jacques 5:16</strong>
                     </div>
                     <p style="font-size: 18px; text-align: center; margin-bottom: 40px;">
-                        ${allPrieres.length} sujets de prière partagés par nos hôtes
+                        ${allPrieres.length} sujets de prière documentés
                     </p>
                 `;
                 
@@ -7239,74 +7240,75 @@ L'équipe de la Tournée 2026</textarea>
                 });
             }
             
-            // Chapitre 6: Conclusion et remerciements
+            // Chapitre 6: Conclusion
             pdfContent += `
                 <div class="page-break"></div>
-                <h2 class="chapter-title">Chapitre 6: Remerciements et Conclusion</h2>
+                <h2 class="chapter-title">Chapitre 6: Conclusion et Perspectives</h2>
                 
                 <div class="message-section">
-                    <h3 style="color: #8b0000; margin-bottom: 25px;">Remerciements</h3>
+                    <h3 style="color: #8b0000; margin-bottom: 25px;">Bilan de la documentation</h3>
                     <p>
-                        Nous tenons à exprimer notre profonde gratitude à tous les ${allHotes.length} hôtes 
-                        qui nous ont accueillis avec tant de générosité et de chaleur humaine durant notre 
-                        Tournée 2026.
+                        Ce livre d'archives documente ${sheetData.length} hébergements répartis dans 
+                        ${allPays.length} pays, avec la participation de ${allHeberges.size} membres 
+                        du groupe à différents moments de la tournée.
                     </p>
                     <p>
-                        Votre hospitalité a été bien plus qu'un simple hébergement : elle a été 
-                        <strong>un signe tangible de l'amour du Christ</strong>, une manifestation concrète 
-                        de la fraternité en action, et un soutien précieux pour notre mission.
+                        Ces archives permettent de :
                     </p>
+                    <ul style="margin: 20px 0 20px 40px; line-height: 1.8;">
+                        <li>Conserver la mémoire des lieux et des personnes rencontrées</li>
+                        <li>Documenter les coordonnées pour d'éventuels contacts futurs</li>
+                        <li>Partager l'expérience avec les membres absents</li>
+                        <li>Servir de référence pour les tournées à venir</li>
+                        <li>Garder trace des sujets de prière partagés</li>
+                    </ul>
                     <p>
-                        Grâce à vous, nous avons pu accomplir notre vocation : <strong>proclamer l'Évangile, 
-                        réveiller les cœurs et donner de la joie</strong> à travers nos prestations 
-                        évangéliques et culturelles.
-                    </p>
-                    <p>
-                        Chaque sourire partagé, chaque repas pris ensemble, chaque conversation 
-                        spirituelle a enrichi notre parcours et fortifié notre foi.
+                        "Toute Écriture est inspirée de Dieu et utile pour enseigner, pour convaincre, 
+                        pour corriger, pour instruire dans la justice..."<br>
+                        <strong>2 Timothée 3:16</strong>
                     </p>
                 </div>
                 
                 <div style="margin: 50px 0; padding: 40px; background: linear-gradient(135deg, #8b0000, #6a0000); color: white; border-radius: 15px;">
-                    <h3 style="color: white; text-align: center; margin-bottom: 30px;">Notre Mission Accomplie</h3>
+                    <h3 style="color: white; text-align: center; margin-bottom: 30px;">Synthèse Documentaire</h3>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center;">
                         <div>
-                            <div style="font-size: 36px; margin-bottom: 10px;">📖</div>
-                            <div style="font-weight: bold;">Évangile Proclamé</div>
-                            <div style="font-size: 14px; opacity: 0.9;">Dans ${allPays.length} pays</div>
+                            <div style="font-size: 36px; margin-bottom: 10px;">📋</div>
+                            <div style="font-weight: bold;">${sheetData.length} hébergements</div>
+                            <div style="font-size: 14px; opacity: 0.9;">Documentés</div>
                         </div>
                         <div>
-                            <div style="font-size: 36px; margin-bottom: 10px;">❤️</div>
-                            <div style="font-weight: bold;">Cœurs Réveillés</div>
-                            <div style="font-size: 14px; opacity: 0.9;">${allHeberges.size} personnes touchées</div>
+                            <div style="font-size: 36px; margin-bottom: 10px;">👥</div>
+                            <div style="font-weight: bold;">${allHeberges.size} membres</div>
+                            <div style="font-size: 14px; opacity: 0.9;">Participations</div>
                         </div>
                         <div>
-                            <div style="font-size: 36px; margin-bottom: 10px;">😊</div>
-                            <div style="font-weight: bold;">Joie Donnée</div>
-                            <div style="font-size: 14px; opacity: 0.9;">${sheetData.length} moments de grâce</div>
+                            <div style="font-size: 36px; margin-bottom: 10px;">🌍</div>
+                            <div style="font-weight: bold;">${allPays.length} pays</div>
+                            <div style="font-size: 14px; opacity: 0.9;">Visités</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="verse">
-                    "Je vous laisse la paix, je vous donne ma paix. Je ne vous donne pas comme le monde donne. 
-                    Que votre cœur ne se trouble point, et ne s'alarme point."<br>
-                    <strong>Jean 14:27</strong>
+                    "Que la paix de Christ, à laquelle vous avez été appelés pour former un seul corps, 
+                    règne dans vos cœurs. Et soyez reconnaissants."<br>
+                    <strong>Colossiens 3:15</strong>
                 </div>
                 
                 <div style="text-align: center; margin: 50px 0; padding: 30px; border-top: 2px solid #eee; border-bottom: 2px solid #eee;">
                     <p style="font-size: 20px; font-weight: bold; color: #8b0000;">
-                        À tous nos hôtes, du fond du cœur :<br>
-                        <span style="font-size: 24px;">MERCI</span>
+                        Archives du Groupe NY AKO<br>
+                        Tournée 2026
                     </p>
                     <p style="font-size: 18px; margin-top: 20px;">
-                        Que Dieu vous bénisse abondamment pour votre générosité et votre hospitalité.
+                        Document créé pour la mémoire collective et le partage d'expérience
                     </p>
                 </div>
                 
                 <div class="signature" style="text-align: center; margin-top: 60px;">
                     <div style="font-size: 22px; color: #8b0000; margin-bottom: 10px;">
-                        L'équipe de la Tournée 2026
+                        Ny Ako
                     </div>
                     <div style="font-size: 18px; color: #666;">
                         Ligue pour la Lecture de la Bible
@@ -7321,8 +7323,8 @@ L'équipe de la Tournée 2026</textarea>
                 </div>
                 
                 <div class="footer-note">
-                    Livre généré électroniquement - Tournée 2026 - Ligue pour la Lecture de la Bible<br>
-                    Tous droits réservés - Usage interne uniquement
+                    Archives documentaires - Tournée 2026 - Groupe NY AKO<br>
+                    Ligue pour la Lecture de la Bible - Usage interne du groupe
                 </div>
             `;
             
@@ -7332,7 +7334,7 @@ L'équipe de la Tournée 2026</textarea>
             printWindow.document.close();
             printWindow.print();
             
-            alert(`Livre de la Tournée 2026 généré avec succès! ${sheetData.length} fiches incluses.`);
+            alert(`Livre d'archives de la Tournée 2026 généré avec succès! ${sheetData.length} hébergements documentés.`);
         }
         
         function createPDFExport(data, title, headers, filename) {
