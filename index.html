@@ -204,7 +204,21 @@
             transform: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-        
+        /* STYLE QUAND LE BOUTON EST VERROUILLÉ */
+.icon-button.source-btn.locked {
+    background: rgba(149, 165, 166, 0.9);
+    cursor: not-allowed;
+}
+
+.icon-button.source-btn.locked:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* STYLE QUAND LE BOUTON EST DÉVERROUILLÉ (POUR ADMIN) */
+.icon-button.source-btn {
+    background: rgba(52, 73, 94, 0.9);
+}
         .search-section {
             background-color: white;
             padding: 20px;
@@ -368,39 +382,45 @@
         }
         
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-        }
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    max-width: 600px; 
+    margin: 0 auto;
+}
         
         .stat-card {
-            background: linear-gradient(135deg, white, #f8f9fa);
-            padding: 12px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-            border: 1px solid #e9ecef;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
+    background: linear-gradient(135deg, white, #f8f9fa);
+    padding: 10px; 
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    border: 1px solid #e9ecef;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    min-height: 70px; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+}
         
         .stat-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
         
-        .stat-value {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 3px;
-        }
-        
-        .stat-label {
-            color: #7f8c8d;
-            font-size: 0.75em;
-            line-height: 1.2;
-        }
+       .stat-value {
+    font-size: 1.1em; 
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 3px;
+}
+
+.stat-label {
+    color: #7f8c8d;
+    font-size: 0.7em; 
+    line-height: 1.2;
+}
         
         .filters-sidebar {
             display: flex;
@@ -2680,25 +2700,29 @@
 </head>
 <body>
     <div class="fixed-nav-buttons">
-        <button class="icon-button home" id="homeButton" title="Accueil">
-            🏠
-        </button>
-        <button class="icon-button list" id="showAllDataButton" title="Toutes les données">
-            📋
-        </button>
-        <button class="icon-button calendar-btn" id="scrollToCalendarButton" title="Aller au calendrier">
-            📅
-        </button>
-        <button class="icon-button search-btn" id="openSearchModalButton" title="Rechercher dans toutes les données">
-            🔍
-        </button>
-        <button class="icon-button email-btn disabled" id="sendEmailsButton" title="Envoyer un email de remerciements (verrouillé)">
-            📧
-        </button>
-        <button class="icon-button export locked" id="exportDataButton" title="Exporter les données (verrouillé)">
-            📤
-        </button>
-    </div>
+    <button class="icon-button home" id="homeButton" title="Accueil">
+        🏠
+    </button>
+    <button class="icon-button list" id="showAllDataButton" title="Toutes les données">
+        📋
+    </button>
+    <button class="icon-button calendar-btn" id="scrollToCalendarButton" title="Aller au calendrier">
+        📅
+    </button>
+    <button class="icon-button search-btn" id="openSearchModalButton" title="Rechercher dans toutes les données">
+        🔍
+    </button>
+    <button class="icon-button email-btn disabled" id="sendEmailsButton" title="Envoyer un email de remerciements (verrouillé)">
+        📧
+    </button>
+    <button class="icon-button export locked" id="exportDataButton" title="Exporter les données (verrouillé)">
+        📤
+    </button>
+    <!-- NOUVEAU BOUTON AJOUTÉ ICI - VERROUILLÉ PAR DÉFAUT -->
+    <button class="icon-button source-btn locked" id="sourceButton" title="Accéder au fichier source (mot de passe requis)">
+        📄
+    </button>
+</div>
 
     <div class="container">
         <header>
@@ -3300,7 +3324,16 @@ L'équipe de la Tournée 2026</textarea>
                     showExportModal();
                 }
             });
-            
+            document.getElementById('sourceButton').addEventListener('click', function() {
+    if (this.classList.contains('locked')) {
+        // Si verrouillé, demande le mot de passe
+        passwordModalAction = 'source';
+        showPasswordModal();
+    } else {
+        // Si déverrouillé (admin), ouvre le fichier
+        window.open('https://docs.google.com/spreadsheets/d/1gvY7fvPVBgkzgtL3IcDJAN01aplp4b1DGFwwbD5-0E4/edit', '_blank');
+    }
+});
             document.getElementById('showAllButton').addEventListener('click', showAllData);
             document.getElementById('showTableauButton').addEventListener('click', showTableauHebergeurs);
             document.getElementById('showPrieresButton').addEventListener('click', showPrieres);
@@ -3372,7 +3405,8 @@ L'équipe de la Tournée 2026</textarea>
                     document.getElementById('exportDataButton').title = "Exporter les données";
                     document.getElementById('sendEmailsButton').classList.remove('disabled');
                     document.getElementById('sendEmailsButton').title = "Envoyer un email de remerciements";
-                    
+ document.getElementById('sourceButton').classList.remove('locked');
+document.getElementById('sourceButton').title = "Accéder au fichier source";                   
                     document.getElementById('exportPersonPDF').classList.remove('requires-password');
                     document.getElementById('exportPersonPDF').classList.add('export-active');
                     document.getElementById('exportPersonExcel').classList.remove('requires-password');
@@ -3381,12 +3415,13 @@ L'équipe de la Tournée 2026</textarea>
                     document.getElementById('passwordModal').style.display = 'none';
                     document.getElementById('adminPassword').value = '';
                     document.getElementById('passwordError').style.display = 'none';
-                    
-                    if (passwordModalAction === 'export') {
-                        showExportModal();
-                    } else if (passwordModalAction === 'email') {
-                        showEmailModal();
-                    }
+                   if (passwordModalAction === 'export') {
+    showExportModal();
+} else if (passwordModalAction === 'email') {
+    showEmailModal();
+} else if (passwordModalAction === 'source') {
+    window.open('https://docs.google.com/spreadsheets/d/1gvY7fvPVBgkzgtL3IcDJAN01aplp4b1DGFwwbD5-0E4/edit', '_blank');
+}
                     
                     passwordModalAction = null;
                 } else {
