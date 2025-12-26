@@ -3929,91 +3929,139 @@ document.getElementById('sourceButton').title = "Accéder au fichier source";
             container.style.display = 'block';
         }
 
-        function suggestionClick(event, text, type) {
-            event.stopPropagation();
-            
-            if (type === 'mot') {
-                const results = searchData
-                    .filter(item => item.searchText.includes(text.toLowerCase()))
-                    .map(item => item.row);
-                displayResults(results, `Recherche: "${text}"`);
-            } else {
-                switch(type) {
-                    case 'hôte':
-                        const resultsNom = filterDataByType(text, 'nom');
-                        displayResults(resultsNom, `Hôte: ${text}`);
-                        break;
-                    case 'pays':
-                        const resultsPays = filterDataByType(text, 'pays');
-                        displayResults(resultsPays, `Pays: ${text}`);
-                        break;
-                    case 'lieu':
-                        const resultsLieu = filterDataByType(text, 'lieu');
-                        displayResults(resultsLieu, `Lieu: ${text}`);
-                        break;
-                    case 'personne':
-                        const resultsPersonne = filterByHeberge(text);
-                        displayResults(resultsPersonne, `Personne: ${text}`);
-                        break;
-                    case 'type':
-                        filterByType(text);
-                        break;
-                    case 'date':
-                        const dateObj = parseDate(text);
-                        if (dateObj) {
-                            searchByDate(dateObj);
-                        }
-                        break;
+      function suggestionClick(event, text, type) {
+    event.stopPropagation();
+    
+    currentSearchTerm = text;
+    
+    if (type === 'mot') {
+        const results = searchData
+            .filter(item => item.searchText.includes(text.toLowerCase()))
+            .map(item => item.row);
+        
+        // Récupérer les données pour le surlignage
+        const searchDataWithMatchInfo = searchData
+            .filter(item => item.searchText.includes(text.toLowerCase()))
+            .map(item => ({
+                row: item.row,
+                allData: item.allData
+            }));
+        
+        const sortedResults = searchDataWithMatchInfo.map(item => item.row);
+        const allDataForHighlighting = searchDataWithMatchInfo.map(item => item.allData);
+        
+        displayResults(sortedResults, `Mot: "${text}"`, allDataForHighlighting);
+    } else {
+        // Pour les autres types (hôte, pays, lieu, personne)
+        let results = [];
+        let title = '';
+        
+        switch(type) {
+            case 'hôte':
+                results = filterDataByType(text, 'nom');
+                title = `Hôte: ${text}`;
+                break;
+            case 'pays':
+                results = filterDataByType(text, 'pays');
+                title = `Pays: ${text}`;
+                break;
+            case 'lieu':
+                results = filterDataByType(text, 'lieu');
+                title = `Lieu: ${text}`;
+                break;
+            case 'personne':
+                results = filterByHeberge(text);
+                title = `Personne: ${text}`;
+                break;
+            case 'type':
+                filterByType(text);
+                return;
+            case 'date':
+                const dateObj = parseDate(text);
+                if (dateObj) {
+                    searchByDate(dateObj);
                 }
-            }
-            
-            document.getElementById('globalSearchInput').value = text;
-            document.getElementById('suggestionsContainer').style.display = 'none';
+                return;
         }
+        
+        // Pour les autres types, créer les données de surlignage
+        const allDataForHighlighting = results.map(row => {
+            const rowIndex = sheetData.findIndex(r => r === row);
+            if (rowIndex !== -1 && searchData[rowIndex]) {
+                return searchData[rowIndex].allData;
+            }
+            return null;
+        }).filter(data => data !== null);
+        
+        displayResults(results, title, allDataForHighlighting);
+    }
+    
+    document.getElementById('globalSearchInput').value = text;
+    document.getElementById('suggestionsContainer').style.display = 'none';
+}
 
-        function modalSuggestionClick(event, text, type) {
-            event.stopPropagation();
-            
-            if (type === 'mot') {
-                const results = searchData
-                    .filter(item => item.searchText.includes(text.toLowerCase()))
-                    .map(item => item.row);
-                displaySearchResults(results, `Recherche: "${text}"`);
-            } else {
-                switch(type) {
-                    case 'hôte':
-                        const resultsNom = filterDataByType(text, 'nom');
-                        displaySearchResults(resultsNom, `Hôte: ${text}`);
-                        break;
-                    case 'pays':
-                        const resultsPays = filterDataByType(text, 'pays');
-                        displaySearchResults(resultsPays, `Pays: ${text}`);
-                        break;
-                    case 'lieu':
-                        const resultsLieu = filterDataByType(text, 'lieu');
-                        displaySearchResults(resultsLieu, `Lieu: ${text}`);
-                        break;
-                    case 'personne':
-                        const resultsPersonne = filterByHeberge(text);
-                        displaySearchResults(resultsPersonne, `Personne: ${text}`);
-                        break;
-                    case 'type':
-                        filterByType(text);
-                        closeSearchModal();
-                        break;
-                    case 'date':
-                        const dateObj = parseDate(text);
-                        if (dateObj) {
-                            searchByDate(dateObj);
-                            closeSearchModal();
-                        }
-                        break;
+       function modalSuggestionClick(event, text, type) {
+    event.stopPropagation();
+    
+    currentSearchTerm = text;
+    
+    if (type === 'mot') {
+        const results = searchData
+            .filter(item => item.searchText.includes(text.toLowerCase()))
+            .map(item => item.row);
+        
+        // Récupérer les données pour le surlignage
+        const searchDataWithMatchInfo = searchData
+            .filter(item => item.searchText.includes(text.toLowerCase()))
+            .map(item => ({
+                row: item.row,
+                allData: item.allData
+            }));
+        
+        const sortedResults = searchDataWithMatchInfo.map(item => item.row);
+        const allDataForHighlighting = searchDataWithMatchInfo.map(item => item.allData);
+        
+        displaySearchResults(sortedResults, `Mot: "${text}"`);
+    } else {
+        let results = [];
+        let title = '';
+        
+        switch(type) {
+            case 'hôte':
+                results = filterDataByType(text, 'nom');
+                title = `Hôte: ${text}`;
+                break;
+            case 'pays':
+                results = filterDataByType(text, 'pays');
+                title = `Pays: ${text}`;
+                break;
+            case 'lieu':
+                results = filterDataByType(text, 'lieu');
+                title = `Lieu: ${text}`;
+                break;
+            case 'personne':
+                results = filterByHeberge(text);
+                title = `Personne: ${text}`;
+                break;
+            case 'type':
+                filterByType(text);
+                closeSearchModal();
+                return;
+            case 'date':
+                const dateObj = parseDate(text);
+                if (dateObj) {
+                    searchByDate(dateObj);
+                    closeSearchModal();
                 }
-            }
-            
-            document.getElementById('modalSearchInput').value = text;
-            document.getElementById('modalSuggestionsContainer').style.display = 'none';
+                return;
         }
+        
+        displaySearchResults(results, title);
+    }
+    
+    document.getElementById('modalSearchInput').value = text;
+    document.getElementById('modalSuggestionsContainer').style.display = 'none';
+}
 
         function performGlobalSearch(searchTerm, isModal) {
             if (searchData.length === 0) {
@@ -4070,90 +4118,103 @@ document.getElementById('sourceButton').title = "Accéder au fichier source";
         }
 
         function displaySearchResults(results, title) {
-            const resultsContainer = document.getElementById('modalSearchResults');
-            const summary = document.getElementById('searchResultsSummary');
-            const countElement = document.getElementById('searchResultsCount');
-            
-            if (results.length === 0) {
-                resultsContainer.innerHTML = `
-                    <div class="empty-state">
-                        <h3>❌ Aucun résultat trouvé</h3>
-                        <p>Aucun hébergement ne correspond à votre recherche</p>
-                    </div>
-                `;
-                summary.style.display = 'none';
-                return;
+    const resultsContainer = document.getElementById('modalSearchResults');
+    const summary = document.getElementById('searchResultsSummary');
+    const countElement = document.getElementById('searchResultsCount');
+    
+    if (results.length === 0) {
+        resultsContainer.innerHTML = `
+            <div class="empty-state">
+                <h3>❌ Aucun résultat trouvé</h3>
+                <p>Aucun hébergement ne correspond à votre recherche</p>
+            </div>
+        `;
+        summary.style.display = 'none';
+        return;
+    }
+    
+    const searchTerms = currentSearchTerm ? currentSearchTerm.toLowerCase().split(/\s+/).filter(term => term.length > 0) : [];
+    
+    let html = '';
+    
+    results.forEach((row, index) => {
+        // Pour trouver les données originales pour le surlignage
+        let searchDataItem = searchData.find(item => item.rowIndex === sheetData.findIndex(r => r === row));
+        
+        const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
+        const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
+        const nom = colNom !== -1 ? row[colNom] : '';
+        const pays = colPays !== -1 ? row[colPays] : '';
+        const lieu = colLieu !== -1 ? row[colLieu] : '';
+        const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
+        
+        let personnes = [];
+        const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
+        colonnesPersonnes.forEach(colIndex => {
+            if (colIndex !== -1) {
+                const personnesCell = row[colIndex] || '';
+                if (personnesCell.trim()) {
+                    personnesCell.split(',').forEach(p => {
+                        const trimmed = p.trim();
+                        if (trimmed) personnes.push(trimmed);
+                    });
+                }
             }
-            
-            const searchTerms = currentSearchTerm ? currentSearchTerm.toLowerCase().split(/\s+/).filter(term => term.length > 0) : [];
-            
-            let html = '';
-            
-            results.forEach((row, index) => {
-                const dateDebut = colDateDebut !== -1 ? row[colDateDebut] : '';
-                const dateFin = colDateFin !== -1 ? row[colDateFin] : '';
-                const nom = colNom !== -1 ? row[colNom] : '';
-                const pays = colPays !== -1 ? row[colPays] : '';
-                const lieu = colLieu !== -1 ? row[colLieu] : '';
-                const type = colHebergeEn !== -1 ? row[colHebergeEn] : '';
-                
-                let personnes = [];
-                const colonnesPersonnes = [colMpihiraLehilahy, colMpitendry, colFeo1, colFeo2];
-                colonnesPersonnes.forEach(colIndex => {
-                    if (colIndex !== -1) {
-                        const personnesCell = row[colIndex] || '';
-                        if (personnesCell.trim()) {
-                            personnesCell.split(',').forEach(p => {
-                                const trimmed = p.trim();
-                                if (trimmed) personnes.push(trimmed);
-                            });
-                        }
-                    }
-                });
-                
-                const highlightedNom = highlightText(nom, searchTerms);
-                const highlightedPays = highlightText(pays, searchTerms);
-                const highlightedLieu = highlightText(lieu, searchTerms);
-                const highlightedType = highlightText(type, searchTerms);
-                const highlightedPersonnes = personnes.map(p => highlightText(p, searchTerms)).join(', ');
-                
-                html += `
-                    <div class="fiche-item" style="margin-bottom: 20px; cursor: pointer;" onclick="showFicheFromSearch(${sheetData.findIndex(r => r === row)})">
-                        <div class="fiche-header" style="padding: 15px; position: relative;">
-                            <h3 class="fiche-title" style="font-size: 1.2em;">${highlightedNom || 'Hôte non spécifié'}</h3>
-                            <div class="fiche-pays">${highlightedPays || ''}</div>
+        });
+        
+        // Utiliser le surlignage si nous avons les données originales
+        const highlightedNom = searchDataItem ? highlightText(nom, searchTerms) : nom;
+        const highlightedPays = searchDataItem ? highlightText(pays, searchTerms) : pays;
+        const highlightedLieu = searchDataItem ? highlightText(lieu, searchTerms) : lieu;
+        const highlightedType = searchDataItem ? highlightText(type, searchTerms) : type;
+        const highlightedDateDebut = searchDataItem ? highlightText(dateDebut, searchTerms) : dateDebut;
+        const highlightedDateFin = searchDataItem ? highlightText(dateFin, searchTerms) : dateFin;
+        const highlightedPersonnes = searchDataItem ? 
+            personnes.map(p => highlightText(p, searchTerms)).join(', ') : 
+            personnes.join(', ');
+        
+        html += `
+            <div class="fiche-item" style="margin-bottom: 20px; cursor: pointer;" onclick="showFicheFromSearch(${sheetData.findIndex(r => r === row)})">
+                <div class="fiche-header" style="padding: 15px; position: relative;">
+                    <h3 class="fiche-title" style="font-size: 1.2em;">${highlightedNom || 'Hôte non spécifié'}</h3>
+                    <div class="fiche-pays">${highlightedPays || ''}</div>
+                </div>
+                <div style="padding: 15px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <span style="font-weight: bold; color: var(--primary-color); font-size: 0.9em;">📅 Dates:</span>
+                            <div>${highlightedDateDebut || '?'} - ${highlightedDateFin || '?'}</div>
                         </div>
-                        <div style="padding: 15px;">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                                <div>
-                                    <span style="font-weight: bold; color: var(--primary-color); font-size: 0.9em;">📅 Dates:</span>
-                                    <div>${highlightText(dateDebut, searchTerms) || '?'} - ${highlightText(dateFin, searchTerms) || '?'}</div>
-                                </div>
-                                <div>
-                                    <span style="font-weight: bold; color: var(--primary-color); font-size: 0.9em;">📍 Localisation:</span>
-                                    <div>${highlightedLieu || '?'}, ${highlightedPays || '?'}</div>
-                                </div>
-                            </div>
-                            ${type ? `<div style="margin-bottom: 5px;"><span style="font-weight: bold;">🏠 Type:</span> ${highlightedType}</div>` : ''}
-                            ${personnes.length > 0 ? `<div><span style="font-weight: bold;">👥 Personnes:</span> ${highlightedPersonnes}</div>` : ''}
+                        <div>
+                            <span style="font-weight: bold; color: var(--primary-color); font-size: 0.9em;">📍 Localisation:</span>
+                            <div>${highlightedLieu || '?'}, ${highlightedPays || '?'}</div>
                         </div>
                     </div>
-                `;
-            });
-            
-            resultsContainer.innerHTML = html;
-            countElement.textContent = results.length;
-            summary.style.display = 'block';
-        }
+                    ${type ? `<div style="margin-bottom: 5px;"><span style="font-weight: bold;">🏠 Type:</span> ${highlightedType}</div>` : ''}
+                    ${personnes.length > 0 ? `<div><span style="font-weight: bold;">👥 Personnes:</span> ${highlightedPersonnes}</div>` : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    resultsContainer.innerHTML = html;
+    countElement.textContent = results.length;
+    summary.style.display = 'block';
+}
 
         function showFicheFromSearch(rowIndex) {
-            if (rowIndex >= 0 && rowIndex < sheetData.length) {
-                const row = sheetData[rowIndex];
-                const results = [row];
-                displayResults(results, `Fiche détaillée`);
-                closeSearchModal();
-            }
-        }
+    if (rowIndex >= 0 && rowIndex < sheetData.length) {
+        const row = sheetData[rowIndex];
+        const results = [row];
+        
+        // Trouver les données de recherche pour ce row
+        const searchDataItem = searchData.find(item => item.rowIndex === rowIndex);
+        const allDataForHighlighting = searchDataItem ? [searchDataItem.allData] : [];
+        
+        displayResults(results, `Fiche détaillée`, allDataForHighlighting);
+        closeSearchModal();
+    }
+}
 
         function highlightText(text, searchTerms) {
             if (!text || !searchTerms || searchTerms.length === 0) return text;
